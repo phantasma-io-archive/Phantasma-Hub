@@ -41,15 +41,16 @@
 		}
 
 		let result = InvokeRawScript(_contractName, _methodName, fixedArgs, (result) => {
-			let resultsArray
-			if (result.results.length >= 1) {
+			let resultsArray = [];
+			if (result.results.length <= 0) {
 				console.log('no results');
 				return;
 			}
 			let decoded = DecodeInformation(result.results[0]);
 			let formatedData = FormatData(decoded);
+			resultsArray.push(formatedData);
 			console.log('formated data: ', formatedData);
-			consoleOutput.set(JSON.stringify(formatedData, null, 2));
+			consoleOutput.set(JSON.stringify(resultsArray, null, 2));
 			console.log(result);
 		});
 	}
