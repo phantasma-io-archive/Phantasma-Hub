@@ -117,7 +117,12 @@ export function DeployContract(contractName: string, contractScript: string, con
 		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
 	}
 	const myScript = sb
-		.CallInterop('Runtime.DeployContract', [from, contractName, contractScript, contractABI])
+		.CallInterop('Runtime.DeployContract', [
+			from,
+			contractName,
+			Base16.decodeUint8Array(contractScript),
+			Base16.decodeUint8Array(contractABI)
+		])
 		.SpendGas(from)
 		.EndScript();
 
@@ -149,7 +154,11 @@ export function CreateToken(contractScript: string, contractABI: string) {
 		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
 	}
 	const myScript = sb
-		.CallInterop('Nexus.CreateToken', [from, contractScript, contractABI])
+		.CallInterop('Nexus.CreateToken', [
+			from,
+			Base16.decodeUint8Array(contractScript),
+			Base16.decodeUint8Array(contractABI)
+		])
 		.SpendGas(from)
 		.EndScript();
 
