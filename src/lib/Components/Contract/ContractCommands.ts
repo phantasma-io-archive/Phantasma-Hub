@@ -120,8 +120,8 @@ export function DeployContract(contractName: string, contractScript: string, con
 		.CallInterop('Runtime.DeployContract', [
 			from,
 			contractName,
-			Base16.decodeUint8Array(contractScript),
-			Base16.decodeUint8Array(contractABI)
+			Array.from(Base16.decodeUint8Array(contractScript)),
+			Array.from(Base16.decodeUint8Array(contractABI))
 		])
 		.SpendGas(from)
 		.EndScript();
@@ -156,8 +156,8 @@ export function CreateToken(contractScript: string, contractABI: string) {
 	const myScript = sb
 		.CallInterop('Nexus.CreateToken', [
 			from,
-			Base16.decodeUint8Array(contractScript),
-			Base16.decodeUint8Array(contractABI)
+			Array.from(Base16.decodeUint8Array(contractScript)),
+			Array.from(Base16.decodeUint8Array(contractABI))
 		])
 		.SpendGas(from)
 		.EndScript();
