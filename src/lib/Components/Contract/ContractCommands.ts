@@ -149,7 +149,7 @@ export function CreateToken(contractScript: string, contractABI: string) {
 		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
 	}
 	const myScript = sb
-		.CallInterop('Runtime.DeployContract', [from, contractScript, contractABI])
+		.CallInterop('Nexus.CreateToken', [from, contractScript, contractABI])
 		.SpendGas(from)
 		.EndScript();
 
