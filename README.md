@@ -36,3 +36,12 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Feature Requests
+
+- Air Drop ( With random feature )
+- Interact with contracts
+- Transfers
+- Transaction Creation
+- List of Address Creation to Base16 to send
+- Deploy Smart Contract

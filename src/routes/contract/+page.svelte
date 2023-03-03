@@ -1,4 +1,4 @@
-<script>
+<script type="ts">
 	import Commands from '$lib/Commands.svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
 	import APISelector from '$lib/Components/Card/APISelector.svelte';
@@ -8,40 +8,27 @@
 	import ConnectWalletModal from '$lib/Components/Wallet/ConnectWalletModal.svelte';
 	import MethodSelector from '$lib/Components/Card/MethodSelector.svelte';
 	import ContractArguments from '$lib/Components/Contract/ContractArguments.svelte';
-	import { consoleOutput } from '$lib/store';
+	import ContractDeployCard from '$lib/Components/Contract/ContractDeployCard.svelte';
+	import ContractUpgradeCard from '$lib/Components/Contract/ContractManagerCard.svelte';
+	import ContractDeployer from '$lib/Components/Contract/ContractDeployer.svelte';
+	import ContractManager from '$lib/Components/Contract/ContractManager.svelte';
 
-	let showModal = false;
-	let showModal2 = false;
-	let _consoleOutput = '';
-	consoleOutput.subscribe((value) => {
-		_consoleOutput = value;
-	});
+	let deployContract = false;
+	let manageContract = false;
 </script>
 
 <div class="mb-4 px-6 mx-auto">
 	<div class="flex flex-wrap -mx-3">
 		<APISelector />
-		<ContractSelector />
-		<MethodSelector />
+		<ContractDeployCard bind:deployContract />
+		<ContractUpgradeCard bind:manageContract />
 	</div>
 
 	<div class="flex flex-wrap mt-6 -mx-3">
-		<ContractArguments />
-	</div>
-
-	<div class="flex flex-wrap mt-6 -mx-3">
-		<Card size="xl" title="Console" description="Contract Call output">
-			<textarea
-				class="w-full shadow-md bg-slate-200 border-r-2 rounded-2xl p-4"
-				rows="10"
-				id="contractMethodOutput"
-				bind:value={_consoleOutput}
-				disabled
-			/>
-		</Card>
+		{#if deployContract}
+			<ContractDeployer />
+		{:else if manageContract}
+			<ContractManager />
+		{:else}{/if}
 	</div>
 </div>
-
-{#if showModal2}
-	<ConnectWalletModal on:close={() => (showModal2 = false)} />
-{/if}
