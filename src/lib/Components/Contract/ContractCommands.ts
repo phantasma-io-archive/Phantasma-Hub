@@ -153,11 +153,12 @@ export function CreateToken(contractScript: string, contractABI: string) {
 	if (tipActive) {
 		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
 	}
+
 	const myScript = sb
 		.CallInterop('Nexus.CreateToken', [
 			from,
-			Array.from(Base16.decodeUint8Array(contractScript)),
-			Array.from(Base16.decodeUint8Array(contractABI))
+			Serialization.Serialize(Base16.decodeUint8Array(contractScript)),
+			Serialization.Serialize(Base16.decodeUint8Array(contractABI))
 		])
 		.SpendGas(from)
 		.EndScript();
