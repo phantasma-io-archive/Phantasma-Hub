@@ -32,6 +32,7 @@ import {
 	uint8ArrayToString,
 	VMObject
 } from 'phantasma-ts/core';
+import { ProofOfWork } from 'phantasma-ts/core/link/phantasmaLink';
 
 let Link: PhantasmaLink;
 LinkWallet.subscribe((link: any) => {
@@ -128,7 +129,8 @@ export function DeployContract(contractName: string, contractScript: string, con
 		},
 		function () {
 			console.error('error');
-		}
+		},
+		ProofOfWork.Minimal
 	);
 }
 
@@ -159,7 +161,8 @@ export function CreateToken(contractScript: string, contractABI: string) {
 		},
 		function () {
 			console.error('error');
-		}
+		},
+		ProofOfWork.Minimal
 	);
 }
 
@@ -190,7 +193,8 @@ export function UpgradeContract(contractName: string, contractScript: string, co
 		},
 		function () {
 			console.error('error');
-		}
+		},
+		ProofOfWork.Minimal
 	);
 }
 
