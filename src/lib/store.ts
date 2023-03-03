@@ -4,7 +4,7 @@ import { PhantasmaAPI, type Contract } from 'phantasma-ts/src/core';
 import type { ABIMethod } from 'phantasma-ts/core';
 
 export const SimnetURL = 'http://127.0.0.1:5102/rpc';
-export const TestnetURL = 'http://testnet.phantasma.io:5102/rpc';
+export const TestnetURL = 'https://testnet.phantasma.io/rpc';
 export const MainnetURL = 'http://bp1.phantasma.io:7077/rpc';
 export const FeeAmount = 0.1 * 10 ** 10;
 export const TipAddress = 'P2KBktG2MFc6zc3Gsdrt5G4EntPTDBK3WW4mVQiqvAzppFk';
