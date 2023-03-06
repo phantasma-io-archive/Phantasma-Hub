@@ -12,7 +12,7 @@
 		<a
 			href="https://phantasma.io/"
 			class="font-semibold text-slate-700 hover:underline"
-			target="_blank">Phantasma Team</a
+			target="_blank">Phantasma Contributors</a
 		>. All Rights Reserved.
 	</span>
 	<span class="text-[12px] text-gray-500 sm:text-center dark:text-gray-400">
