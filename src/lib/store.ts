@@ -14,9 +14,9 @@ export const contractName = writable('');
 export const LinkWallet = writable(new PhantasmaLink('', true));
 export const PhantasmaAPIClient = writable(new PhantasmaAPI(TestnetURL, null, 'testnet'));
 export const LinkDapp = writable('');
-export const activePage = writable('home');
+export const activePage = writable('');
 export const apiStatus = writable(false);
-export const apiLink = writable('');
+export const apiLink = writable(TestnetURL);
 
 export const GasPrice = writable(10000000);
 export const GasLimit = writable(21000);

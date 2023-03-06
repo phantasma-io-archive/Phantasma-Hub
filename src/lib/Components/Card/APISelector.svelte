@@ -5,11 +5,16 @@
 
 	let selectedAPI: string = TestnetURL;
 
+	apiLink.subscribe((value) => {
+		selectedAPI = value;
+	});
+
 	function connectToAPI() {
 		apiStatus.set(true);
 	}
 
 	function onChangeApi() {
+		console.log('API Changed to: ' + selectedAPI);
 		apiLink.set(selectedAPI);
 		connectToAPI();
 	}
@@ -23,10 +28,9 @@
 		</div>
 		<div>
 			<select name="api" bind:value={selectedAPI} class="w-full" on:change={onChangeApi}>
-				<option>Select an API to connect to.</option>
-				<option value={SimnetURL}>Local</option>
-				<option value={TestnetURL}>Testnet</option>
-				<option value={MainnetURL}>Mainnet</option>
+				<option value={SimnetURL} data-net="simnet">Local</option>
+				<option value={TestnetURL} data-net="testnet">Testnet</option>
+				<option value={MainnetURL} data-net="mainnet">Mainnet</option>
 			</select>
 		</div>
 	</div>

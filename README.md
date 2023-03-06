@@ -40,6 +40,13 @@ You can preview the production build with `npm run preview`.
 ## Feature Requests
 
 - Air Drop ( With random feature )
+    - Distribute (1 to 1)
+    - Having a list of addresses more than the amount of Tokens (FT/NFT) and destribute randomly.
+    - Airdrop Fungible Tokens
+        - Random Amounts (Between a threshold)
+        - Specific amount
+    - Aidrop Non Fungible Tokens (Collection)
+        - Random Distribution
 - Interact with contracts
 - Transfers
 - Transaction Creation

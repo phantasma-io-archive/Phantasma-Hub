@@ -7,7 +7,7 @@
 	let selectContract;
 	let api: PhantasmaAPI;
 	let contractData: Contract;
-	export let contractAddress;
+	let contractAddress: string;
 
 	let contracts: Array<string> = [];
 	let balances: Array<Balance> = [];

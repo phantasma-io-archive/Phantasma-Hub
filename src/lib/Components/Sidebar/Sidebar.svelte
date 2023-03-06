@@ -9,7 +9,9 @@
 		TestnetURL,
 		MainnetURL,
 		SimnetURL,
-		connectedToWallet
+		connectedToWallet,
+		activePage,
+		apiLink
 	} from '$lib/store';
 	import ApiSelector from '$lib/Components/Card/APISelector.svelte';
 	import {
@@ -25,6 +27,8 @@
 	let _apiStatus: boolean;
 
 	let _walletStatus: boolean;
+
+	let activePageItem: string = '';
 
 	let leftSideNavBarActive: boolean;
 
@@ -72,7 +76,15 @@
 		}
 	});
 
+	activePage.subscribe((value) => {
+		activePageItem = value;
+	});
+
 	let selectedAPI = TestnetURL;
+
+	apiLink.subscribe((value) => {
+		selectedAPI = value;
+	});
 
 	function connectToAPI() {
 		apiStatus.set(true);
@@ -83,6 +95,7 @@
 		if (e.target.selectedOptions[0].dataset == undefined) return;
 		let nexusName = e.target.selectedOptions[0].dataset.net;
 		PhantasmaAPIClient.set(new PhantasmaAPI(selectedAPI, null, nexusName));
+		apiLink.set(selectedAPI);
 		connectToAPI();
 	}
 
@@ -109,6 +122,27 @@
 			vm.UnserializeData(reader);
 			lastMasterClaimDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
 		});
+	}
+
+	// Select Page
+	if (activePageItem == undefined || activePageItem == '') {
+		/*switch (window.location.pathname) {
+			case '/':
+				activePage.set('Contract Interaction');
+				break;
+			case '/advanced':
+				activePage.set('Advanced Interactions');
+				break;
+			case '/airdrop':
+				activePage.set('Airdrop');
+				break;
+			case '/contract':
+				activePage.set('Contract Managment');
+				break;
+			default:
+				activePage.set('Contract Interaction');
+				break;
+		}*/
 	}
 
 	getLastInflationDate();
@@ -240,12 +274,12 @@
 				page="Contract Managment"
 			/>
 			<Item title="Airdrop" link="/airdrop" icon="mdi:wallet" page="Airdrop" />
-			<Item title="Send / Stake Tokens" link="#" icon="mdi:wallet" page="Send / Stake Tokens" />
-			<Item title="Change Owner" link="#" icon="mdi:wallet" page="Change Owner" />
-			<Item title="Decode Information" link="#" icon="mdi:wallet" page="Decode Information" />
+			<Item title="Send / Stake Tokens" link="/" icon="mdi:wallet" page="Send / Stake Tokens" />
+			<Item title="Change Owner" link="/" icon="mdi:wallet" page="Change Owner" />
+			<Item title="Decode Information" link="/" icon="mdi:wallet" page="Decode Information" />
 			<Item
 				title="Get Transaction By Hash"
-				link="#"
+				link="/"
 				icon="mdi:wallet"
 				page="Get Transaction By Hash"
 			/>

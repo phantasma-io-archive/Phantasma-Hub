@@ -1,6 +1,6 @@
 <script type="ts">
 	import { allContracts, connectedToWallet, connectWallet, walletOpened } from '$lib/store';
-	import { Base16, byteArrayToHex } from 'phantasma-ts/core';
+	import { Base16, byteArrayToHex, uint8ArrayToHex } from 'phantasma-ts/core';
 	import Card from '../Card/Card.svelte';
 	import { CreateToken, DeployContract, UpgradeContract } from './ContractCommands';
 	let contractName: string = '';
@@ -12,6 +12,8 @@
 
 	let scriptHexBytes: string = '';
 	let abiHexBytes: string = '';
+	let scriptBytes: Uint8Array;
+	let abiBytes: Uint8Array;
 
 	let contracts: Array<string>;
 
@@ -28,15 +30,15 @@
 		if (!file) return '';
 		if (file instanceof ArrayBuffer) {
 			if (encode) {
-				return Base16.encodeUint8Array(new Uint8Array(file)).toUpperCase();
+				return Base16.encodeUint8Array(new Uint8Array(file));
 			}
 			return byteArrayToHex(file).toUpperCase();
 		} else if (typeof file == typeof String) {
-			if (encode) return Base16.encode(file).toUpperCase();
+			if (encode) return Base16.encode(file);
 			return file;
 		}
 
-		if (encode) return Base16.encode(file).toUpperCase();
+		if (encode) return Base16.encode(file);
 		return file;
 	}
 
@@ -51,27 +53,41 @@
 				} else if (scriptFile[0].name.endsWith('.pvm')) {
 					scriptHexBytes = handleFileReader(e.target.result);
 				}
+				if (e.target.result instanceof ArrayBuffer) {
+					if (scriptFile[0].name.endsWith('.pvm.hex')) {
+						scriptBytes = Base16.decodeUint8Array(uint8ArrayToHex(new Uint8Array(e.target.result)));
+					} else {
+						scriptBytes = new Uint8Array(e.target.result);
+					}
+				}
 			}
 		};
 
-		reader.readAsText(scriptFile[0]);
+		reader.readAsArrayBuffer(scriptFile[0]);
 	}
 
 	$: if (abiFile) {
 		const reader = new FileReader();
 		reader.onload = (e) => {
-			console.log({ e });
+			console.log('abi', { e });
 
 			if (e.target instanceof FileReader) {
-				if (scriptFile[0].name.endsWith('.abi.hex')) {
+				if (abiFile[0].name.endsWith('.abi.hex')) {
 					abiHexBytes = handleFileReader(e.target.result, false);
-				} else if (scriptFile[0].name.endsWith('.abi')) {
+				} else if (abiFile[0].name.endsWith('.abi')) {
 					abiHexBytes = handleFileReader(e.target.result);
+				}
+				if (e.target.result instanceof ArrayBuffer) {
+					if (abiFile[0].name.endsWith('.pvm.hex')) {
+						abiBytes = Base16.decodeUint8Array(uint8ArrayToHex(new Uint8Array(e.target.result)));
+					} else {
+						abiBytes = new Uint8Array(e.target.result);
+					}
 				}
 			}
 		};
 
-		reader.readAsText(abiFile[0]);
+		reader.readAsArrayBuffer(abiFile[0]);
 	}
 
 	$: if (contractName) {
@@ -83,7 +99,7 @@
 	}
 
 	function upgradeContract() {
-		UpgradeContract(contractName, scriptHexBytes, abiHexBytes);
+		UpgradeContract(contractName, scriptBytes, abiBytes);
 	}
 
 	function deployToken() {
@@ -93,7 +109,7 @@
 			return;
 		}
 
-		CreateToken(scriptHexBytes, abiHexBytes);
+		CreateToken(scriptBytes, abiBytes);
 	}
 
 	function deployContract() {
@@ -103,7 +119,7 @@
 			return;
 		}
 
-		DeployContract(contractName, scriptHexBytes, abiHexBytes);
+		DeployContract(contractName, scriptBytes, abiBytes);
 	}
 </script>
 
@@ -152,7 +168,7 @@
 
 				<div class="relative z-0 w-full mb-6 group">
 					<input
-						accept=".abi, .abi.hex"
+						accept=".abi, .hex"
 						type="file"
 						name="abiFile"
 						id="abiFile"

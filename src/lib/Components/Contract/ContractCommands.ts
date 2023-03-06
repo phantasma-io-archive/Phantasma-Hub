@@ -102,7 +102,11 @@ export function SendRawTransaction(contractName: string, contractMethod: string,
 	);
 }
 
-export function DeployContract(contractName: string, contractScript: string, contractABI: string) {
+export function DeployContract(
+	contractName: string,
+	contractScript: Uint8Array,
+	contractABI: Uint8Array
+) {
 	if (!Link.account) {
 		alert('Please connect your wallet first');
 		return;
@@ -117,12 +121,7 @@ export function DeployContract(contractName: string, contractScript: string, con
 		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
 	}
 	const myScript = sb
-		.CallInterop('Runtime.DeployContract', [
-			from,
-			contractName,
-			Array.from(Base16.decodeUint8Array(contractScript)),
-			Array.from(Base16.decodeUint8Array(contractABI))
-		])
+		.CallInterop('Runtime.DeployContract', [from, contractName, contractScript, contractABI])
 		.SpendGas(from)
 		.EndScript();
 
@@ -139,7 +138,7 @@ export function DeployContract(contractName: string, contractScript: string, con
 	);
 }
 
-export function CreateToken(contractScript: string, contractABI: string) {
+export function CreateToken(contractScript: Uint8Array, contractABI: Uint8Array) {
 	if (!Link.account) {
 		alert('Please connect your wallet first');
 		return;
@@ -155,11 +154,7 @@ export function CreateToken(contractScript: string, contractABI: string) {
 	}
 
 	const myScript = sb
-		.CallInterop('Nexus.CreateToken', [
-			from,
-			Serialization.Serialize(Base16.decodeUint8Array(contractScript)),
-			Serialization.Serialize(Base16.decodeUint8Array(contractABI))
-		])
+		.CallInterop('Nexus.CreateToken', [from, contractScript, contractABI])
 		.SpendGas(from)
 		.EndScript();
 
@@ -176,7 +171,11 @@ export function CreateToken(contractScript: string, contractABI: string) {
 	);
 }
 
-export function UpgradeContract(contractName: string, contractScript: string, contractABI: string) {
+export function UpgradeContract(
+	contractName: string,
+	contractScript: Uint8Array,
+	contractABI: Uint8Array
+) {
 	if (!Link.account) {
 		alert('Please connect your wallet first');
 		return;
