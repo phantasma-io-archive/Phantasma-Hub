@@ -12,13 +12,17 @@
 		<a
 			href="https://phantasma.io/"
 			class="font-semibold text-slate-700 hover:underline"
-			target="_blank">Phantasma Contributors</a
+			target="_blank"
+			rel="noreferrer">Phantasma Contributors</a
 		>. All Rights Reserved.
 	</span>
 	<span class="text-[12px] text-gray-500 sm:text-center dark:text-gray-400">
 		Developed with <Icon icon="ant-design:heart-filled" /> by
-		<a href="https://jnovo.eu/" class="font-semibold text-slate-700 hover:underline" target="_blank"
-			>João "Tek" Novo</a
+		<a
+			href="https://jnovo.eu/"
+			class="font-semibold text-slate-700 hover:underline"
+			target="_blank"
+			rel="noreferrer">João "Tek" Novo</a
 		>.
 	</span>
 	<ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">

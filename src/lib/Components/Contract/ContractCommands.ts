@@ -33,6 +33,8 @@ import {
 	VMObject
 } from 'phantasma-ts/core';
 import { ProofOfWork } from 'phantasma-ts/core/link/phantasmaLink';
+import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
+import { GetTransactionByHash } from '$lib/Commands/Commands';
 
 let Link: PhantasmaLink;
 LinkWallet.subscribe((link: any) => {
@@ -59,6 +61,13 @@ TipActive.subscribe((active: boolean) => {
 	tipActive = active;
 });
 
+/**
+ * InvokeRawScript
+ * @param contractName
+ * @param contractMethod
+ * @param args
+ * @param callback
+ */
 export function InvokeRawScript(
 	contractName: string,
 	contractMethod: string,
@@ -69,13 +78,29 @@ export function InvokeRawScript(
 	const myScript = sb.BeginScript().CallContract(contractName, contractMethod, args).EndScript();
 
 	api.invokeRawScript('main', myScript).then((result) => {
+		NotificationSuccess('Invoked Successfully!', 'Contract data fetched successfully.');
 		callback(result);
 	});
 }
 
-export function SendRawTransaction(contractName: string, contractMethod: string, args: Array<any>) {
+/**
+ *
+ * @param contractName
+ * @param contractMethod
+ * @param args
+ * @param callbackSuccess
+ * @param callbackError
+ * @returns
+ */
+export function SendRawTransaction(
+	contractName: string,
+	contractMethod: string,
+	args: Array<any>,
+	callbackSuccess: any,
+	callbackError: any
+) {
 	if (!Link.account) {
-		alert('Please connect your wallet first');
+		NotificationError('Wallet Error!', 'Please connect your wallet first.');
 		return;
 	}
 
@@ -86,29 +111,53 @@ export function SendRawTransaction(contractName: string, contractMethod: string,
 
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount * 100]);
 	}
 	const myScript = sb.CallContract(contractName, contractMethod, args).SpendGas(from).EndScript();
 
 	Link.signTx(
 		myScript,
 		payload,
-		function (tx) {
+		async function (tx) {
 			console.log(tx);
+			NotificationSuccess('Fetching Transaction!', 'Retriving transaction from the blockchain...');
+			await new Promise((f) => setTimeout(f, 5000));
+			GetTransactionByHash(tx.hash).then((result) => {
+				callbackSuccess(result);
+				if (result.state.includes('Halt')) {
+					NotificationSuccess(
+						'Burned Successfully!',
+						'Tokens burned successfully. You can check the transaction details in the transaction history.'
+					);
+				} else {
+					NotificationError('Transaction Error', 'Error burning tokens.');
+				}
+			});
 		},
 		function () {
-			console.error('error');
+			callbackError('error');
+			NotificationError(
+				'Transaction Error',
+				`Error calling ${contractName} contract, method ${contractMethod} tokens.`
+			);
 		}
 	);
 }
 
+/**
+ * Deploy Smartcontract
+ * @param contractName
+ * @param contractScript
+ * @param contractABI
+ * @returns
+ */
 export function DeployContract(
 	contractName: string,
 	contractScript: Uint8Array,
 	contractABI: Uint8Array
 ) {
 	if (!Link.account) {
-		alert('Please connect your wallet first');
+		NotificationError('Wallet Error!', 'Please connect your wallet first.');
 		return;
 	}
 
@@ -128,19 +177,37 @@ export function DeployContract(
 	Link.signTx(
 		myScript,
 		payload,
-		function (tx) {
+		async function (tx) {
 			console.log(tx);
+			NotificationSuccess('Fetching Transaction!', 'Retriving transaction from the blockchain...');
+			await new Promise((f) => setTimeout(f, 5000));
+			GetTransactionByHash(tx.hash).then((result) => {
+				if (result.state.includes('Halt')) {
+					NotificationSuccess(
+						'Deployed Contract Successfully!',
+						`Deployed ${contractName} contract successfully.`
+					);
+				} else {
+					NotificationError('Deploying Contract Error', 'Error deploying contract.');
+				}
+			});
 		},
 		function () {
-			console.error('error');
+			NotificationError('Transaction Error', 'Error deploying contract.');
 		},
 		ProofOfWork.Minimal
 	);
 }
 
+/**
+ * Create Token
+ * @param contractScript
+ * @param contractABI
+ * @returns
+ */
 export function CreateToken(contractScript: Uint8Array, contractABI: Uint8Array) {
 	if (!Link.account) {
-		alert('Please connect your wallet first');
+		NotificationError('Wallet Error!', 'Please connect your wallet first.');
 		return;
 	}
 
@@ -161,23 +228,39 @@ export function CreateToken(contractScript: Uint8Array, contractABI: Uint8Array)
 	Link.signTx(
 		myScript,
 		payload,
-		function (tx) {
+		async function (tx) {
 			console.log(tx);
+			NotificationSuccess('Fetching Transaction!', 'Retriving transaction from the blockchain...');
+			await new Promise((f) => setTimeout(f, 5000));
+			GetTransactionByHash(tx.hash).then((result) => {
+				if (result.state.includes('Halt')) {
+					NotificationSuccess('Token created Successfully!', 'Token created successfully.');
+				} else {
+					NotificationError('Token creation Error', 'Error creating token.');
+				}
+			});
 		},
 		function () {
-			console.error('error');
+			NotificationError('Transaction Error', 'Error creating token.');
 		},
 		ProofOfWork.Minimal
 	);
 }
 
+/**
+ * Upgrade Contract
+ * @param contractName
+ * @param contractScript
+ * @param contractABI
+ * @returns
+ */
 export function UpgradeContract(
 	contractName: string,
 	contractScript: Uint8Array,
 	contractABI: Uint8Array
 ) {
 	if (!Link.account) {
-		alert('Please connect your wallet first');
+		NotificationError('Wallet Error!', 'Please connect your wallet first.');
 		return;
 	}
 
@@ -197,104 +280,21 @@ export function UpgradeContract(
 	Link.signTx(
 		myScript,
 		payload,
-		function (tx) {
+		async function (tx) {
 			console.log(tx);
+			NotificationSuccess('Fetching Transaction!', 'Retriving transaction from the blockchain...');
+			await new Promise((f) => setTimeout(f, 5000));
+			GetTransactionByHash(tx.hash).then((result) => {
+				if (result.state.includes('Halt')) {
+					NotificationSuccess('Upgraded Successfully!', 'Contract upgraded successfully.');
+				} else {
+					NotificationError('Upgrade Error', 'Error upgrading contract.');
+				}
+			});
 		},
 		function () {
-			console.error('error');
+			NotificationError('Transaction Error', 'Error upgrading contract.');
 		},
 		ProofOfWork.Minimal
-	);
-}
-
-export async function GetTransactionByHash(txHash: string) {
-	return await api.getTransaction(txHash);
-}
-
-export function DecodeInformation(data: string): VMObject {
-	const bytes = Base16.decodeUint8Array(data);
-	const vm = new VMObject();
-	const reader = new PBinaryReader(bytes);
-	vm.UnserializeData(reader);
-	return vm;
-}
-
-// "04534f554c044b43414c2f5333644a57614c444b596868544866323845667350366174655a35773554655a55535638774d394a4e6661443739452f53336450364c52433366337877345a5a324848394251487a594e4875485338766574624351706b4d4676526d5645460600b4f135010007221d65b56004000203000d0000b036cc325c3eb5df1633000696d2a1ca0100010006c477e55f05000100"
-export function DecodeStruct(bytes: Uint8Array, rawHex: string): any {
-	const result = {};
-	const reader = new PBinaryReader(bytes);
-	console.log(rawHex);
-	if (rawHex[1] == '4') {
-		console.log(reader.readString());
-		rawHex = rawHex.slice(reader.position, rawHex.length);
-		return DecodeStruct(bytes, rawHex);
-	}
-
-	if (rawHex[1] == '5') {
-		console.log(reader.readInt());
-	}
-	return result;
-}
-
-export function FormatData(vm: VMObject): any {
-	const result: any = {};
-	if (vm.Data instanceof Map && vm.Data instanceof Map<VMObject, VMObject>) {
-		console.log('map', vm);
-		for (const item of vm.Data) {
-			const _key = item[0].AsString();
-			result[_key] = FormatData(item[1]);
-		}
-	} else if (vm.Data instanceof Array) {
-		const arr: any[] = [];
-		console.log('array', vm);
-
-		for (const item of vm.Data) {
-			console.log('array item', item);
-			arr.push(FormatData(item));
-		}
-		return arr;
-	} else if (vm.Data instanceof VMObject) {
-		console.log('vm data', vm);
-		return FormatData(vm.Data);
-	} else {
-		console.log('vm', vm);
-		if (vm.Type == VMType.Bytes) {
-			const data = DecodeInformation(vm.AsString());
-			return FormatData(data);
-		}
-		return vm.AsString();
-	}
-	return result;
-}
-
-export function TransferTokens(symbol: string, amount: number, to: string) {
-	if (!Link.account) {
-		alert('Please connect your wallet first');
-		return;
-	}
-
-	const from = Address.FromText(String(Link.account.address));
-	const payload = Base16.encode('Tools.TransferTokens');
-
-	const toAddress = Address.FromText(to);
-	const sb = new ScriptBuilder();
-	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
-	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
-	}
-	const myScript = sb
-		.CallInterop('Runtime.TransferTokens', [from, to, symbol, amount])
-		.SpendGas(from)
-		.EndScript();
-
-	Link.signTx(
-		myScript,
-		payload,
-		function (tx) {
-			console.log(tx);
-		},
-		function () {
-			console.error('error');
-		}
 	);
 }

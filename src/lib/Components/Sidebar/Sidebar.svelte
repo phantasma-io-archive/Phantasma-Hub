@@ -11,7 +11,8 @@
 		SimnetURL,
 		connectedToWallet,
 		activePage,
-		apiLink
+		apiLink,
+		OpenedModal
 	} from '$lib/store';
 	import ApiSelector from '$lib/Components/Card/APISelector.svelte';
 	import {
@@ -23,6 +24,9 @@
 		Timestamp,
 		VMObject
 	} from 'phantasma-ts/core';
+	import type { PhantasmaLink } from 'phantasma-ts';
+	import { page } from '$app/stores';
+	import { ModalInternalTypes } from '../Modals/ModalInternalTypes';
 
 	let _apiStatus: boolean;
 
@@ -35,10 +39,7 @@
 	let lastInflationDate: string = new Timestamp(0).toString();
 	let lastMasterClaimDate: string = new Timestamp(0).toString();
 
-	/**
-	 * @type {import("phantasma-ts").PhantasmaLink}
-	 */
-	let Link;
+	let Link: PhantasmaLink;
 
 	let api: PhantasmaAPI;
 
@@ -122,6 +123,26 @@
 			vm.UnserializeData(reader);
 			lastMasterClaimDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
 		});
+	}
+
+	function openSendTokensModal() {
+		console.log('Open Send Tokens Modal');
+		OpenedModal.set(ModalInternalTypes.SendTokens);
+	}
+
+	function openChangeOwnerModal() {
+		console.log('Open Change Owner Modal');
+		OpenedModal.set(ModalInternalTypes.ChangeOwner);
+	}
+
+	function openDecodeInformationModal() {
+		console.log('Open Decode Information Modal');
+		OpenedModal.set(ModalInternalTypes.DecodeInformation);
+	}
+
+	function openGetTransactionByHashModal() {
+		console.log('Open Get Transaction By Hash Modal');
+		OpenedModal.set(ModalInternalTypes.TransactionByHash);
 	}
 
 	// Select Page
@@ -274,14 +295,33 @@
 				page="Contract Managment"
 			/>
 			<Item title="Airdrop" link="/airdrop" icon="mdi:wallet" page="Airdrop" />
-			<Item title="Send / Stake Tokens" link="/" icon="mdi:wallet" page="Send / Stake Tokens" />
-			<Item title="Change Owner" link="/" icon="mdi:wallet" page="Change Owner" />
-			<Item title="Decode Information" link="/" icon="mdi:wallet" page="Decode Information" />
+			<Item
+				title="Send / Stake Tokens"
+				link="/"
+				icon="mdi:wallet"
+				page="Send / Stake Tokens"
+				on:click={openSendTokensModal}
+			/>
+			<Item
+				title="Change Owner"
+				link="/"
+				icon="mdi:wallet"
+				page="Change Owner"
+				on:click={openChangeOwnerModal}
+			/>
+			<Item
+				title="Decode Information"
+				link="/"
+				icon="mdi:wallet"
+				page="Decode Information"
+				on:click={openDecodeInformationModal}
+			/>
 			<Item
 				title="Get Transaction By Hash"
 				link="/"
 				icon="mdi:wallet"
 				page="Get Transaction By Hash"
+				on:click={openGetTransactionByHashModal}
 			/>
 
 			<!-- <li class="w-full mt-4">

@@ -1,5 +1,6 @@
 export enum ModalType {
 	Wallet,
 	Information,
-	Popup
+	Popup,
+	Custom
 }

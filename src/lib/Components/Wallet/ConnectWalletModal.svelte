@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import Modal from '$lib/Components/Modals/Modal.svelte';
 	import { ModalType } from '$lib/Components//Modals/ModalType';
 	import Icon from '@iconify/svelte';
@@ -8,31 +8,30 @@
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
 	import { connectWallet } from '$lib/store';
+	import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
 
 	let _modalType = ModalType.Wallet;
 
 	const dispatch = createEventDispatcher();
 	const close = () => dispatch('close');
 
-	/**
-	 * @type {import("phantasma-ts").PhantasmaLink}
-	 */
-	let Link;
+	let Link: PhantasmaLink;
 
 	LinkWallet.subscribe((value) => {
 		Link = value;
 	});
 
-	const login = (/** @type {string | undefined} */ providerHint) => {
+	const login = (providerHint: string | undefined) => {
 		// @ts-ignore
 		Link.login(
-			function (sucess) {
-				console.log('something');
+			function (success) {
+				NotificationSuccess('Wallet connected!', "You're now connected to your wallet.");
 				LinkWallet.set(Link);
 				connectWallet.set(false);
 				// @ts-ignore
 			},
 			function (error) {
+				NotificationError('Wallet connect Error!', "We couldn't connect to your wallet.");
 				console.error('error');
 			},
 			2,
@@ -41,7 +40,7 @@
 		);
 	};
 
-	LinkWallet.set(new PhantasmaLink('consensus', true));
+	LinkWallet.set(new PhantasmaLink('Phantasma-Tools', true));
 </script>
 
 <Modal title="Connect wallet" modalType={_modalType} on:close={close}>

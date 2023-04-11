@@ -1,8 +1,11 @@
 <script type="ts">
 	import Icon from '@iconify/svelte';
 	import { activePage } from '$lib/store';
+	import { createEventDispatcher } from 'svelte';
 
 	let activePageItem: string;
+	const dispatch = createEventDispatcher();
+	const click = () => dispatch('click');
 
 	activePage.subscribe((value) => {
 		activePageItem = value;
@@ -10,6 +13,7 @@
 
 	function changePage() {
 		activePage.set(page);
+		click();
 	}
 
 	export let link = '/';
