@@ -16,6 +16,7 @@
 	} from 'phantasma-ts/core';
 	import { InvokeRawScript, SendRawTransaction } from '$lib/Components/Contract/ContractCommands';
 	import { onMount } from 'svelte';
+	import { NotificationError } from '../Notification/NotificationsBuilder';
 	let api: PhantasmaAPI;
 
 	let _contractName: string;
@@ -53,8 +54,76 @@
 		api = value;
 	});
 
+	/*function SetupUsersRandom() {
+		for (let user of userAddressess) {
+			let user = userAddressess;
+			let amountToUser = 0;
+			switch (amountType) {
+				case 0:
+					amountToUser = amount;
+					break;
+				case 1:
+					amountToUser = Math.floor(Math.random() * (amountMax - amountMin + 1)) + amountMin;
+					break;
+			}
+			userList.push({ user: user, amount: amountToUser * 10 ** selectedTokenDetails.decimals });
+		}
+
+		totalAmount = 0;
+		for (let user of userList) {
+			totalAmount += user.amount;
+		}
+	}
+
+	function setupUsersList1To1() {
+		for (let i = 0; i < numberOfUsers; i++) {
+			if (i >= userAddressess.length) break;
+			let user = userAddressess[i];
+			let amountToUser = 0;
+			if (amountType == 0) {
+				amountToUser = amount;
+			} else if (amountType == 1) {
+				amountToUser = Math.floor(Math.random() * (amountMax - amountMin + 1)) + amountMin;
+			}
+			userList.push({ user: user, amount: amountToUser * 10 ** selectedTokenDetails.decimals });
+		}
+
+		totalAmount = 0;
+		for (let user of userList) {
+			console.log(user);
+			totalAmount += user.amount;
+		}
+	}*/
+
 	function AirdropNFTTokens() {
-		let x = 0;
+		if (!selectedToken) {
+			NotificationError('Airdrop Error!', 'Please select a token to airdrop.');
+			return;
+		}
+		/*userList = [];
+
+		if (userDistribution == 0) {
+			console.log('User Distribution: Equal');
+			setupUsersList1To1();
+		} else if (userDistribution == 1) {
+			console.log('User Distribution: Random');
+			SetupUsersRandom();
+		}
+
+		AirdropNFT(selectedToken, userList, totalAmount);*/
+	}
+
+	function AirdropNFTAll() {
+		AirdropNFTTokens();
+	}
+
+	function AirdropFTSingle() {
+		let newUserAddressess: Array<string> = [];
+		for (let user of userAddressess) {
+			if (!newUserAddressess.includes(user)) newUserAddressess.push(user);
+		}
+		userAddressess = newUserAddressess;
+		AirdropNFTTokens();
 	}
 
 	function onListUsersChange(e) {

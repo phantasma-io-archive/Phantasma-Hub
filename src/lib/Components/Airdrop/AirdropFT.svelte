@@ -15,9 +15,9 @@
 		PhantasmaAPI,
 		type Token
 	} from 'phantasma-ts/core';
-	import { InvokeRawScript, SendRawTransaction } from '$lib/Components/Contract/ContractCommands';
 	import { onMount } from 'svelte';
 	import { AirdropFT } from './AirdropCommands';
+	import { NotificationError } from '../Notification/NotificationsBuilder';
 	let api: PhantasmaAPI;
 
 	let _contractName: string;
@@ -45,6 +45,7 @@
 	});
 
 	async function loadContracts() {
+		console.log('Loading contracts...');
 		let tokens = await api.getTokens();
 		tokensDetails = tokens;
 		let localContracts: Array<string> = [];
@@ -81,29 +82,30 @@
 	}
 
 	function setupUsersList1To1() {
-		console.log(numberOfUsers);
 		for (let i = 0; i < numberOfUsers; i++) {
-			console.log('asudbasu');
+			if (i >= userAddressess.length) break;
 			let user = userAddressess[i];
 			let amountToUser = 0;
-			switch (amountType) {
-				case 0:
-					amountToUser = amount;
-					break;
-				case 1:
-					amountToUser = Math.floor(Math.random() * (amountMax - amountMin + 1)) + amountMin;
-					break;
+			if (amountType == 0) {
+				amountToUser = amount;
+			} else if (amountType == 1) {
+				amountToUser = Math.floor(Math.random() * (amountMax - amountMin + 1)) + amountMin;
 			}
 			userList.push({ user: user, amount: amountToUser * 10 ** selectedTokenDetails.decimals });
 		}
 
 		totalAmount = 0;
 		for (let user of userList) {
+			console.log(user);
 			totalAmount += user.amount;
 		}
 	}
 
 	function AirdropFTUsers() {
+		if (!selectedToken) {
+			NotificationError('Airdrop Error!', 'Please select a token to airdrop.');
+			return;
+		}
 		userList = [];
 
 		if (userDistribution == 0) {
@@ -272,7 +274,7 @@
 				<div class="grid md:grid-cols">
 					<div class="relative z-0 w-full mb-6 group">
 						<input
-							type="number"
+							type="text"
 							name="amount"
 							id="amount"
 							bind:value={amount}

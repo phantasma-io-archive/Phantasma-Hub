@@ -61,8 +61,18 @@ TipActive.subscribe((active: boolean) => {
 	tipActive = active;
 });
 
-export function GetFundsForSymbol(symbol: string) {
-	return Link.account.balances.find((balance) => balance.symbol == symbol);
+export function GetFundsForSymbol(symbol: string): number {
+	if (!Link.account) {
+		return 0;
+	}
+
+	for (const balance of Link.account.balances) {
+		if (balance.symbol == symbol) {
+			return balance.value;
+		}
+	}
+
+	return 0;
 }
 
 export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, totalAmount: number) {
@@ -71,27 +81,27 @@ export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, tot
 		return;
 	}
 
-	console.log({ Link });
-	console.log({ userList });
 	if (!userList || userList.length == 0) {
 		NotificationError('Airdrop Error!', 'Please add at least one user.');
 		return;
 	}
 
-	const test = GetFundsForSymbol(symbol);
-	console.log({ test });
-	if (GetFundsForSymbol(symbol) < totalAmount) {
+	let tokenBalance: number = GetFundsForSymbol(symbol);
+	console.log(tokenBalance, totalAmount);
+	if (tokenBalance == undefined || tokenBalance == null) tokenBalance = 0;
+	if (tokenBalance < totalAmount) {
 		NotificationError('Airdrop Error!', 'You do not have enough funds to perform this airdrop.');
 		return;
 	}
 
 	const from = Address.FromText(String(Link.account.address));
-	const payload = Base16.encode('Tools.TransferTokens');
-
+	const payload = Base16.encode('Tools.AirdropFT');
 	const sb = new ScriptBuilder();
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
+
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', AirdropFee]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
+		//sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', AirdropFee]);
 	}
 
 	for (const user of userList) {
@@ -113,25 +123,40 @@ export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, tot
 	);
 }
 
-export function AirdropNFT(symbol: string, amount: number, to: string) {
+export function AirdropNFT(symbol: string, userList: Array<{ user; id }>, totalAmount: number) {
 	if (!Link.account) {
 		NotificationError('Wallet Error!', 'Please connect your wallet first.');
 		return;
 	}
 
-	const from = Address.FromText(String(Link.account.address));
-	const payload = Base16.encode('Tools.TransferTokens');
+	if (!userList || userList.length == 0) {
+		NotificationError('Airdrop Error!', 'Please add at least one user.');
+		return;
+	}
 
-	const toAddress = Address.FromText(to);
+	let tokenBalance: number = GetFundsForSymbol(symbol);
+	if (tokenBalance == undefined || tokenBalance == null) tokenBalance = 0;
+	if (tokenBalance < totalAmount) {
+		NotificationError('Airdrop Error!', 'You do not have enough funds to perform this airdrop.');
+		return;
+	}
+
+	const from = Address.FromText(String(Link.account.address));
+	const payload = Base16.encode('Tools.AirdropNFT');
+
 	const sb = new ScriptBuilder();
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
 		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
 	}
-	const myScript = sb
-		.CallInterop('Runtime.TransferToken', [from, to, symbol, amount])
-		.SpendGas(from)
-		.EndScript();
+
+	for (const user of userList) {
+		const toAddress = Address.FromText(user.user);
+		const id = user.id;
+		sb.CallInterop('Runtime.TransferToken', [from, toAddress, symbol, id]);
+	}
+
+	const myScript = sb.SpendGas(from).EndScript();
 
 	Link.signTx(
 		myScript,
