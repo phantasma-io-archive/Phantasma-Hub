@@ -175,6 +175,7 @@
 	size="xl"
 	title="Airdrop Fungible Tokens"
 	description="Airdrop fungible tokens to a list of users."
+	class="mb-20"
 >
 	<div class="my-1">
 		<form on:submit|preventDefault={() => null}>

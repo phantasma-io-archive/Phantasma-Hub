@@ -61,12 +61,31 @@ TipActive.subscribe((active: boolean) => {
 	tipActive = active;
 });
 
+export async function GetNFTList(symbol: string): Array<string> {
+	if (!Link.account) {
+		return [];
+	}
+
+	const from = String(Link.account.address);
+	const _account = await api.getAccount(from);
+	for (const balance of _account.balances) {
+		console.log(balance, symbol);
+		if (balance.symbol == symbol) {
+			return balance.ids ? balance.ids : [];
+		}
+	}
+
+	return [];
+}
+
 export function GetFundsForSymbol(symbol: string): number {
 	if (!Link.account) {
 		return 0;
 	}
 
+	console.log(Link.account);
 	for (const balance of Link.account.balances) {
+		console.log(balance, symbol);
 		if (balance.symbol == symbol) {
 			return balance.value;
 		}

@@ -62,6 +62,13 @@ TipActive.subscribe((active: boolean) => {
 	tipActive = active;
 });
 
+export function shuffleArray<T>(array: T[]): T[] {
+	for (let i = array.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[array[i], array[j]] = [array[j], array[i]];
+	}
+	return array;
+}
 /**
  * Get Tokens details by token symbol.
  * @param symbol
@@ -270,13 +277,21 @@ export function FormatData(vm: VMObject): any {
 	const result: any = {};
 	if (vm.Data instanceof Map && vm.Data instanceof Map<VMObject, VMObject>) {
 		console.log('map', vm);
-		if (vm.Data.size == 4) {
-			const _keyAddress = vm.Data[2][0].AsString();
-			if (_keyAddress == 'LengthInBytes') {
-				return Address.FromBytes(vm.AsByteArray());
+		/*if (vm.Data.size == 4) {
+			let index = 0;
+			let _keyAddress = '';
+			for (const item of vm.Data.keys()) {
+				_keyAddress = item.AsString();
+				index++;
+				if (index == 3) break;
 			}
-		}
+
+			if (_keyAddress == 'LengthInBytes') {
+				//return Address.FromBytes(Base16.decodeUint8Array(hexData.toUpperCase()));
+			}
+		}*/
 		for (const item of vm.Data) {
+			console.log(item);
 			const _key = item[0].AsString();
 			result[_key] = FormatData(item[1]);
 		}
@@ -294,10 +309,10 @@ export function FormatData(vm: VMObject): any {
 		return FormatData(vm.Data);
 	} else {
 		console.log('vm', vm);
-		if (vm.Type == VMType.Bytes) {
+		/*if (vm.Type == VMType.Bytes) {
 			const data = DecodeInformation(vm.AsString());
 			return FormatData(data);
-		}
+		}*/
 		return vm.AsString();
 	}
 	return result;

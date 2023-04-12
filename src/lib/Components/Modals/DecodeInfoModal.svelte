@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { consoleOutput } from '$lib/store';
 	import { Base16 } from 'phantasma-ts/core';
-	import { DecodeInformation, FormatData } from '$lib/Commands/Commands';
+	import { DecodeInformation, DecodeStruct, FormatData } from '$lib/Commands/Commands';
 	import Modal from './Modal.svelte';
 	import { ModalType } from './ModalType';
 	import { createEventDispatcher, onDestroy } from 'svelte';
