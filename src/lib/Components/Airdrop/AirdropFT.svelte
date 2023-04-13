@@ -18,6 +18,7 @@
 	import { onMount } from 'svelte';
 	import { AirdropFT } from './AirdropCommands';
 	import { NotificationError } from '../Notification/NotificationsBuilder';
+	import { removeHTMLEntities } from '$lib/Commands/Commands';
 	let api: PhantasmaAPI;
 
 	let _contractName: string;
@@ -32,6 +33,7 @@
 	let userDistribution: number;
 	let numberOfUsers = 0;
 	let userAddressessRAW = '';
+	let userAddressessRAWEdited = '';
 	let userAddressess: Array<any> = [];
 	let numberOfInvalidAddresses = 0;
 	let numberOfRepeatedAddresses = 0;
@@ -132,24 +134,54 @@
 		AirdropFTUsers();
 	}
 
+	function getListBefore(value) {
+		let listBefore;
+		if (value.includes(',')) {
+			listBefore = value.split(',');
+		} else if (value.includes(' ')) {
+			listBefore = value.split(' ');
+		} else {
+			listBefore = value.split('\n');
+		}
+		return listBefore;
+	}
+
 	function onListUsersChange(e) {
-		numberOfRepeatedAddresses = 0;
-		let listBefore = e.target.value.split(',');
+		let listBefore;
+		userAddressessRAW = e.target.value;
+		e.target.value = removeHTMLEntities(e.target.value);
+		listBefore = e.target.value.split(/[\n ,]+/);
+		userAddressessRAW = listBefore.join('\n');
+		userAddressessRAWEdited = listBefore.join('<br>');
+
 		numberOfInvalidAddresses = 0;
+		numberOfRepeatedAddresses = 0;
 		userAddressess = [];
 		for (let addr of listBefore) {
-			addr = addr.trim();
-			if (!Address.IsValidAddress(addr)) {
+			let addrTrimmed = addr.trim();
+			if (!Address.IsValidAddress(addrTrimmed)) {
 				numberOfInvalidAddresses++;
+				//userAddressessRAW = userAddressessRAW.replace(addr, `<span class="error">${addr}</span>`);
 				continue;
 			}
 
-			if (userAddressess.includes(addr)) {
+			if (userAddressess.includes(addrTrimmed)) {
 				numberOfRepeatedAddresses++;
+				userAddressessRAWEdited = userAddressessRAWEdited.replaceAll(
+					addr,
+					`<span class="error" style="color:red !important">${addr}</span>`
+				);
 			}
 
 			userAddressess.push(addr);
 		}
+	}
+
+	let scrollTop = 0;
+
+	function handleScroll(event) {
+		scrollTop = event.target.scrollTop;
+		console.log(scrollTop);
 	}
 
 	function onTypeChange() {
@@ -316,17 +348,28 @@
 
 			<div class="grid md:grid-cols">
 				<div class="relative z-0 w-full mb-6 group">
-					<textarea
-						name="script"
-						id="script"
-						rows="7"
-						bind:value={userAddressessRAW}
-						on:change={onListUsersChange}
-						on:keypress={onListUsersChange}
-						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-						placeholder=" "
-						required
-					/>
+					<div style="position: relative; height:100%;">
+						<div
+							style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1;"
+							class="block py-2.5 px-0 w-full text-sm bg-transparent border-solid  border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+						>
+							<div style="margin-top: {-scrollTop}px">
+								{@html userAddressessRAWEdited}
+							</div>
+						</div>
+						<textarea
+							name="script"
+							id="script"
+							rows="7"
+							style="resize: none;"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							bind:value={userAddressessRAW}
+							on:change={onListUsersChange}
+							on:keypress={onListUsersChange}
+							on:keydown={onListUsersChange}
+							on:scroll={handleScroll}
+						/>
+					</div>
 					<label
 						for="script"
 						class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -386,3 +429,16 @@
 		</form>
 	</div>
 </Card>
+
+<style>
+	.error {
+		color: red;
+	}
+
+	.highlight-overlay {
+		position: absolute;
+		pointer-events: none;
+		background-color: yellow;
+		opacity: 0.5;
+	}
+</style>

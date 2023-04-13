@@ -19,7 +19,7 @@
 		<div>
 			<p class="mb-0 font-sans font-semibold leading-normal text-base">Airdrop Fungible Tokens</p>
 			<h5 class="mb-0 font-normal text-sm">
-				Airdrop Fungible Tokens to you community with just a push of a button.
+				Airdrop Fungible Tokens to your community with just a push of a button.
 			</h5>
 		</div>
 		<div>

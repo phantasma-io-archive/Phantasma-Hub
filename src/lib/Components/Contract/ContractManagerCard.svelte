@@ -9,7 +9,7 @@
 	<div class="flex-none w-2/3 max-w-full px-3">
 		<div>
 			<p class="mb-0 font-sans font-semibold leading-normal text-base">
-				Manager your Smart contract
+				Manage your Smart contract
 			</p>
 			<h5 class="mb-0 font-normal text-sm">Let's manage your smart contract.</h5>
 		</div>
