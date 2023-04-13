@@ -19,7 +19,7 @@
 		<div>
 			<p class="mb-0 font-sans font-semibold leading-normal text-base">Airdrop NFTs</p>
 			<h5 class="mb-0 font-normal text-sm">
-				Airdrop NFTs to you community with just a push of a button.
+				Airdrop NFTs to your community with just a push of a button.
 			</h5>
 		</div>
 		<div>
