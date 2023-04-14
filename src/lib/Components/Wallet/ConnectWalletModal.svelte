@@ -8,7 +8,10 @@
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
 	import { connectWallet } from '$lib/store';
-	import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
+	import {
+		NotificationError,
+		NotificationSuccess
+	} from '$lib/Components/Notification/NotificationsBuilder';
 
 	let _modalType = ModalType.Wallet;
 

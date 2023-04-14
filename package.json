@@ -44,6 +44,6 @@
 		"iconify": "^1.4.0",
 		"moment": "^2.29.4",
 		"path-browserify": "^1.0.1",
-		"phantasma-ts": "0.1.49"
+		"phantasma-ts": "0.1.52"
 	}
 }

@@ -68,6 +68,8 @@
 	<slot />
 </main>
 
+<Options />
+
 <Footer />
 
 <!--<Options />-->

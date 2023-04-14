@@ -25,8 +25,8 @@
 		VMObject
 	} from 'phantasma-ts/core';
 	import type { PhantasmaLink } from 'phantasma-ts';
-	import { page } from '$app/stores';
 	import { ModalInternalTypes } from '../Modals/ModalInternalTypes';
+	import { NotificationSuccess } from '../Notification/NotificationsBuilder';
 
 	let _apiStatus: boolean;
 
@@ -98,6 +98,7 @@
 		PhantasmaAPIClient.set(new PhantasmaAPI(selectedAPI, null, nexusName));
 		apiLink.set(selectedAPI);
 		connectToAPI();
+		NotificationSuccess('API Changed', `API has been changed to <b>${nexusName}</b> network.`);
 	}
 
 	function getLastInflationDate() {
@@ -195,7 +196,7 @@
 				alt="main_logo"
 			/>
 			<span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand"
-				>Phantasma Tools</span
+				>Phantasma HUB</span
 			>
 		</a>
 	</div>
@@ -281,45 +282,59 @@
 
 	<div class="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
 		<ul class="flex flex-col pl-0 mb-0">
-			<Item title="Contract Interaction" link="/" icon="mdi:wallet" page="Contract Interaction" />
+			<Item title="Hub" link="/" icon="fluent:vote-20-regular" page="hub" />
+			<Item title="Votes" link="/votes" icon="fluent:vote-20-regular" page="votes" />
+			<Item
+				title="Multi Signature Transaction"
+				link="/multi-sig"
+				icon="fa6-solid:file-signature"
+				page="multisig"
+			/>
+			<Item title="DAO Managment" link="/dao" icon="ph:users-four" page="dao" />
+			<Item
+				title="Contract Interaction"
+				link="/contract"
+				icon="carbon:touch-interaction"
+				page="Contract Interaction"
+			/>
 			<Item
 				title="Advanced Interactions"
 				link="/advanced"
-				icon="mdi:wallet"
+				icon="material-symbols:code-blocks-outline-rounded"
 				page="Advanced Interactions"
 			/>
 			<Item
 				title="Contract Managment"
-				link="/contract"
-				icon="mdi:wallet"
+				link="/contract-manager"
+				icon="mdi:contract-outline"
 				page="Contract Managment"
 			/>
-			<Item title="Airdrop" link="/airdrop" icon="mdi:wallet" page="Airdrop" />
+			<Item title="Airdrop" link="/airdrop" icon="ion:gift" page="Airdrop" />
 			<Item
 				title="Send / Stake Tokens"
-				link="/"
-				icon="mdi:wallet"
+				link="/contract"
+				icon="mdi:invoice-send"
 				page="Send / Stake Tokens"
 				on:click={openSendTokensModal}
 			/>
 			<Item
 				title="Change Owner"
-				link="/"
-				icon="mdi:wallet"
+				link="/contract"
+				icon="ph:user-switch"
 				page="Change Owner"
 				on:click={openChangeOwnerModal}
 			/>
 			<Item
 				title="Decode Information"
-				link="/"
-				icon="mdi:wallet"
+				link="/contract"
+				icon="material-symbols:info"
 				page="Decode Information"
 				on:click={openDecodeInformationModal}
 			/>
 			<Item
 				title="Get Transaction By Hash"
-				link="/"
-				icon="mdi:wallet"
+				link="/contract"
+				icon="icon-park-outline:transaction-order"
 				page="Get Transaction By Hash"
 				on:click={openGetTransactionByHashModal}
 			/>
