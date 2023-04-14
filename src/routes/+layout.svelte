@@ -41,6 +41,11 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Phantasma Hub</title>
+	<html lang="en" />
+</svelte:head>
+
 <Sidebar />
 
 <main
