@@ -196,7 +196,7 @@
 				alt="main_logo"
 			/>
 			<span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand"
-				>Phantasma HUB</span
+				>Phantasma Hub</span
 			>
 		</a>
 	</div>
