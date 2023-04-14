@@ -45,7 +45,7 @@
 				height="18"
 				width="18"
 				class="text-lg relative top-2.5 text-white"
-				icon="eos-icons:api-outlined"
+				icon="ic:baseline-art-track"
 			/>
 		</div>
 	</div>

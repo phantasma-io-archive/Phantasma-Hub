@@ -65,6 +65,7 @@ TipActive.subscribe((active: boolean) => {
 export function removeHTMLEntities(str) {
 	return str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 }
+
 export function shuffleArray<T>(array: T[]): T[] {
 	for (let i = array.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));

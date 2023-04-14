@@ -34,7 +34,7 @@
 				height="18"
 				width="18"
 				class="text-lg relative top-2.5 text-white"
-				icon="fa6-solid:file-contract"
+				icon="ic:baseline-upload-file"
 			/>
 		</div>
 	</div>

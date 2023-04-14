@@ -1,47 +1,64 @@
-<script>
-	import Commands from '$lib/Commands.svelte';
+<script type="ts">
+	import MenuCard from '$lib/Components/Card/MenuCard.svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
-	import APISelector from '$lib/Components/Card/APISelector.svelte';
-	import ContractSelector from '$lib/Components/Contract/ContractSelector.svelte';
-	import TipMe from '$lib/Components/Card/TipMe.svelte';
-	import Modal from '$lib/Components/Modals/Modal.svelte';
-	import ConnectWalletModal from '$lib/Components/Wallet/ConnectWalletModal.svelte';
-	import MethodSelector from '$lib/Components/Card/MethodSelector.svelte';
-	import ContractArguments from '$lib/Components/Contract/ContractArguments.svelte';
-	import { consoleOutput } from '$lib/store';
-
-	let showModal = false;
-	let showModal2 = false;
-	let _consoleOutput = '';
-	consoleOutput.subscribe((value) => {
-		_consoleOutput = value;
-	});
+	import Icon from '@iconify/svelte';
+	let pages = [
+		{
+			title: 'Vote',
+			description: 'Enter the voting.',
+			icon: 'fluent:vote-20-regular',
+			href: '/votes'
+		},
+		{
+			title: 'Multi-Signature',
+			description: 'Enter Multi-Signature',
+			icon: 'fa6-solid:file-signature',
+			href: '/multisig'
+		},
+		{
+			title: 'DAO Manager',
+			description: 'Enter DAO Manager',
+			icon: 'ph:users-four',
+			href: '/dao'
+		},
+		{
+			title: 'Contract Interactor',
+			description: 'Interact with contracts',
+			icon: 'carbon:touch-interaction',
+			href: '/contract'
+		},
+		{
+			title: 'Advanced Interactions',
+			description: 'Advanced interactions with contracts',
+			icon: 'material-symbols:code-blocks-outline-rounded',
+			href: '/advanced'
+		},
+		{
+			title: 'Contract Manager',
+			description: 'Deploy and manage contracts',
+			icon: 'mdi:contract-outline',
+			href: '/contract-manager'
+		},
+		{
+			title: 'Airdrop',
+			description: 'Airdrop tokens and NFTs',
+			icon: 'ion:gift',
+			href: '/airdrop'
+		}
+	];
 </script>
 
 <div class="mb-4 px-6 mx-auto">
+	<h5>Phantasma Hub</h5>
+
 	<div class="flex flex-wrap -mx-3">
-		<APISelector />
-		<ContractSelector />
-		<MethodSelector />
-	</div>
-
-	<div class="flex flex-wrap mt-6 -mx-3">
-		<ContractArguments />
-	</div>
-
-	<div class="flex flex-wrap mt-6 -mx-3">
-		<Card size="xl" title="Console" description="Contract Call output">
-			<textarea
-				class="w-full shadow-md bg-slate-200 border-r-2 rounded-2xl p-4"
-				rows="10"
-				id="contractMethodOutput"
-				bind:value={_consoleOutput}
-				disabled
+		{#each pages as page}
+			<MenuCard
+				title={page.title}
+				description={page.description}
+				icon={page.icon}
+				href={page.href}
 			/>
-		</Card>
+		{/each}
 	</div>
 </div>
-
-{#if showModal2}
-	<ConnectWalletModal on:close={() => (showModal2 = false)} />
-{/if}
