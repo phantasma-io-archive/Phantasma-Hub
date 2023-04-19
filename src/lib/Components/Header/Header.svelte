@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Icon from '@iconify/svelte';
 	import Notification from '$lib/Components/Notification/Notification.svelte';
 	import {

@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { LinkWallet, PhantasmaAPIClient } from '$lib/store';
 	import {
 		createTransaction,

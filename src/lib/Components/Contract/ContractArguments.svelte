@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Card from '$lib/Components/Card/Card.svelte';
 	import { consoleOutput, contractMethod, contractName } from '$lib/store';
 	import { Base16, type ABIMethod, type ABIParameter } from 'phantasma-ts/core';

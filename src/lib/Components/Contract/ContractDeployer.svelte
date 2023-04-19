@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { allContracts, connectedToWallet, connectWallet, walletOpened } from '$lib/store';
 	import { Base16, byteArrayToHex, uint8ArrayToHex } from 'phantasma-ts/core';
 	import Card from '../Card/Card.svelte';

@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Commands from '$lib/Commands.svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
 	import APISelector from '$lib/Components/Card/APISelector.svelte';

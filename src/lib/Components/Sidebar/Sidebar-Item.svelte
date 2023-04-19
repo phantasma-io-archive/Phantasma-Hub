@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Icon from '@iconify/svelte';
 	import { activePage } from '$lib/store';
 	import { createEventDispatcher } from 'svelte';
