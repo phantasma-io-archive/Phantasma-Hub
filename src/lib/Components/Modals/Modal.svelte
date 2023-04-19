@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { createEventDispatcher, onDestroy } from 'svelte';
 	import { ModalType } from './ModalType';
 

@@ -1,16 +1,12 @@
-<script type="ts">
-	import Options from '$lib/Options.svelte';
+<script lang="ts">
 	import '../app.css';
 	import '../soft-ui-dashboard-tailwind.min.css';
 	import Header from '$lib/Components/Header/Header.svelte';
-	import Footer from '$lib/Components/Footer/Footer.svelte';
 	import Sidebar from '$lib/Components/Sidebar/Sidebar.svelte';
-
+	import Options from '$lib/Options.svelte';
+	import Footer from '$lib/Components/Footer/Footer.svelte';
 	import Modal from '$lib/Components/Modals/Modal.svelte';
 	import ConnectWalletModal from '$lib/Components/Wallet/ConnectWalletModal.svelte';
-	// This was a painful solution to find.
-	import { Buffer } from 'buffer';
-	if (typeof window !== 'undefined') window.Buffer = Buffer;
 	import { connectWallet, OpenedModal, PhantasmaAPIClient } from '$lib/store';
 	import { PhantasmaAPI } from 'phantasma-ts/src/core';
 	import { NotificationsOptions } from '$lib/Components/Notification/NotificationsBuilder';
@@ -39,13 +35,16 @@
 	OpenedModal.subscribe((value) => {
 		openedModal = value;
 	});
+	/*
+	// This was a painful solution to find.
+	import { Buffer } from 'buffer';
+	if (typeof window !== 'undefined') window.Buffer = Buffer;
+*/
 </script>
 
 <svelte:head>
 	<title>Phantasma Hub</title>
-	<html lang="en" />
 </svelte:head>
-
 <Sidebar />
 
 <main
@@ -77,9 +76,9 @@
 
 <Footer />
 
-<!--<Options />-->
+<!--
 <SvelteToast options={NotificationsOptions} />
-
+-->
 <style>
 	:root {
 		--toastContainerBottom: 4rem;

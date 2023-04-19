@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Incon from '@iconify/svelte';
 </script>
 

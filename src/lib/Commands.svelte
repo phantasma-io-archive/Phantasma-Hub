@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { LinkWallet } from '$lib/store';
 	import { Buffer } from 'buffer';
 	globalThis.Buffer = Buffer;

@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Modal from '$lib/Components/Modals/Modal.svelte';
 	import { ModalType } from '$lib/Components/Modals/ModalType';
 	import Icon from '@iconify/svelte';

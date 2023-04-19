@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import { allContracts, contractDetails, contractName, PhantasmaAPIClient } from '$lib/store';
 	import type { Balance, Contract, PhantasmaAPI } from 'phantasma-ts/core';
 	import { onMount } from 'svelte';

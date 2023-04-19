@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Modal from '$lib/Components/Modals/Modal.svelte';
 	import Icon from '@iconify/svelte';
 	import Card from '$lib/Components/Card/Card.svelte';

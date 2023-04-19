@@ -1,4 +1,4 @@
-<script type="ts">
+<script lang="ts">
 	import Card from '$lib/Components/Card/Card.svelte';
 	import { LinkWallet } from '$lib/store';
 	import moment from 'moment';

@@ -51,7 +51,7 @@
 <div class="mb-4 px-6 mx-auto">
 	<h5>Phantasma Hub</h5>
 
-	<div class="flex flex-wrap -mx-3">
+	<div class="flex flex-wrap -mx-3 pb-32">
 		{#each pages as page}
 			<MenuCard
 				title={page.title}

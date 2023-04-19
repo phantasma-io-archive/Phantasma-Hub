@@ -6,9 +6,6 @@ import { defineConfig } from 'vite';
 /** @type {import('vite').UserConfig} */
 const config = {
 	plugins: [sveltekit()],
-	define: {
-		global: {}
-	},
 	/*build: {
 		rollupOptions: {
 		  plugins: [inject({ Buffer: ['buffer', 'Buffer'] })],
