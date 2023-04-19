@@ -32,10 +32,10 @@ jobs:
       #- run: npm install
       - run: npm ci
       - run: npm run build
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ./build
+      #- name: Upload artifact
+      #  uses: actions/upload-pages-artifact@v1
+      #  with:
+      #    path: ./build
 
   #deploy:
   #  runs-on: ubuntu-latest
