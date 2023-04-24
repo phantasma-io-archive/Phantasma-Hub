@@ -15,6 +15,33 @@
   </p>
 </div>
 
+<p align="center">      
+    <a href="https://github.com/phantasma-io/Phantasma-Hub/workflows/Build%20App/badge.svg?branch=master">
+        <img src="https://github.com/phantasma-io/Phantasma-Hub/workflows/Build%20App/badge.svg">
+    </a>
+    <a href="https://github.com/phantasma-io/Phantasma-Hub/blob/master/LICENSE">
+        <img src="https://img.shields.io/badge/license-MIT-blue.svg">
+    </a>
+    <a href="https://discord.gg/RsKn8EN">
+        <img src="https://img.shields.io/discord/404769727634997261.svg">
+    </a>
+    <a href="https://twitter.com/phantasmachain">
+        <img src="https://img.shields.io/twitter/follow/phantasmachain.svg?style=social">
+    </a>
+</p>
+
+<p align="center">
+    <a href="">
+        <img src="https://img.shields.io/github/last-commit/phantasma-io/Phantasma-Hub.svg?style=flat">
+    </a>
+    <a href="">
+        <img src="https://img.shields.io/github/commit-activity/y/phantasma-io/Phantasma-Hub.svg?style=flat">
+    </a>
+    <a href="https://github.com/phantasma-io/Phantasma-Hub">
+        <img src="https://tokei.rs/b1/github/phantasma-io/Phantasma-Hub">
+    </a>
+</p>
+
 ## Features
 
 - Air Drop ( With random feature )
