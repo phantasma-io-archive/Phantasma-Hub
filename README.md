@@ -1,7 +1,19 @@
-# Phantasma Hub
+<p align="center">
+  <img
+    src="/Developers.jpeg" 
+  >
+</p>
 
-Welcome to the Phantasma HUB!
-This tool will allow you to make make the most out of the Phantasma Chain!
+<h1 align="center">Phantasma Hub</h1>
+
+<div align="center">
+  <p>
+    Welcome to the Phantasma HUB!
+  </p>
+  <p>
+    This tool will allow you to make make the most out of the Phantasma Chain!
+  </p>
+<div>
 
 ## Features
 
