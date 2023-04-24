@@ -13,7 +13,7 @@
   <p>
     This tool will allow you to make make the most out of the Phantasma Chain!
   </p>
-<div>
+</div>
 
 ## Features
 
