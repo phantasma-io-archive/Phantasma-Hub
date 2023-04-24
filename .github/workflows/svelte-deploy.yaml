@@ -1,1 +1,10 @@
 name: Build and Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-latest
+    steps:
+    run: echo "Hello"
