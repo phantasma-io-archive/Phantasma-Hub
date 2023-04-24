@@ -1,43 +1,9 @@
-# create-svelte
+# Phantasma Hub
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Welcome to the Phantasma HUB!
+This tool will allow you to make make the most out of the Phantasma Chain!
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
-
-## Feature Requests
+## Features
 
 - Air Drop ( With random feature )
   - Distribute (1 to 1)
@@ -49,7 +15,38 @@ You can preview the production build with `npm run preview`.
     - Random Distribution
 - Interact with contracts
 - Transfers
-- Transaction Creation
 - List of Address Creation to Base16 to send
 - Deploy Smart Contract
+
+## Feature Requests
+
+- Air Drop
+  - Select DAO's to airdrop to.
+- Transaction Creation
 - Mass Minting
+
+## How to Set Up and Run a Svelte Application Locally
+
+Follow these step-by-step instructions to set up and run a Svelte application on your local machine.
+
+### Prerequisites
+
+1. Install Node.js and npm (Node Package Manager). You can download the latest version of Node.js and npm from the [official Node.js website](https://nodejs.org/).
+
+### Setting Up the Project
+
+2. Clone the repository using Git. Open a terminal or command prompt, and enter the following command: `git clone git@github.com:phantasma-io/Phantasma-Hub.git`
+
+3. Change the current directory to the cloned repository: `cd Phantasma-Hub`
+
+### Installing Dependencies and Running the Application
+
+4. Install the required dependencies by running the following command: `npm install`
+
+5. Start the application in development mode using the following command: `npm run start --port 5174`
+
+Now, the Svelte application should be running locally on your machine. Open your web browser and navigate to `http://localhost:5174` to access the application.
+
+If you need to build the application for production, use the following command: `npm run build`
+
+This will create a `public` folder with the optimized production build.
