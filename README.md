@@ -1,10 +1,10 @@
+<h1 align="center">Phantasma Hub</h1>
+
 <p align="center">
   <img
     src="/Developers.jpeg" 
   >
 </p>
-
-<h1 align="center">Phantasma Hub</h1>
 
 <div align="center">
   <p>
