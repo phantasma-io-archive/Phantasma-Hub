@@ -8,10 +8,7 @@
 
 <div align="center">
   <p>
-    Welcome to the Phantasma HUB!
-  </p>
-  <p>
-    This tool will allow you to make make the most out of the Phantasma Chain!
+    Welcome to the Phantasma Hub! This powerful tool is designed to help you make the most out of the Phantasma Chain, a blockchain network that enables seamless and secure interactions between users and decentralized applications.
   </p>
 </div>
 
@@ -44,25 +41,37 @@
 
 ## Features
 
-- Air Drop ( With random feature )
-  - Distribute (1 to 1)
-  - Having a list of addresses more than the amount of Tokens (FT/NFT) and destribute randomly.
-  - Airdrop Fungible Tokens
-    - Random Amounts (Between a threshold)
-    - Specific amount
-  - Aidrop Non Fungible Tokens (Collection)
-    - Random Distribution
-- Interact with contracts
-- Transfers
-- List of Address Creation to Base16 to send
-- Deploy Smart Contract
+Phantasma Hub offers a wide range of features, including:
+
+- **Air Drop** (with randomization options):
+
+  - Distribute tokens on a 1-to-1 basis
+  - Randomly distribute tokens to a list of addresses, with more addresses than tokens (FT/NFT)
+  - Airdrop Fungible Tokens:
+    - Random amounts within a specified range
+    - Specific amounts for each recipient
+  - Airdrop Non-Fungible Tokens (Collections):
+    - Random distribution among recipients
+
+- **Interact with Contracts**: Manage and interact with smart contracts on the Phantasma Chain
+
+- **Transfers**: Perform secure and efficient token transfers
+
+- **Address Creation**: Generate a list of addresses in Base16 format for sending tokens
+
+- **Deploy Smart Contract**: Easily deploy your smart contracts on the Phantasma Chain
 
 ## Feature Requests
 
-- Air Drop
-  - Select DAO's to airdrop to.
-- Transaction Creation
-- Mass Minting
+We're always working on improving the Phantasma Hub and adding new features. Here are some of the upcoming additions and requested enhancements:
+
+- **Air Drop**:
+
+  - Support for airdropping tokens to selected DAOs
+
+- **Transaction Creation**: Streamlined process for creating and managing transactions
+
+- **Mass Minting**: Efficiently mint multiple tokens or NFTs in a single action
 
 ## How to Set Up and Run a Svelte Application Locally
 

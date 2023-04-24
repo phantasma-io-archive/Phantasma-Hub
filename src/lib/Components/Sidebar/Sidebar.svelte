@@ -174,8 +174,8 @@
 <aside
 	class:translate-x-0={leftSideNavBarActive}
 	class:shadow-soft-xl={leftSideNavBarActive}
-	class="sm:overflow-y-auto mb-32 md:overflow-hidden md:overflow-y-hidden max-w-62.5 
-	ease-nav-brand z-990 fixed inset-y-0 mt-4 md:mb-16 ml-4 block w-full -translate-x-full 
+	class="sm:overflow-y-auto mb-32 md:overflow-hidden md:overflow-y-hidden max-w-62.5
+	ease-nav-brand z-990 fixed inset-y-0 mt-4 md:mb-16 ml-4 block w-full -translate-x-full
 	flex-wrap items-center justify-between rounded-2xl border-0 bg-white p-0 antialiased
 	shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent max-h-screen"
 >
@@ -264,7 +264,7 @@
 	<h6 class="font-bold leading-tight uppercase text-xs opacity-70 text-center">Wallet Status</h6>
 
 	<div
-		class="h-12 mb-4 shadow-md text-sm ease-nav-brand my-0 mx-4 flex rounded-lg font-semibold text-slate-700 transition-colors bg-opacity-90 text-center items-center 
+		class="h-12 mb-4 shadow-md text-sm ease-nav-brand my-0 mx-4 flex rounded-lg font-semibold text-slate-700 transition-colors bg-opacity-90 text-center items-center
     {_walletStatus ? 'bg-green-200' : 'bg-red-200'}"
 	>
 		<div class="my-4 p-2 rounded-md w-full mx-4 text-black text-center">
