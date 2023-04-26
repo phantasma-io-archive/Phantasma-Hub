@@ -4,7 +4,7 @@ import { PhantasmaAPI, type Contract } from 'phantasma-ts/src/core';
 import type { ABIMethod } from 'phantasma-ts/core';
 import { ModalInternalTypes } from '$lib/Components/Modals/ModalInternalTypes';
 
-export const SimnetURL = 'http://127.0.0.1:5102/rpc';
+export const SimnetURL = 'http://127.0.0.1:7077/rpc';
 export const TestnetURL = 'https://testnet.phantasma.io/rpc';
 export const MainnetURL = 'https://bp1.phantasma.io/rpc';
 export const FeeAmount: number = 0.1 * 10 ** 10;
