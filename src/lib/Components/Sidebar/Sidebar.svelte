@@ -281,7 +281,7 @@
 	/>
 
 	<div class="items-center block overflow-auto w-auto max-h-56 md:max-h-80 grow basis-full">
-		<ul class="flex flex-col pl-0 mb-8">
+		<ul class="flex flex-col pl-0 mb-0 pb-8">
 			<Item title="Hub" link="/" icon="fluent:vote-20-regular" page="hub" />
 			<Item title="Votes" link="/votes" icon="fluent:vote-20-regular" page="votes" />
 			<Item
