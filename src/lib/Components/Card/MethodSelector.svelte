@@ -21,6 +21,7 @@
 	let api: PhantasmaAPI;
 	PhantasmaAPIClient.subscribe((value) => {
 		api = value;
+		selectedMethod = 'null';
 	});
 
 	let contractInfo: Contract;
@@ -54,7 +55,7 @@
 		</div>
 		<div>
 			<select name="method" bind:value={selectedMethod} class="w-full" on:change={selectMethod}>
-				<option value selected>No method selected.</option>
+				<option value="null" selected>No method selected.</option>
 				{#each methods as method}
 					<option value={method}>{method}</option>
 				{/each}
