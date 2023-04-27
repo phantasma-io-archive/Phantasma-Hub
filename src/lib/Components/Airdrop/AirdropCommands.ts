@@ -113,14 +113,17 @@ export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, tot
 		return;
 	}
 
+	const numberOfDistributions = userList.length / 100;
+	let comulativeFee = (userList.length / 100) * AirdropFee;
+	if (numberOfDistributions < 1) comulativeFee = AirdropFee;
 	const from = Address.FromText(String(Link.account.address));
 	const payload = Base16.encode('Tools.AirdropFT');
 	const sb = new ScriptBuilder();
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
-		//sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', AirdropFee]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
+		//sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
 	}
 
 	for (const user of userList) {
@@ -163,10 +166,13 @@ export function AirdropNFT(symbol: string, userList: Array<{ user; id }>, totalA
 	const from = Address.FromText(String(Link.account.address));
 	const payload = Base16.encode('Tools.AirdropNFT');
 
+	const numberOfDistributions = userList.length / 100;
+	let comulativeFee = (userList.length / 100) * AirdropFee;
+	if (numberOfDistributions < 1) comulativeFee = AirdropFee;
 	const sb = new ScriptBuilder();
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
 	}
 
 	for (const user of userList) {

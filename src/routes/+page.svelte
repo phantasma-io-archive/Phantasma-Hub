@@ -13,7 +13,7 @@
 			title: 'Multi-Signature',
 			description: 'Enter Multi-Signature',
 			icon: 'fa6-solid:file-signature',
-			href: '/multisig'
+			href: '/multi-sig'
 		},
 		{
 			title: 'DAO Manager',
@@ -44,6 +44,12 @@
 			description: 'Airdrop tokens and NFTs',
 			icon: 'ion:gift',
 			href: '/airdrop'
+		},
+		{
+			title: 'Mass Minting',
+			description: 'Mass Minting of NFTs',
+			icon: 'carbon:intent-request-create',
+			href: '/mint'
 		}
 	];
 </script>

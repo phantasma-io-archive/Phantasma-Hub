@@ -21,6 +21,8 @@
 	let api: PhantasmaAPI;
 	PhantasmaAPIClient.subscribe((value) => {
 		api = value;
+		contractSelectedName = 'null';
+		loadContracts();
 	});
 
 	onMount(async () => {
@@ -28,6 +30,7 @@
 	});
 
 	async function loadContracts() {
+		contracts = [];
 		let chain = await api.getChains();
 		let tokens = await api.getTokens();
 		chain[0].contracts.forEach((contract) => {
@@ -69,7 +72,7 @@
 				class="w-full"
 				on:change={selectContract}
 			>
-				<option value selected>No contract selected.</option>
+				<option value="null" selected>No contract selected.</option>
 				{#each contracts as contract}
 					<option value={contract}>{contract}</option>
 				{/each}
