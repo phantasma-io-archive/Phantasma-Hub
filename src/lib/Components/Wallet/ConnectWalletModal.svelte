@@ -43,7 +43,7 @@
 		);
 	};
 
-	LinkWallet.set(new PhantasmaLink('Phantasma-Tools', true));
+	LinkWallet.set(new PhantasmaLink('Phantasma-Hub', true));
 </script>
 
 <Modal title="Connect wallet" modalType={_modalType} on:close={close}>
