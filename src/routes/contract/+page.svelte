@@ -9,6 +9,7 @@
 	import MethodSelector from '$lib/Components/Card/MethodSelector.svelte';
 	import ContractArguments from '$lib/Components/Contract/ContractArguments.svelte';
 	import { consoleOutput } from '$lib/store';
+	import ContractConsole from '$lib/Components/Contract/ContractConsole.svelte';
 
 	let showModal = false;
 	let showModal2 = false;
@@ -30,15 +31,7 @@
 	</div>
 
 	<div class="flex flex-wrap mt-6 -mx-3">
-		<Card size="xl" title="Console" description="Contract Call output">
-			<textarea
-				class="w-full shadow-md bg-slate-200 border-r-2 rounded-2xl p-4"
-				rows="10"
-				id="contractMethodOutput"
-				bind:value={_consoleOutput}
-				disabled
-			/>
-		</Card>
+		<ContractConsole />
 	</div>
 </div>
 

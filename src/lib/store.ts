@@ -21,7 +21,7 @@ export const activePage = writable('');
 export const apiStatus = writable(false);
 export const apiLink = writable(TestnetURL);
 
-export const GasPrice = writable(100000);
+export const GasPrice = writable(1000000);
 export const GasLimit = writable(21000);
 
 export const leftSidebarMenu = writable(false);

@@ -85,7 +85,7 @@ export function initPoll(
 
 	const sb = new ScriptBuilder();
 	const myScript = sb
-		.AllowGas(from, Address.Null, localGasLimit, localGasLimit)
+		.AllowGas(from, Address.Null, localGasPrice, localGasLimit)
 		.CallContract('consensus', 'InitPoll', [
 			from.Text,
 			subject,

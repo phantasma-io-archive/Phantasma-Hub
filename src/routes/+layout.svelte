@@ -76,9 +76,8 @@
 
 <Footer />
 
-<!--
 <SvelteToast options={NotificationsOptions} />
--->
+
 <style>
 	:root {
 		--toastContainerBottom: 4rem;

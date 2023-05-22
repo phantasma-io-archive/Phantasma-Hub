@@ -2465,7 +2465,7 @@ pbkdf2@^3.0.17, pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-phantasma-ts@0.1.52:
+phantasma-ts@^0.1.52:
   version "0.1.52"
   resolved "https://registry.npmjs.org/phantasma-ts/-/phantasma-ts-0.1.52.tgz"
   integrity sha512-Ib9NngxfUw9nO9m+kNM/h+mShgRfjcP3qs2Z3DVbP3+1uzP4qrgww4dJOo+pKhRG6l93LdnUZ/u1GQPFL4zCzg==

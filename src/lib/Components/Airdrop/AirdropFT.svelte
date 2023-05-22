@@ -98,7 +98,6 @@
 
 		totalAmount = 0;
 		for (let user of userList) {
-			console.log(user);
 			totalAmount += user.amount;
 		}
 	}
@@ -118,7 +117,7 @@
 			SetupUsersRandom();
 		}
 
-		AirdropFT(selectedToken, userList, totalAmount);
+		AirdropFT(selectedToken, selectedTokenDetails, userList, totalAmount);
 	}
 
 	function AirdropFTAll() {
@@ -181,7 +180,6 @@
 
 	function handleScroll(event) {
 		scrollTop = event.target.scrollTop;
-		console.log(scrollTop);
 	}
 
 	function onTypeChange() {
@@ -195,7 +193,6 @@
 				break;
 			}
 		}
-		console.log(selectedToken);
 	}
 
 	function onChangeNumberOfUsers() {
@@ -275,7 +272,7 @@
 							name="amountMin"
 							id="amountMin"
 							bind:value={amountMin}
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							placeholder=" "
 							required
 						/>
@@ -292,7 +289,7 @@
 							name="amountMax"
 							id="amountMax"
 							bind:value={amountMax}
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							placeholder=" "
 							required
 						/>
@@ -311,7 +308,7 @@
 							name="amount"
 							id="amount"
 							bind:value={amount}
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							placeholder=" "
 							required
 						/>
@@ -333,7 +330,7 @@
 							id="numberOfUsers"
 							bind:value={numberOfUsers}
 							on:change={onChangeNumberOfUsers}
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							placeholder=" "
 							required
 						/>
@@ -351,7 +348,7 @@
 					<div style="position: relative; height:100%;">
 						<div
 							style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1;"
-							class="block py-2.5 px-0 w-full text-sm bg-transparent border-solid  border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						>
 							<div style="margin-top: {-scrollTop}px">
 								{@html userAddressessRAWEdited}
@@ -362,7 +359,7 @@
 							id="script"
 							rows="7"
 							style="resize: none;"
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							bind:value={userAddressessRAW}
 							on:change={onListUsersChange}
 							on:keypress={onListUsersChange}

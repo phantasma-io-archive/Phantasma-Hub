@@ -177,7 +177,7 @@
 	class="sm:overflow-y-auto mb-32 md:overflow-hidden md:overflow-y-hidden max-w-62.5
 	ease-nav-brand z-990 fixed inset-y-0 mt-4 md:mb-16 ml-4 block w-full -translate-x-full
 	flex-wrap items-center justify-between rounded-2xl border-0 bg-white p-0 antialiased
-	shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent max-h-screen"
+	shadow-none transition-transform duration-200 xl:left-0 xl:translate-x-0 xl:bg-transparent max-h-screen overflow-y-auto"
 >
 	<div class="h-19.5">
 		{#if leftSideNavBarActive}
@@ -280,8 +280,8 @@
 		class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent"
 	/>
 
-	<div class="items-center block overflow-auto w-auto max-h-full md:max-h-[46%] grow basis-full">
-		<ul class="flex flex-col pl-0 mb-0">
+	<div class="items-center block overflow-auto w-auto max-h-56 md:max-h-80 grow basis-full">
+		<ul class="flex flex-col pl-0 mb-0 pb-8">
 			<Item title="Hub" link="/" icon="fluent:vote-20-regular" page="hub" />
 			<Item title="Votes" link="/votes" icon="fluent:vote-20-regular" page="votes" />
 			<Item
@@ -310,6 +310,7 @@
 				page="Contract Managment"
 			/>
 			<Item title="Airdrop" link="/airdrop" icon="ion:gift" page="Airdrop" />
+			<Item title="Mass Minting" link="/mint" icon="mdi:contract-outline" page="Mass Minting" />
 			<Item
 				title="Send / Stake Tokens"
 				link="/contract"

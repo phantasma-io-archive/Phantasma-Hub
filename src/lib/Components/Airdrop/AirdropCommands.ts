@@ -5,6 +5,7 @@ import {
 	PhantasmaAPI,
 	PollChoice,
 	ScriptBuilder,
+	Token,
 	Transaction,
 	VMType
 } from 'phantasma-ts/core';
@@ -34,7 +35,7 @@ import {
 	VMObject
 } from 'phantasma-ts/core';
 import { ProofOfWork } from 'phantasma-ts/core/link/phantasmaLink';
-import { NotificationError } from '../Notification/NotificationsBuilder';
+import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
 
 let Link: PhantasmaLink;
 LinkWallet.subscribe((link: any) => {
@@ -61,7 +62,7 @@ TipActive.subscribe((active: boolean) => {
 	tipActive = active;
 });
 
-export async function GetNFTList(symbol: string): Array<string> {
+export async function GetNFTList(symbol: string): Promise<string[]> {
 	if (!Link.account) {
 		return [];
 	}
@@ -83,9 +84,7 @@ export function GetFundsForSymbol(symbol: string): number {
 		return 0;
 	}
 
-	console.log(Link.account);
 	for (const balance of Link.account.balances) {
-		console.log(balance, symbol);
 		if (balance.symbol == symbol) {
 			return balance.value;
 		}
@@ -94,7 +93,12 @@ export function GetFundsForSymbol(symbol: string): number {
 	return 0;
 }
 
-export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, totalAmount: number) {
+export function AirdropFT(
+	symbol: string,
+	token: Token,
+	userList: Array<{ user; amount }>,
+	totalAmount: number
+) {
 	if (!Link.account) {
 		NotificationError('Wallet Error!', 'Please connect your wallet first.');
 		return;
@@ -106,7 +110,6 @@ export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, tot
 	}
 
 	let tokenBalance: number = GetFundsForSymbol(symbol);
-	console.log(tokenBalance, totalAmount);
 	if (tokenBalance == undefined || tokenBalance == null) tokenBalance = 0;
 	if (tokenBalance < totalAmount) {
 		NotificationError('Airdrop Error!', 'You do not have enough funds to perform this airdrop.');
@@ -122,13 +125,13 @@ export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, tot
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', String(comulativeFee)]);
 		//sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
 	}
 
 	for (const user of userList) {
 		const toAddress = Address.FromText(user.user);
-		const amount = user.amount;
+		const amount = String(user.amount);
 		sb.CallInterop('Runtime.TransferTokens', [from, toAddress, symbol, amount]);
 	}
 	const myScript = sb.SpendGas(from).EndScript();
@@ -137,10 +140,17 @@ export function AirdropFT(symbol: string, userList: Array<{ user; amount }>, tot
 		myScript,
 		payload,
 		function (tx) {
-			console.log(tx);
+			console.log('Here we have it!', tx);
+			NotificationSuccess(
+				'Airdrop Success!',
+				`Amazing you did an Airdrop to ${userList.length} SOULDiers and total amount was ${(
+					totalAmount /
+					10 ** token.decimals
+				).toFixed(2)} ${symbol}!`
+			);
 		},
 		function () {
-			console.error('error');
+			NotificationError('Airdrop Error!', 'Error doing the Airdrop!');
 		}
 	);
 }
@@ -172,12 +182,12 @@ export function AirdropNFT(symbol: string, userList: Array<{ user; id }>, totalA
 	const sb = new ScriptBuilder();
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
+		//sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
 	}
 
 	for (const user of userList) {
 		const toAddress = Address.FromText(user.user);
-		const id = user.id;
+		const id = String(user.id);
 		sb.CallInterop('Runtime.TransferToken', [from, toAddress, symbol, id]);
 	}
 
@@ -187,10 +197,13 @@ export function AirdropNFT(symbol: string, userList: Array<{ user; id }>, totalA
 		myScript,
 		payload,
 		function (tx) {
-			console.log(tx);
+			NotificationSuccess(
+				'Airdrop Success!',
+				`Amazing you did an Airdrop to ${userList.length} SOULDiers of NFT's, total number of was ${totalAmount} ${symbol}!`
+			);
 		},
 		function () {
-			console.error('error');
+			NotificationError('Airdrop Error!', 'Error doing the Airdrop!');
 		}
 	);
 }
