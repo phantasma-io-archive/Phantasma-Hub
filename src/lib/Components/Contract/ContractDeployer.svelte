@@ -10,6 +10,7 @@
 	let scriptFile;
 	let abiFile;
 
+	let scriptReading: boolean = false;
 	let scriptHexBytes: string = '';
 	let abiHexBytes: string = '';
 	let scriptBytes: Uint8Array;
@@ -43,22 +44,21 @@
 	}
 
 	$: if (scriptFile) {
+		scriptReading = true;
 		const reader = new FileReader();
 		reader.onload = (e) => {
-			console.log({ e });
-
 			if (e.target instanceof FileReader) {
 				if (scriptFile[0].name.endsWith('.pvm.hex')) {
-					scriptHexBytes = handleFileReader(e.target.result, false);
+					if (typeof e.target.result == typeof String) {
+						scriptHexBytes = handleFileReader(e.target.result, false);
+					} else {
+						const text = new TextDecoder().decode(e.target.result as ArrayBuffer);
+						scriptHexBytes = text;
+					}
+					scriptBytes = Base16.decodeUint8Array(scriptHexBytes);
 				} else if (scriptFile[0].name.endsWith('.pvm')) {
 					scriptHexBytes = handleFileReader(e.target.result);
-				}
-				if (e.target.result instanceof ArrayBuffer) {
-					if (scriptFile[0].name.endsWith('.pvm.hex')) {
-						scriptBytes = Base16.decodeUint8Array(uint8ArrayToHex(new Uint8Array(e.target.result)));
-					} else {
-						scriptBytes = new Uint8Array(e.target.result);
-					}
+					scriptBytes = new Uint8Array(e.target.result as ArrayBuffer);
 				}
 			}
 		};
@@ -69,20 +69,18 @@
 	$: if (abiFile) {
 		const reader = new FileReader();
 		reader.onload = (e) => {
-			console.log('abi', { e });
-
 			if (e.target instanceof FileReader) {
 				if (abiFile[0].name.endsWith('.abi.hex')) {
-					abiHexBytes = handleFileReader(e.target.result, false);
+					if (typeof e.target.result == typeof String) {
+						abiHexBytes = handleFileReader(e.target.result, false);
+					} else {
+						const text = new TextDecoder().decode(e.target.result as ArrayBuffer);
+						abiHexBytes = text;
+					}
+					abiBytes = Base16.decodeUint8Array(abiHexBytes);
 				} else if (abiFile[0].name.endsWith('.abi')) {
 					abiHexBytes = handleFileReader(e.target.result);
-				}
-				if (e.target.result instanceof ArrayBuffer) {
-					if (abiFile[0].name.endsWith('.pvm.hex')) {
-						abiBytes = Base16.decodeUint8Array(uint8ArrayToHex(new Uint8Array(e.target.result)));
-					} else {
-						abiBytes = new Uint8Array(e.target.result);
-					}
+					abiBytes = new Uint8Array(e.target.result as ArrayBuffer);
 				}
 			}
 		};
@@ -133,7 +131,7 @@
 						name="contractName"
 						id="contractName"
 						bind:value={contractName}
-						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
 					/>
@@ -150,12 +148,12 @@
 			<div class="grid md:grid-cols-2 md:gap-6">
 				<div class="relative z-0 w-full mb-6 group">
 					<input
-						accept=".hex, .pvm"
+						accept=".pvm, .hex"
 						type="file"
 						name="scriptFile"
 						id="scriptFile"
 						bind:files={scriptFile}
-						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
 					/>
@@ -173,7 +171,7 @@
 						name="abiFile"
 						id="abiFile"
 						bind:files={abiFile}
-						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
 					/>
