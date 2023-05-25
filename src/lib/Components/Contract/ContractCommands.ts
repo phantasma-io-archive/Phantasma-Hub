@@ -167,7 +167,7 @@ export function DeployContract(
 
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', String(FeeAmount)]);
 	}
 	const myScript = sb
 		.CallInterop('Runtime.DeployContract', [from, contractName, contractScript, contractABI])
@@ -217,7 +217,7 @@ export function CreateToken(contractScript: Uint8Array, contractABI: Uint8Array)
 
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', String(FeeAmount)]);
 	}
 
 	const myScript = sb
@@ -270,7 +270,7 @@ export function UpgradeContract(
 
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', FeeAmount]);
+		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', String(FeeAmount)]);
 	}
 	const myScript = sb
 		.CallInterop('Runtime.UpgradeContract', [from, contractName, contractScript, contractABI])
