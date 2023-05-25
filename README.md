@@ -89,12 +89,12 @@ Follow these step-by-step instructions to set up and run a Svelte application on
 
 ### Installing Dependencies and Running the Application
 
-4. Install the required dependencies by running the following command: `npm install`
+4. Install the required dependencies by running the following command: `npm install` or `yarn install`
 
-5. Start the application in development mode using the following command: `npm run start --port 5174`
+5. Start the application in development mode using the following command: `npm run dev --port 5174` or `yarn dev --port 5174`
 
 Now, the Svelte application should be running locally on your machine. Open your web browser and navigate to `http://localhost:5174` to access the application.
 
-If you need to build the application for production, use the following command: `npm run build`
+If you need to build the application for production, use the following command: `npm run build` or `yarn buid`
 
 This will create a `public` folder with the optimized production build.
