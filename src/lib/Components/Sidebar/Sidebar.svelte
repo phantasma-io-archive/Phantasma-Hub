@@ -310,6 +310,7 @@
 				page="Contract Managment"
 			/>
 			<Item title="Airdrop" link="/airdrop" icon="ion:gift" page="Airdrop" />
+			<Item title="Cross Chain Swap" link="/crossswap" icon="iconoir:coins-swap" page="crossswap" />
 			<Item title="Mass Minting" link="/mint" icon="mdi:contract-outline" page="Mass Minting" />
 			<Item
 				title="Send / Stake Tokens"

@@ -3,6 +3,7 @@ import { PhantasmaLink } from 'phantasma-ts';
 import { PhantasmaAPI, type Contract } from 'phantasma-ts/src/core';
 import type { ABIMethod } from 'phantasma-ts/core';
 import { ModalInternalTypes } from '$lib/Components/Modals/ModalInternalTypes';
+import { ethers } from 'ethers';
 
 export const SimnetURL = 'http://127.0.0.1:7077/rpc';
 export const TestnetURL = 'https://testnet.phantasma.io/rpc';
@@ -12,6 +13,10 @@ export const AirdropFee: number = 5.0 * 10 ** 10;
 export const ContractFeeAmount: number = 100 * 10 ** 10;
 export const TipAddress = 'P2KBktG2MFc6zc3Gsdrt5G4EntPTDBK3WW4mVQiqvAzppFk';
 export const TipActive = writable(true);
+
+export const EthereumProvider: Writable<ethers.BrowserProvider | null> = writable();
+export const EthereumSigner: Writable<ethers.Signer | null> = writable();
+export const EthereumAddress: Writable<string> = writable('');
 
 export const contractName = writable('');
 export const LinkWallet = writable(new PhantasmaLink('', true));

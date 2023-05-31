@@ -50,6 +50,12 @@
 			description: 'Mass Minting of NFTs',
 			icon: 'carbon:intent-request-create',
 			href: '/mint'
+		},
+		{
+			title: 'Cross Chain Swap',
+			description: 'Swap tokens from Phantasma to ETH and BSC',
+			icon: 'iconoir:coins-swap',
+			href: '/crossswap'
 		}
 	];
 </script>
