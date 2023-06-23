@@ -1,9 +1,10 @@
 {
 	"name": "phantasma-hub",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"private": true,
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "vite dev --cors true",
+		"prebuild": "node scripts/generate-package.js",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -41,6 +42,7 @@
 	"type": "module",
 	"dependencies": {
 		"buffer": "^6.0.3",
+		"ethers": "^6.4.0",
 		"gridjs": "^6.0.6",
 		"gridjs-svelte": "^2.1.1",
 		"iconify": "^1.4.0",

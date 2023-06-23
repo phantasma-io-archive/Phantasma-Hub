@@ -5,6 +5,12 @@ import { defineConfig } from 'vite';
 
 /** @type {import('vite').UserConfig} */
 const config = {
+	server: {
+		https: {
+			key: './private.key',
+			cert: './certificate.crt'
+		}
+	},
 	plugins: [sveltekit()],
 	/*build: {
 		rollupOptions: {

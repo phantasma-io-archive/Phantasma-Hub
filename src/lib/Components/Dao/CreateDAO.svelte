@@ -8,6 +8,7 @@
 	let org_id;
 	let org_name;
 	let org_script;
+	let org_id_error: boolean = false;
 
 	let connected = false;
 
@@ -28,6 +29,40 @@
 		console.log('createDAO');
 		createDAO(org_id, org_name, org_script);
 	}
+
+	function isAllLowerCase(str: string): boolean {
+		return /^[a-z\s]*$/.test(str);
+	}
+
+	function hasWhitespace(s: string): boolean {
+		return /\s/.test(s);
+	}
+
+	function isValidString(s: string): boolean {
+		return /^[a-z0-9_-]*$/.test(s);
+	}
+
+	function onChangeDAOID(e) {
+		org_id_error = false;
+
+		if (e.target.value) {
+			// Check if the ID is valid
+			if (!isAllLowerCase(e.target.value)) {
+				org_id_error = true;
+				return;
+			}
+
+			if (hasWhitespace(e.target.value)) {
+				org_id_error = true;
+				return;
+			}
+
+			if (!isValidString(e.target.value)) {
+				org_id_error = true;
+				return;
+			}
+		}
+	}
 </script>
 
 <Card
@@ -37,6 +72,9 @@
 	class="mb-20"
 >
 	<div class="my-1">
+		<small class="text-gray-500 dark:text-gray-400">
+			Organization ID should be lowercase and without spaces or special characters.
+		</small>
 		<form on:submit|preventDefault={() => null}>
 			<div class="grid md:grid-cols-2 md:gap-6">
 				<div class="relative z-0 w-full mb-6 group">
@@ -45,7 +83,10 @@
 						name="id"
 						id="id"
 						bind:value={org_id}
-						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+						on:change={onChangeDAOID}
+						on:keydown={onChangeDAOID}
+						class:error_org_id={org_id_error}
+						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
 					/>
@@ -62,7 +103,7 @@
 						name="name"
 						id="name"
 						bind:value={org_name}
-						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
 					/>
@@ -81,7 +122,7 @@
 						id="script"
 						rows="7"
 						bind:value={org_script}
-						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
 					/>
@@ -108,3 +149,9 @@
 		</form>
 	</div>
 </Card>
+
+<style>
+	.error_org_id {
+		color: red;
+	}
+</style>
