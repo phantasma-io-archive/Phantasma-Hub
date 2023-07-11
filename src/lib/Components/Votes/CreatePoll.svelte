@@ -17,7 +17,7 @@
 		Timestamp,
 		type Organization
 	} from 'phantasma-ts/src/core';
-	import { LinkWallet, PhantasmaAPIClient } from '$lib/store';
+	import { DateTimeFormat, LinkWallet, PhantasmaAPIClient } from '$lib/store';
 
 	let connected = false;
 	let Link: PhantasmaLink;
@@ -64,9 +64,7 @@
 
 	function handleStartTimeChange() {
 		let startDate = new Date(startTimeStr);
-		let formattedDate = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(
-			moment.HTML5_FMT.DATETIME_LOCAL_SECONDS
-		);
+		let formattedDate = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(DateTimeFormat);
 
 		endTimeStr = formattedDate;
 	}
@@ -74,12 +72,10 @@
 	function initDates() {
 		//startTime = moment(startTime.getTime()).format('yyyy-MM-DDThh:mm');
 		startTime = new Date(Date.now() + 1000 * 60 * 5);
-		startTimeStr = moment(startTime.getTime()).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
+		startTimeStr = moment(startTime.getTime()).format(DateTimeFormat);
 		let startDate = new Date(startTimeStr);
 		//endTime = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format('yyyy-MM-DDThh:mm');
-		endTimeStr = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(
-			moment.HTML5_FMT.DATETIME_LOCAL_SECONDS
-		);
+		endTimeStr = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(DateTimeFormat);
 	}
 
 	initDates();
@@ -192,6 +188,7 @@
 						on:change={handleStartTimeChange}
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
+						min={Date.now()}
 						required
 					/>
 					<label
@@ -210,6 +207,7 @@
                      border-b-2 border-solid
                      border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
+						min={Date.now()}
 						required
 					/>
 					<label

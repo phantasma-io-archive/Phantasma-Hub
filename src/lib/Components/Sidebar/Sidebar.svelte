@@ -14,15 +14,15 @@
 		ActivePage,
 		API_URL,
 		OpenedModal,
-		SoftwareName
+		SoftwareName,
+		DefaultNetwork,
+		DefaultAPIURL
 	} from '$lib/store';
-	import ApiSelector from '$lib/Components/Card/APISelector.svelte';
 	import {
 		Base16,
 		PBinaryReader,
 		PhantasmaAPI,
 		ScriptBuilder,
-		Serialization,
 		Timestamp,
 		VMObject
 	} from 'phantasma-ts/core';
@@ -48,7 +48,7 @@
 	let api: PhantasmaAPI;
 
 	onMount(async () => {
-		connectToAPI(nexusName);
+		connectToAPI();
 	});
 
 	PhantasmaAPIClient.subscribe((value) => {
