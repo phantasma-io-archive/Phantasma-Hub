@@ -2,6 +2,7 @@
 	import MenuCard from '$lib/Components/Card/MenuCard.svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
 	import Icon from '@iconify/svelte';
+	import { SoftwareName } from '$lib/store';
 	let pages = [
 		{
 			title: 'Vote',
@@ -61,7 +62,7 @@
 </script>
 
 <div class="mb-4 px-6 mx-auto">
-	<h5>Phantasma Hub</h5>
+	<h5>{SoftwareName}</h5>
 
 	<div class="flex flex-wrap -mx-3 pb-32">
 		{#each pages as page}

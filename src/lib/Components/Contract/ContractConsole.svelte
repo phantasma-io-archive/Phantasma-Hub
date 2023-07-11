@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Card from '$lib/Components/Card/Card.svelte';
-	import { consoleOutput } from '$lib/store';
+	import { ConsoleOutput } from '$lib/store';
 	let _consoleOutput = '';
-	consoleOutput.subscribe((value) => {
+	ConsoleOutput.subscribe((value) => {
 		_consoleOutput = value;
 	});
 </script>

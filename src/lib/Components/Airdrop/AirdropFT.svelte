@@ -2,10 +2,10 @@
 	import Card from '$lib/Components/Card/Card.svelte';
 	import {
 		PhantasmaAPIClient,
-		allContracts,
-		consoleOutput,
-		contractMethod,
-		contractName
+		AllContracts,
+		ConsoleOutput,
+		ContractMethod,
+		SelectedContractName
 	} from '$lib/store';
 	import {
 		Base16,

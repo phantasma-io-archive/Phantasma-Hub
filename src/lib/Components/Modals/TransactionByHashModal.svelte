@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PhantasmaAPIClient, consoleOutput } from '$lib/store';
+	import { PhantasmaAPIClient, ConsoleOutput } from '$lib/store';
 	import type { PhantasmaAPI } from 'phantasma-ts/core';
 	import Modal from './Modal.svelte';
 	import { ModalType } from './ModalType';
@@ -18,7 +18,7 @@
 			let result = api.getTransaction(hash);
 			result.then((value) => {
 				console.log(value);
-				consoleOutput.set(JSON.stringify(value, null, 2));
+				ConsoleOutput.set(JSON.stringify(value, null, 2));
 			});
 			dispatch('confirm', hash);
 			close();
@@ -39,7 +39,7 @@
 					name="method"
 					id="method"
 					bind:value={hash}
-					class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+					class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
 				/>

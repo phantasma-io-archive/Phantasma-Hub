@@ -9,7 +9,6 @@ import {
 	VMType
 } from 'phantasma-ts/core';
 import {
-	apiLink,
 	FeeAmount,
 	GasLimit,
 	GasPrice,

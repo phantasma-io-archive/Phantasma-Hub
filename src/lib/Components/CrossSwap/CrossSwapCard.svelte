@@ -1,7 +1,6 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
-	import { apiLink, apiStatus, MainnetURL, SimnetURL, TestnetURL } from '$lib/store';
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 	const change = () => dispatch('change');

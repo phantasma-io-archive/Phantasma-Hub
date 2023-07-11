@@ -5,9 +5,9 @@
 		LinkWallet,
 		LinkDapp,
 		PhantasmaAPIClient,
-		contractDetails,
-		contractName,
-		allContracts
+		ContractDetails,
+		SelectedContractName,
+		AllContracts
 	} from '$lib/store';
 	import type { PhantasmaAPI } from 'phantasma-ts/core';
 	import { onMount } from 'svelte';
@@ -42,13 +42,13 @@
 			contracts.push(token.symbol);
 		});
 		contracts = contracts;
-		allContracts.set(contracts);
+		AllContracts.set(contracts);
 	}
 
 	async function fetchContract(_contractName) {
 		let contractInfo = await api.getContract('main', _contractName);
-		contractDetails.set(contractInfo);
-		contractName.set(_contractName);
+		ContractDetails.set(contractInfo);
+		SelectedContractName.set(_contractName);
 	}
 
 	function selectContract() {

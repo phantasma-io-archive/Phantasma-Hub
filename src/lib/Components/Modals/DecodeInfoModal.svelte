@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { consoleOutput } from '$lib/store';
+	import { ConsoleOutput } from '$lib/store';
 	import { Base16 } from 'phantasma-ts/core';
 	import { DecodeInformation, DecodeStruct, FormatData } from '$lib/Commands/Commands';
 	import Modal from './Modal.svelte';
@@ -16,11 +16,11 @@
 				let decoded = DecodeInformation(information);
 				let formatedData = FormatData(decoded);
 				console.log('formated data: ', formatedData);
-				consoleOutput.set(JSON.stringify(formatedData, null, 2));
+				ConsoleOutput.set(JSON.stringify(formatedData, null, 2));
 			} catch (e) {
 				console.log('error: ', e);
 				let decodedBase16 = Base16.decode(information);
-				consoleOutput.set(JSON.stringify(decodedBase16, null, 2));
+				ConsoleOutput.set(JSON.stringify(decodedBase16, null, 2));
 			}
 
 			dispatch('confirm', information);
@@ -43,7 +43,7 @@
 					name="method"
 					id="method"
 					bind:value={information}
-					class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+					class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
 				/>

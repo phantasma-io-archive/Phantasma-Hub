@@ -1,5 +1,10 @@
 <script lang="ts">
-	import { allContracts, contractDetails, contractName, PhantasmaAPIClient } from '$lib/store';
+	import {
+		AllContracts,
+		ContractDetails,
+		SelectedContractName,
+		PhantasmaAPIClient
+	} from '$lib/store';
 	import type { Balance, Contract, PhantasmaAPI } from 'phantasma-ts/core';
 	import { onMount } from 'svelte';
 	import Card from '../Card/Card.svelte';
@@ -30,10 +35,10 @@
 			localContracts.push(token.symbol);
 		});
 		//localContracts = contracts;
-		allContracts.set(localContracts);
+		AllContracts.set(localContracts);
 	}
 
-	allContracts.subscribe((value) => {
+	AllContracts.subscribe((value) => {
 		contracts = value;
 	});
 
@@ -57,8 +62,8 @@
 
 	async function fetchContract(_contractName) {
 		let contractInfo = await api.getContract('main', _contractName);
-		contractDetails.set(contractInfo);
-		contractName.set(_contractName);
+		ContractDetails.set(contractInfo);
+		SelectedContractName.set(_contractName);
 		contractData = contractInfo;
 		await fetchContractBalances();
 	}

@@ -8,6 +8,11 @@ import { ethers } from 'ethers';
 export const SimnetURL = 'http://127.0.0.1:7077/rpc';
 export const TestnetURL = 'https://testnet.phantasma.io/rpc';
 export const MainnetURL = 'https://bp1.phantasma.io/rpc';
+
+export const SoftwareName = 'Phantasma Hub';
+export const DefaultNetwork = 'testnet';
+export const DefaultAPIURL = TestnetURL;
+
 export const FeeAmount: number = 0.1 * 10 ** 10;
 export const AirdropFee: number = 5.0 * 10 ** 10;
 export const ContractFeeAmount: number = 100 * 10 ** 10;
@@ -18,27 +23,30 @@ export const EthereumProvider: Writable<ethers.BrowserProvider | null> = writabl
 export const EthereumSigner: Writable<ethers.Signer | null> = writable();
 export const EthereumAddress: Writable<string> = writable('');
 
-export const contractName = writable('');
+export const SelectedNexus = writable(DefaultNetwork);
+export const API_URL = writable(DefaultAPIURL);
+
+export const SelectedContractName = writable('');
 export const LinkWallet = writable(new PhantasmaLink('', true));
-export const PhantasmaAPIClient = writable(new PhantasmaAPI(TestnetURL, null, 'testnet'));
+export const PhantasmaAPIClient = writable(new PhantasmaAPI(DefaultAPIURL, null, DefaultNetwork));
 export const LinkDapp = writable('');
-export const activePage = writable('');
-export const apiStatus = writable(false);
-export const apiLink = writable(TestnetURL);
+export const ActivePage = writable('');
+export const APIStatus = writable(false);
+
 
 export const GasPrice = writable(1000000);
 export const GasLimit = writable(21000);
 
-export const leftSidebarMenu = writable(false);
-export const rightSidebarMenu = writable(false);
-export const notifications = writable(false);
-export const walletOpened = writable(false);
+export const LeftSidebarMenu = writable(false);
+export const RightSidebarMenu = writable(false);
+export const Notifications = writable(false);
+export const WalletOpened = writable(false);
 
-export const connectWallet = writable(false);
-export const connectedToWallet = writable(false);
-export const allContracts = writable(Array<string>());
-export const contractDetails: Writable<Contract> = writable();
-export const contractMethod: Writable<ABIMethod | undefined> = writable();
-export const consoleOutput = writable('');
+export const ConnectWallet = writable(false);
+export const ConnectedToWallet = writable(false);
+export const AllContracts = writable(Array<string>());
+export const ContractDetails: Writable<Contract> = writable();
+export const ContractMethod: Writable<ABIMethod | undefined> = writable();
+export const ConsoleOutput = writable('');
 
 export const OpenedModal = writable(ModalInternalTypes.None);

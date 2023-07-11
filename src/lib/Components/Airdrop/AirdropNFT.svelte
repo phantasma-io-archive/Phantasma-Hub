@@ -4,10 +4,10 @@
 		LinkDapp,
 		LinkWallet,
 		PhantasmaAPIClient,
-		allContracts,
-		consoleOutput,
-		contractMethod,
-		contractName
+		AllContracts,
+		ConsoleOutput,
+		ContractMethod,
+		SelectedContractName
 	} from '$lib/store';
 	import {
 		Base16,
@@ -321,7 +321,7 @@
 							name="numberOfUsers"
 							id="numberOfUsers"
 							bind:value={numberOfUsers}
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							placeholder=" "
 							required
 						/>
@@ -339,7 +339,7 @@
 					<div style="position: relative; height:100%;">
 						<div
 							style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 1;"
-							class="block py-2.5 px-0 w-full text-sm bg-transparent border-solid  border-b-2 border-gray-300 appearance-none  dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						>
 							<div style="margin-top: {-scrollTop}px">
 								{@html userAddressessRAWEdited}
@@ -350,7 +350,7 @@
 							id="script"
 							rows="7"
 							style="resize: none;"
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							bind:value={userAddressessRAW}
 							on:change={onListUsersChange}
 							on:keypress={onListUsersChange}

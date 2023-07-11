@@ -7,7 +7,7 @@
 	import { PhantasmaLink } from 'phantasma-ts';
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
-	import { connectWallet } from '$lib/store';
+	import { ConnectWallet } from '$lib/store';
 	import type { Organization } from 'phantasma-ts/core';
 	import { leaveDAO } from '../Wallet/DAOCommands';
 

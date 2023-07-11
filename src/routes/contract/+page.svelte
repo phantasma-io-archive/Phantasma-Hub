@@ -8,13 +8,13 @@
 	import ConnectWalletModal from '$lib/Components/Wallet/ConnectWalletModal.svelte';
 	import MethodSelector from '$lib/Components/Card/MethodSelector.svelte';
 	import ContractArguments from '$lib/Components/Contract/ContractArguments.svelte';
-	import { consoleOutput } from '$lib/store';
+	import { ConsoleOutput } from '$lib/store';
 	import ContractConsole from '$lib/Components/Contract/ContractConsole.svelte';
 
 	let showModal = false;
 	let showModal2 = false;
 	let _consoleOutput = '';
-	consoleOutput.subscribe((value) => {
+	ConsoleOutput.subscribe((value) => {
 		_consoleOutput = value;
 	});
 </script>

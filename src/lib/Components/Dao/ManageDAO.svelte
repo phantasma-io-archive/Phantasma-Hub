@@ -9,7 +9,15 @@
 	import Grid from 'gridjs-svelte';
 	import { h, PluginPosition } from 'gridjs';
 
-	import { apiStatus, GasLimit, GasPrice, LinkWallet, PhantasmaAPIClient } from '$lib/store';
+	import {
+		APIStatus,
+		GasLimit,
+		GasPrice,
+		LinkWallet,
+		PhantasmaAPIClient,
+		API_URL,
+		TestnetURL
+	} from '$lib/store';
 	import type { PhantasmaLink } from 'phantasma-ts';
 	import AddMemberModal from './AddMemberModal.svelte';
 	import LeaveDAOModal from './LeaveDAOModal.svelte';
@@ -27,6 +35,7 @@
 	export let organization_id: string;
 
 	export let organization: Organization | null;
+	let explorer_url = 'https://explorer.phantasma.io/address/';
 	const columnsDefault = [
 		{
 			name: 'ID',
@@ -40,7 +49,7 @@
 					'a',
 					{
 						class: 'text-blue-500 hover:text-blue-700',
-						href: `https://explorer.phantasma.io/address/${cell.data}`,
+						href: `${explorer_url}${cell.data}`,
 						target: '_blank'
 					},
 					cell.data
@@ -100,6 +109,13 @@
 		api = value;
 	});
 
+	let _apiLink: string;
+	API_URL.subscribe((value) => {
+		console.log('apiLink changed');
+		_apiLink = value;
+		SetExplorerURL();
+	});
+
 	let gasPrice = 0;
 	GasPrice.subscribe((value) => {
 		gasPrice = value;
@@ -124,6 +140,14 @@
 			//members = organization.members;
 		}
 	});
+
+	function SetExplorerURL() {
+		if (_apiLink == TestnetURL) {
+			explorer_url = 'https://test-explorer.phantasma.io/address/';
+		} else {
+			explorer_url = 'https://explorer.phantasma.io/address/';
+		}
+	}
 
 	function columnsInDao() {
 		if (addressInDAO && isSpecificDAO) return columnsDefault;

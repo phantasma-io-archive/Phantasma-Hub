@@ -1,18 +1,11 @@
 import {
 	Address,
-	byteArrayToHex,
-	PBinaryWriter,
 	PhantasmaAPI,
-	PollChoice,
 	ScriptBuilder,
 	Token,
-	Transaction,
-	VMType
 } from 'phantasma-ts/core';
 import {
 	AirdropFee,
-	apiLink,
-	FeeAmount,
 	GasLimit,
 	GasPrice,
 	LinkWallet,
@@ -23,18 +16,7 @@ import {
 import type { PhantasmaLink } from 'phantasma-ts';
 import {
 	Base16,
-	ConsensusMode,
-	ConsensusPoll,
-	hexStringToUint8Array,
-	PBinaryReader,
-	PollState,
-	Serialization,
-	stringToUint8Array,
-	Timestamp,
-	uint8ArrayToString,
-	VMObject
 } from 'phantasma-ts/core';
-import { ProofOfWork } from 'phantasma-ts/core/link/phantasmaLink';
 import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
 
 let Link: PhantasmaLink;
