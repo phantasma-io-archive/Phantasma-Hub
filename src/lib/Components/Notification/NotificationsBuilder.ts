@@ -38,8 +38,8 @@ export function NotificationError(title: string, message: string) {
 	});
 }
 
-export function NotificationWarning(message: string) {
-	const finalMessage = '<h5 class="text-orange-800">Warning!</h5>' + message;
+export function NotificationWarning(title: string = "Warning!", message: string) {
+	const finalMessage = `<h5 class="text-orange-800">${title}</h5>${message}`;
 	toast.push(finalMessage, {
 		duration: 3000,
 		theme: {

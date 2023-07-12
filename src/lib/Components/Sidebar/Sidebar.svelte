@@ -1,34 +1,37 @@
 <script lang="ts">
 	import Icon from '@iconify/svelte';
 	import Item from '$lib/Components/Sidebar/Sidebar-Item.svelte';
+	import { CheckURLStatus } from '$lib/Commands/Commands';
 	import {
-		apiStatus,
+		APIStatus,
 		LinkWallet,
-		leftSidebarMenu,
+		LeftSidebarMenu,
 		PhantasmaAPIClient,
 		TestnetURL,
 		MainnetURL,
 		SimnetURL,
-		connectedToWallet,
-		activePage,
-		apiLink,
-		OpenedModal
+		ConnectedToWallet,
+		ActivePage,
+		API_URL,
+		OpenedModal,
+		SoftwareName,
+		DefaultNetwork,
+		DefaultAPIURL
 	} from '$lib/store';
-	import ApiSelector from '$lib/Components/Card/APISelector.svelte';
 	import {
-		Base16,
-		PBinaryReader,
+		PhantasmaLink,
 		PhantasmaAPI,
 		ScriptBuilder,
-		Serialization,
-		Timestamp,
+		PBinaryReader,
+		Base16,
 		VMObject
-	} from 'phantasma-ts/core';
-	import type { PhantasmaLink } from 'phantasma-ts';
+	} from 'phantasma-ts';
 	import { ModalInternalTypes } from '../Modals/ModalInternalTypes';
-	import { NotificationSuccess } from '../Notification/NotificationsBuilder';
+	import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
+	import { onMount } from 'svelte';
 
 	let _apiStatus: boolean;
+	let nexusName: string = DefaultNetwork;
 
 	let _walletStatus: boolean;
 
@@ -36,94 +39,99 @@
 
 	let leftSideNavBarActive: boolean;
 
-	let lastInflationDate: string = new Timestamp(0).toString();
-	let lastMasterClaimDate: string = new Timestamp(0).toString();
+	let lastInflationDate: string = new Date(0).toString();
+	let lastMasterClaimDate: string = new Date(0).toString();
 
 	let Link: PhantasmaLink;
 
 	let api: PhantasmaAPI;
 
-	PhantasmaAPIClient.subscribe((value) => {
-		if (value != null) {
-			apiStatus.set(true);
-		} else {
-			apiStatus.set(false);
-		}
-		api = value;
-		getLastInflationDate();
-		getLastSMDate();
+	onMount(async () => {
+		await connectToAPI();
 	});
 
-	leftSidebarMenu.subscribe((value) => {
+	PhantasmaAPIClient.subscribe(async (value) => {
+		api = value;
+		await getLastInflationDate();
+		await getLastSMDate();
+	});
+
+	LeftSidebarMenu.subscribe((value) => {
 		leftSideNavBarActive = value;
 	});
 
 	function leftSideNavTrigger() {
-		leftSidebarMenu.set(!leftSideNavBarActive);
+		LeftSidebarMenu.set(!leftSideNavBarActive);
 	}
 
-	apiStatus.subscribe((value) => {
+	APIStatus.subscribe((value) => {
 		_apiStatus = value;
 	});
 
 	LinkWallet.subscribe((value) => {
 		Link = value;
 		if (value.account) {
-			connectedToWallet.set(true);
+			ConnectedToWallet.set(true);
 			_walletStatus = true;
 		} else {
-			connectedToWallet.set(false);
+			ConnectedToWallet.set(false);
 			_walletStatus = false;
 		}
 	});
 
-	activePage.subscribe((value) => {
+	ActivePage.subscribe((value) => {
 		activePageItem = value;
 	});
 
-	let selectedAPI = TestnetURL;
+	let selectedAPI = DefaultAPIURL;
 
-	apiLink.subscribe((value) => {
+	API_URL.subscribe((value) => {
 		selectedAPI = value;
 	});
 
-	function connectToAPI() {
-		apiStatus.set(true);
+	async function connectToAPI() {
+		if (await CheckURLStatus(selectedAPI)) {
+			APIStatus.set(true);
+			NotificationSuccess('API Changed', `API has been changed to <b>${nexusName}</b> network.`);
+		} else {
+			APIStatus.set(false);
+			NotificationError('API Changed', `Error changing API to <b>${nexusName}</b> network.`);
+		}
 	}
 
 	function onChangeApi(e) {
-		apiStatus.set(false);
+		APIStatus.set(false);
 		if (e.target.selectedOptions[0].dataset == undefined) return;
-		let nexusName = e.target.selectedOptions[0].dataset.net;
+		nexusName = e.target.selectedOptions[0].dataset.net;
 		PhantasmaAPIClient.set(new PhantasmaAPI(selectedAPI, null, nexusName));
-		apiLink.set(selectedAPI);
+		API_URL.set(selectedAPI);
 		connectToAPI();
-		NotificationSuccess('API Changed', `API has been changed to <b>${nexusName}</b> network.`);
 	}
 
-	function getLastInflationDate() {
+	async function getLastInflationDate() {
 		let sb = new ScriptBuilder();
 		let script = sb.CallContract('gas', 'GetNextInflationDate', []).EndScript();
-		api.invokeRawScript('main', script).then((data) => {
-			let bytes = Base16.decodeUint8Array(data.result);
-			let reader = new PBinaryReader(bytes);
-			let vm = new VMObject();
-			vm.UnserializeData(reader);
-			lastInflationDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
-			//lastInflationDate = Base16.decode(data.result);
-		});
+		console.log('Get Last Inflation Date, Script:', { sb });
+		const result = await api.invokeRawScript('main', script);
+
+		let bytes = Base16.decodeUint8Array(result.result);
+		let reader = new PBinaryReader(bytes);
+		let vm = new VMObject();
+		vm.UnserializeData(reader);
+		lastInflationDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
+		//lastInflationDate = Base16.decode(data.result);
 	}
 
-	function getLastSMDate() {
+	async function getLastSMDate() {
 		let sb = new ScriptBuilder();
 		let script = sb.CallContract('stake', 'GetMasterClaimDate', [1]).EndScript();
-		api.invokeRawScript('main', script).then((data) => {
-			let bytes = Base16.decodeUint8Array(data.result);
-			let reader = new PBinaryReader(bytes);
-			let vm = new VMObject();
-			vm.UnserializeData(reader);
-			lastMasterClaimDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
-		});
+		console.log('Get Master Claim Date, Script:', { sb });
+		const data = await api.invokeRawScript('main', script);
+		let bytes = Base16.decodeUint8Array(data.result);
+		let reader = new PBinaryReader(bytes);
+		let vm = new VMObject();
+		vm.UnserializeData(reader);
+		lastMasterClaimDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
 	}
 
 	function openSendTokensModal() {
@@ -167,7 +175,8 @@
 		}*/
 	}
 
-	getLastInflationDate();
+	//getLastInflationDate();
+	//doNothing();
 </script>
 
 <!-- sidenav  -->
@@ -196,7 +205,7 @@
 				alt="main_logo"
 			/>
 			<span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand"
-				>Phantasma Hub</span
+				>{SoftwareName}</span
 			>
 		</a>
 	</div>

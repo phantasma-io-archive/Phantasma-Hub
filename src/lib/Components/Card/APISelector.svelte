@@ -2,33 +2,34 @@
 	import Icon from '@iconify/svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
 	import {
-		apiLink,
-		apiStatus,
+		API_URL,
+		APIStatus,
 		MainnetURL,
 		PhantasmaAPIClient,
 		SimnetURL,
-		TestnetURL
+		TestnetURL,
+		DefaultAPIURL
 	} from '$lib/store';
 	import { NotificationSuccess } from '../Notification/NotificationsBuilder';
-	import { PhantasmaAPI } from 'phantasma-ts/core';
+	import { PhantasmaAPI } from 'phantasma-ts';
 
-	let selectedAPI: string = TestnetURL;
+	let selectedAPI: string = DefaultAPIURL;
 
-	apiLink.subscribe((value) => {
+	API_URL.subscribe((value) => {
 		selectedAPI = value;
 	});
 
 	function connectToAPI() {
-		apiStatus.set(true);
+		APIStatus.set(true);
 	}
 
 	function onChangeApi(e) {
 		console.log('API Changed to: ' + selectedAPI);
-		apiStatus.set(false);
+		APIStatus.set(false);
 		if (e.target.selectedOptions[0].dataset == undefined) return;
 		let nexusName = e.target.selectedOptions[0].dataset.net;
 		PhantasmaAPIClient.set(new PhantasmaAPI(selectedAPI, null, nexusName));
-		apiLink.set(selectedAPI);
+		API_URL.set(selectedAPI);
 		connectToAPI();
 		NotificationSuccess('API Changed', `API has been changed to <b>${nexusName}</b> network.`);
 	}

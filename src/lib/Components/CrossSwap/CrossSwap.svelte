@@ -2,10 +2,10 @@
 	import Card from '$lib/Components/Card/Card.svelte';
 	import {
 		PhantasmaAPIClient,
-		allContracts,
-		consoleOutput,
-		contractMethod,
-		contractName
+		AllContracts,
+		ConsoleOutput,
+		ContractMethod,
+		SelectedContractName
 	} from '$lib/store';
 	import {
 		Base16,
@@ -17,7 +17,7 @@
 	} from 'phantasma-ts/core';
 	import { onMount } from 'svelte';
 	import { NotificationError } from '../Notification/NotificationsBuilder';
-	import { ConnectToMetamask, removeHTMLEntities } from '$lib/Commands/Commands';
+	import { ConnectToMetamask } from '$lib/Commands/EthCommands';
 	import { ethers } from 'ethers';
 	let api: PhantasmaAPI;
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { allContracts } from '$lib/store';
+	import { AllContracts } from '$lib/store';
 	import Notification from '../Notification/Notification.svelte';
 	import { NotificationError } from '../Notification/NotificationsBuilder';
 	import Modal from './Modal.svelte';
@@ -10,7 +10,7 @@
 	let owner = '';
 	let selectContract = '';
 	let contracts: Array<string>;
-	allContracts.subscribe((value) => {
+	AllContracts.subscribe((value) => {
 		contracts = value;
 	});
 
@@ -56,7 +56,7 @@
 					name="method"
 					id="method"
 					bind:value={owner}
-					class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+					class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					placeholder=" "
 					required
 				/>

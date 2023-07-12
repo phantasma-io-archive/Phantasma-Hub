@@ -7,7 +7,7 @@
 	import { PhantasmaLink } from 'phantasma-ts';
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
-	import { connectWallet } from '$lib/store';
+	import { ConnectWallet } from '$lib/store';
 	import type { Organization } from 'phantasma-ts/core';
 	import { addMember } from '../Wallet/DAOCommands';
 
@@ -35,7 +35,7 @@
 							id="script"
 							rows="7"
 							bind:value={scriptAdd}
-							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid  border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							placeholder=" "
 							required
 						/>

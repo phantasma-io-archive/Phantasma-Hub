@@ -25,7 +25,7 @@
 	import moment from 'moment';
 	import bigInt from 'big-integer';
 	import { beforeUpdate, onMount, tick } from 'svelte';
-	import { LinkWallet } from '$lib/store';
+	import { DateTimeFormat, LinkWallet } from '$lib/store';
 	//import { e } from 'vitest/dist/index-5aad25c1';
 
 	/**
@@ -45,6 +45,7 @@
 
 	let startTime;
 	let endTime;
+	let timeNow: number = Timestamp.now / 1000;
 
 	let choices: PollChoice[] = new Array<PollChoice>();
 	let entries: PollValue[] = new Array<PollValue>();
@@ -53,11 +54,12 @@
 	beforeUpdate(async () => {
 		initDates();
 		initChoices();
+		initPollState();
 	});
 
 	function initDates() {
-		startTime = moment(poll.startTime.value * 1000).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
-		endTime = moment(poll.endTime.value * 1000).format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
+		startTime = moment(poll.startTime.value * 1000).format(DateTimeFormat);
+		endTime = moment(poll.endTime.value * 1000).format(DateTimeFormat);
 	}
 
 	function initChoices() {
@@ -97,15 +99,31 @@
 		selected = event.target.value;
 	}
 
+	function initPollState() {
+		if (PollState.Inactive == poll.state) {
+			console.log(
+				poll.startTime.value <= timeNow,
+				poll.endTime.value >= timeNow,
+				poll.startTime.value,
+				poll.endTime.value,
+				timeNow
+			);
+			if (poll.startTime.value <= timeNow && poll.endTime.value >= timeNow) {
+				poll.state = PollState.Active;
+			}
+		}
+	}
+
 	initDates();
 	initChoices();
+	initPollState();
 </script>
 
 <Card
 	size="xl"
 	title="Consensus Poll Details"
 	description="Consensus Poll details for {poll.subject}{poll.endTime.value * 1000 >= Timestamp.now
-		? ` (${moment(poll.endTime.value * 1000).fromNow()})`
+		? ` (Finish ${moment(poll.endTime.value * 1000).fromNow()})`
 		: ''}."
 >
 	<div class="my-1">

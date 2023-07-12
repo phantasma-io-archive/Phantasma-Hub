@@ -5,8 +5,8 @@
 		LinkWallet,
 		LinkDapp,
 		PhantasmaAPIClient,
-		contractDetails,
-		contractMethod
+		ContractDetails,
+		ContractMethod
 	} from '$lib/store';
 	import type { Contract, PhantasmaAPI } from 'phantasma-ts/core';
 	import { onMount } from 'svelte';
@@ -25,7 +25,7 @@
 	});
 
 	let contractInfo: Contract;
-	contractDetails.subscribe((value) => {
+	ContractDetails.subscribe((value) => {
 		contractInfo = value;
 		if (value != null) {
 			console.log({ contractInfo });
@@ -42,7 +42,7 @@
 		console.log(selectedMethod);
 		if (contractInfo != null && contractInfo.methods != null) {
 			const methodSelected = contractInfo.methods.find((method) => method.name == selectedMethod);
-			contractMethod.set(methodSelected);
+			ContractMethod.set(methodSelected);
 		}
 	}
 </script>

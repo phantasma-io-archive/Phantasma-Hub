@@ -7,7 +7,7 @@
 	import Footer from '$lib/Components/Footer/Footer.svelte';
 	import Modal from '$lib/Components/Modals/Modal.svelte';
 	import ConnectWalletModal from '$lib/Components/Wallet/ConnectWalletModal.svelte';
-	import { connectWallet, OpenedModal, PhantasmaAPIClient } from '$lib/store';
+	import { ConnectWallet, OpenedModal, PhantasmaAPIClient, SoftwareName } from '$lib/store';
 	import { PhantasmaAPI } from 'phantasma-ts/src/core';
 	import { NotificationsOptions } from '$lib/Components/Notification/NotificationsBuilder';
 	import { SvelteToast } from '@zerodevx/svelte-toast';
@@ -19,12 +19,12 @@
 
 	let showConnectWalletModal: boolean;
 	let hash = '';
-	connectWallet.subscribe((value) => {
+	ConnectWallet.subscribe((value) => {
 		showConnectWalletModal = value;
 	});
 
 	function closeConnectWallet() {
-		connectWallet.set(!showConnectWalletModal);
+		ConnectWallet.set(!showConnectWalletModal);
 	}
 
 	function closeModal() {
@@ -35,6 +35,7 @@
 	OpenedModal.subscribe((value) => {
 		openedModal = value;
 	});
+
 	/*
 	// This was a painful solution to find.
 	import { Buffer } from 'buffer';
@@ -43,7 +44,7 @@
 </script>
 
 <svelte:head>
-	<title>Phantasma Hub</title>
+	<title>{SoftwareName}</title>
 </svelte:head>
 <Sidebar />
 

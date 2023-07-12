@@ -5,10 +5,13 @@
 	import type { PhantasmaLink } from 'phantasma-ts';
 	import { Address, Base16, Transaction } from 'phantasma-ts/core';
 	import { createDAO } from '$lib/Components/Wallet/DAOCommands';
+	import { NotificationError, NotificationWarning } from '../Notification/NotificationsBuilder';
 	let org_id;
 	let org_name;
 	let org_script;
-	let org_id_error: boolean = false;
+	let org_id_error: boolean = true;
+	let org_name_error: boolean = true;
+	let org_script_error: boolean = false;
 
 	let connected = false;
 
@@ -25,9 +28,59 @@
 		transaction = Transaction.Unserialize(decoded);
 	}*/
 
+	function IsValidOrganizationID(): boolean {
+		if (!org_id) {
+			return false;
+		}
+
+		if (org_id_error) {
+			return false;
+		}
+
+		return true;
+	}
+
+	function IsValidOrganizationName(){
+		if (!org_name) {
+			return false;
+		}
+
+		if ( isEmpty(org_name) ) {
+			return false;
+		}
+
+		if (org_name_error) {
+			return false;
+		}
+
+		return true;
+	}
+
+	function onChangeDAOName(e) {
+		org_name_error = false;
+ 		if ( isEmpty(org_name) ) {
+			org_name_error = true;
+			return;
+		}
+	}
+
 	function createDAOCall() {
-		console.log('createDAO');
+		if (!IsValidOrganizationID()) {
+			NotificationWarning('DAO Warning!', 'The <b>Organization ID</b> is not valid.');
+			return;
+		}
+
+		if (!IsValidOrganizationName()) {
+			NotificationWarning('DAO Warning!', 'The <b>Organization Name</b> is not valid.');
+			return;
+		}
+
 		createDAO(org_id, org_name, org_script);
+	}
+
+
+	function isEmpty(str: string): boolean {
+		return !str || 0 === str.length;
 	}
 
 	function isAllLowerCase(str: string): boolean {
@@ -46,6 +99,11 @@
 		org_id_error = false;
 
 		if (e.target.value) {
+			if (isEmpty(e.target.value)) {
+				org_id_error = true;
+				return;
+			}
+
 			// Check if the ID is valid
 			if (!isAllLowerCase(e.target.value)) {
 				org_id_error = true;
@@ -103,6 +161,9 @@
 						name="name"
 						id="name"
 						bind:value={org_name}
+						on:change={onChangeDAOName}
+						on:keydown={onChangeDAOName}
+						class:error_org_id={org_name_error}
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required
@@ -124,7 +185,6 @@
 						bind:value={org_script}
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
-						required
 					/>
 					<label
 						for="script"
@@ -139,6 +199,7 @@
 			{#if connected}
 				<button
 					on:click={createDAOCall}
+					class:disable_button={org_script_error || org_id_error || org_name_error}
 					class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none
              focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
 					>Create DAO</button
@@ -153,5 +214,10 @@
 <style>
 	.error_org_id {
 		color: red;
+	}
+
+	.disable_button {
+		pointer-events: none;
+		opacity: 0.4;
 	}
 </style>

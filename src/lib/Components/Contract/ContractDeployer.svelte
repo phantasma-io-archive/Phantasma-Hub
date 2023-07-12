@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { allContracts, connectedToWallet, connectWallet, walletOpened } from '$lib/store';
+	import { AllContracts, ConnectedToWallet, ConnectWallet, WalletOpened } from '$lib/store';
 	import { Base16, byteArrayToHex, uint8ArrayToHex } from 'phantasma-ts/core';
 	import Card from '../Card/Card.svelte';
 	import { CreateToken, DeployContract, UpgradeContract } from './ContractCommands';
@@ -18,11 +18,11 @@
 
 	let contracts: Array<string>;
 
-	allContracts.subscribe((value) => {
+	AllContracts.subscribe((value) => {
 		contracts = value;
 	});
 
-	connectedToWallet.subscribe((value) => {
+	ConnectedToWallet.subscribe((value) => {
 		console.log(value);
 		connected = value;
 	});

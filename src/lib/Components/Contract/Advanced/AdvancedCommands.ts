@@ -9,7 +9,6 @@ import {
 	VMType
 } from 'phantasma-ts/core';
 import {
-	apiLink,
 	FeeAmount,
 	GasLimit,
 	GasPrice,
@@ -21,18 +20,7 @@ import {
 import type { PhantasmaLink } from 'phantasma-ts';
 import {
 	Base16,
-	ConsensusMode,
-	ConsensusPoll,
-	hexStringToUint8Array,
-	PBinaryReader,
-	PollState,
-	Serialization,
-	stringToUint8Array,
-	Timestamp,
-	uint8ArrayToString,
-	VMObject
 } from 'phantasma-ts/core';
-import { ProofOfWork } from 'phantasma-ts/core/link/phantasmaLink';
 import {
 	NotificationError,
 	NotificationSuccess

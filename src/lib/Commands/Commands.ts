@@ -1,18 +1,5 @@
+import { Address, PhantasmaAPI, ScriptBuilder } from 'phantasma-ts/core';
 import {
-	Address,
-	byteArrayToHex,
-	PBinaryWriter,
-	PhantasmaAPI,
-	PollChoice,
-	ScriptBuilder,
-	Transaction,
-	VMType
-} from 'phantasma-ts/core';
-import {
-	apiLink,
-	EthereumAddress,
-	EthereumProvider,
-	EthereumSigner,
 	FeeAmount,
 	GasLimit,
 	GasPrice,
@@ -22,19 +9,7 @@ import {
 	TipAddress
 } from '$lib/store';
 import type { PhantasmaLink } from 'phantasma-ts';
-import {
-	Base16,
-	ConsensusMode,
-	ConsensusPoll,
-	hexStringToUint8Array,
-	PBinaryReader,
-	PollState,
-	Serialization,
-	stringToUint8Array,
-	Timestamp,
-	uint8ArrayToString,
-	VMObject
-} from 'phantasma-ts/core';
+import { Base16, PBinaryReader, VMObject } from 'phantasma-ts/core';
 import {
 	NotificationError,
 	NotificationSuccess
@@ -357,76 +332,14 @@ export function FormatData(vm: VMObject): any {
 	);
 }*/
 
-let provider: ethers.BrowserProvider | null = null;
-let signer: ethers.Signer | null = null;
-let account: string | null = null;
-EthereumProvider.subscribe((_provider) => {
-	provider = _provider;
-});
-
-EthereumSigner.subscribe((_signer) => {
-	signer = _signer;
-});
-
-EthereumAddress.subscribe((_account) => {
-	account = _account;
-});
-
-export async function ConnectToMetamask() {
-	if (typeof window.ethereum !== 'undefined') {
-		provider = new ethers.BrowserProvider(window.ethereum);
-		await provider.send('eth_requestAccounts', []);
-
-		signer = await provider.getSigner();
-		account = await signer.getAddress();
-
-		EthereumSigner.set(signer);
-		EthereumProvider.set(provider);
-		EthereumAddress.set(account);
-
-		console.log('Connected to MetaMask');
-		console.log('Account:', account);
-		console.log('balances', await signer.provider.getBalance(account));
-		NotificationSuccess('Wallet Connected!', 'You are now connected to MetaMask.');
-	} else {
-		NotificationError('Wallet Error!', 'Please install MetaMask first.');
+export async function CheckURLStatus(url: string): Promise<boolean> {
+	try {
+		const response = await fetch(url.replace('rpc', 'api/v1/health'));
+		if (response.status == 200 || response.status == 405) {
+			return true;
+		}
+		return false;
+	} catch (error) {
+		return false;
 	}
-}
-
-export async function DisconnectFromMetamask() {
-	if (typeof window.ethereum !== 'undefined') {
-		await provider?.send('eth_requestAccounts', []);
-		signer = null;
-		account = null;
-
-		EthereumSigner.set(signer);
-		EthereumProvider.set(provider);
-		EthereumAddress.set(account);
-
-		console.log('Disconnected from MetaMask');
-		NotificationSuccess('Wallet Disconnected!', 'You are now disconnected from MetaMask.');
-	} else {
-		NotificationError('Wallet Error!', 'Please install MetaMask first.');
-	}
-}
-
-export async function SendTransactionEthereum(to: string) {
-	if (!signer) {
-		NotificationError('Wallet Error!', 'Please connect your wallet first.');
-		return;
-	}
-
-	const transactionRequest: ethers.TransactionRequest = {
-		from: account,
-		to: to,
-		value: ethers.parseEther('0.01'),
-		gasPrice: ethers.parseUnits('20', 'gwei'),
-		gasLimit: 21000
-	};
-
-	provider.getTransactionCount(account).then((nonce) => {
-		transactionRequest.nonce = nonce;
-	});
-	//provider.getTransaction()
-	const tx = await signer.sendTransaction(transactionRequest);
 }

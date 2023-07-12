@@ -3,11 +3,11 @@
 	import { ModalType } from '$lib/Components//Modals/ModalType';
 	import Icon from '@iconify/svelte';
 
-	import { LinkWallet, LinkDapp } from '$lib/store';
+	import { LinkWallet, LinkDapp, SoftwareName } from '$lib/store';
 	import { PhantasmaLink } from 'phantasma-ts';
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
-	import { connectWallet } from '$lib/store';
+	import { ConnectWallet } from '$lib/store';
 	import {
 		NotificationError,
 		NotificationSuccess
@@ -30,7 +30,7 @@
 			function (success) {
 				NotificationSuccess('Wallet connected!', "You're now connected to your wallet.");
 				LinkWallet.set(Link);
-				connectWallet.set(false);
+				ConnectWallet.set(false);
 				// @ts-ignore
 			},
 			function (error) {
@@ -43,7 +43,7 @@
 		);
 	};
 
-	LinkWallet.set(new PhantasmaLink('Phantasma-Hub', true));
+	LinkWallet.set(new PhantasmaLink(SoftwareName, true));
 </script>
 
 <Modal title="Connect wallet" modalType={_modalType} on:close={close}>

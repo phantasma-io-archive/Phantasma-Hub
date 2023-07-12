@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Card from '$lib/Components/Card/Card.svelte';
-	import { consoleOutput, contractMethod, contractName } from '$lib/store';
+	import { ConsoleOutput, ContractMethod, SelectedContractName } from '$lib/store';
 	import { Base16, type ABIMethod, type ABIParameter } from 'phantasma-ts/core';
 	import { DecodeInformation, DecodeStruct, FormatData } from '$lib/Commands/Commands';
 	import {
@@ -23,10 +23,10 @@
 				let formatedData = FormatData(decoded);
 				resultsArray.push(formatedData);
 				console.log('formated data: ', formatedData);
-				consoleOutput.set(JSON.stringify(resultsArray, null, 2));
+				ConsoleOutput.set(JSON.stringify(resultsArray, null, 2));
 			} catch (e) {
 				console.log('error: ', e);
-				consoleOutput.set(JSON.stringify(result, null, 2));
+				ConsoleOutput.set(JSON.stringify(result, null, 2));
 			}
 		});
 	}
@@ -37,7 +37,7 @@
 			(result) => {
 				// Get Transaction Result by Hash
 				console.log(result);
-				consoleOutput.set(JSON.stringify(result, null, 2));
+				ConsoleOutput.set(JSON.stringify(result, null, 2));
 			},
 			(error) => {
 				console.log(error);

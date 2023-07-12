@@ -2,13 +2,13 @@
 	import Icon from '@iconify/svelte';
 	import Notification from '$lib/Components/Notification/Notification.svelte';
 	import {
-		activePage,
-		notifications,
-		leftSidebarMenu,
-		rightSidebarMenu,
-		connectWallet,
+		ActivePage,
+		Notifications,
+		LeftSidebarMenu,
+		RightSidebarMenu,
+		ConnectWallet,
 		LinkWallet,
-		walletOpened
+		WalletOpened
 	} from '$lib/store';
 	import ConnectWalletModal from '$lib/Components/Wallet/ConnectWalletModal.svelte';
 	import { PhantasmaLink } from 'phantasma-ts';
@@ -17,45 +17,45 @@
 	 * @type {string}
 	 */
 	let activePageItem: string;
-	activePage.subscribe((value) => {
+	ActivePage.subscribe((value) => {
 		activePageItem = value;
 	});
 
 	let notificationsActive: boolean;
-	notifications.subscribe((value) => {
+	Notifications.subscribe((value) => {
 		notificationsActive = value;
 	});
 
 	function notificationTrigger() {
-		notifications.set(!notificationsActive);
+		Notifications.set(!notificationsActive);
 	}
 
 	let leftSideNavBarActive: boolean;
-	leftSidebarMenu.subscribe((value) => {
+	LeftSidebarMenu.subscribe((value) => {
 		leftSideNavBarActive = value;
 	});
 
 	function leftSideNavTrigger() {
-		leftSidebarMenu.set(!leftSideNavBarActive);
+		LeftSidebarMenu.set(!leftSideNavBarActive);
 	}
 
 	let rightSideNavBarActive: boolean;
-	rightSidebarMenu.subscribe((value) => {
+	RightSidebarMenu.subscribe((value) => {
 		rightSideNavBarActive = value;
 	});
 
 	function rightSideNavTrigger() {
-		rightSidebarMenu.set(!rightSideNavBarActive);
+		RightSidebarMenu.set(!rightSideNavBarActive);
 	}
 
 	let showConnectWalletModal: boolean;
-	connectWallet.subscribe((value) => {
+	ConnectWallet.subscribe((value) => {
 		showConnectWalletModal = value;
 	});
 
 	function connectToWallet() {
 		// Show popup modal
-		if (!showConnectWalletModal) connectWallet.set(true);
+		if (!showConnectWalletModal) ConnectWallet.set(true);
 	}
 
 	function disconnectWallet() {
@@ -65,10 +65,7 @@
 
 	let _walletStatus: boolean;
 
-	/**
-	 * @type {import("phantasma-ts").PhantasmaLink}
-	 */
-	let Link;
+	let Link : PhantasmaLink;
 
 	LinkWallet.subscribe((value) => {
 		Link = value;
@@ -77,11 +74,11 @@
 	});
 
 	let walletOpenedActive: boolean;
-	walletOpened.subscribe((value) => {
+	WalletOpened.subscribe((value) => {
 		walletOpenedActive = value;
 	});
 	function walletTrigger() {
-		walletOpened.set(!walletOpenedActive);
+		WalletOpened.set(!walletOpenedActive);
 	}
 </script>
 
@@ -147,10 +144,10 @@
 							class:transform-dropdown-show={walletOpenedActive}
 							class:opacity-0={!walletOpenedActive}
 							class:before:-top-5={!walletOpenedActive}
-							class="text-sm transform-dropdown before:font-awesome before:leading-default before:duration-350 before:ease-soft 
-                lg:shadow-soft-3xl duration-250 min-w-[10%] w-[18rem] before:sm:right-7.5 before:text-5.5 pointer-events-none absolute right-10 top-0 z-50 origin-top 
-                list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 transition-all 
-                before:absolute before:right-8 before:left-auto before:top-0 before:z-50 before:inline-block before:font-normal opacity-0 before:text-white 
+							class="text-sm transform-dropdown before:font-awesome before:leading-default before:duration-350 before:ease-soft
+                lg:shadow-soft-3xl duration-250 min-w-[10%] w-[18rem] before:sm:right-7.5 before:text-5.5 pointer-events-none absolute right-10 top-0 z-50 origin-top
+                list-none rounded-lg border-0 border-solid border-transparent bg-white bg-clip-padding px-2 py-4 text-left text-slate-500 transition-all
+                before:absolute before:right-8 before:left-auto before:top-0 before:z-50 before:inline-block before:font-normal opacity-0 before:text-white
                 before:antialiased before:transition-all before:content-['\f0d8'] sm:-mr-8 lg:absolute lg:right-20 lg:left-auto lg:mt-2 lg:block lg:cursor-pointer"
 						>
 							<!-- add show class on dropdown open js -->
