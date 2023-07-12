@@ -4,8 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "npm run version:update && vite dev --cors true",
-		"version:update": "node version.js",
-		"prebuild": "node scripts/generate-package.js",
+		"version:update": "node scripts/version.js",
 		"build": "npm run version:update && vite build",
 		"preview": "npm run version:update && vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -49,6 +48,6 @@
 		"iconify": "^1.4.0",
 		"moment": "^2.29.4",
 		"path-browserify": "^1.0.1",
-		"phantasma-ts": "^0.1.52"
+		"phantasma-ts": "^0.1.59"
 	}
 }

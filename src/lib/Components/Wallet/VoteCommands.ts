@@ -13,13 +13,9 @@ import {
 	Base16,
 	ConsensusMode,
 	ConsensusPoll,
-	hexStringToUint8Array,
 	PBinaryReader,
-	PollState,
 	Serialization,
-	stringToUint8Array,
 	Timestamp,
-	uint8ArrayToString,
 	VMObject
 } from 'phantasma-ts/core';
 import {

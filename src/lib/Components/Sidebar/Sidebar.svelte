@@ -19,14 +19,13 @@
 		DefaultAPIURL
 	} from '$lib/store';
 	import {
-		Base16,
-		PBinaryReader,
+		PhantasmaLink,
 		PhantasmaAPI,
 		ScriptBuilder,
-		Timestamp,
+		PBinaryReader,
+		Base16,
 		VMObject
-	} from 'phantasma-ts/core';
-	import type { PhantasmaLink } from 'phantasma-ts';
+	} from 'phantasma-ts';
 	import { ModalInternalTypes } from '../Modals/ModalInternalTypes';
 	import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
 	import { onMount } from 'svelte';
@@ -40,21 +39,21 @@
 
 	let leftSideNavBarActive: boolean;
 
-	let lastInflationDate: string = new Timestamp(0).toString();
-	let lastMasterClaimDate: string = new Timestamp(0).toString();
+	let lastInflationDate: string = new Date(0).toString();
+	let lastMasterClaimDate: string = new Date(0).toString();
 
 	let Link: PhantasmaLink;
 
 	let api: PhantasmaAPI;
 
 	onMount(async () => {
-		connectToAPI();
+		await connectToAPI();
 	});
 
-	PhantasmaAPIClient.subscribe((value) => {
+	PhantasmaAPIClient.subscribe(async (value) => {
 		api = value;
-		getLastInflationDate();
-		getLastSMDate();
+		await getLastInflationDate();
+		await getLastSMDate();
 	});
 
 	LeftSidebarMenu.subscribe((value) => {
@@ -109,29 +108,30 @@
 		connectToAPI();
 	}
 
-	function getLastInflationDate() {
+	async function getLastInflationDate() {
 		let sb = new ScriptBuilder();
 		let script = sb.CallContract('gas', 'GetNextInflationDate', []).EndScript();
-		api.invokeRawScript('main', script).then((data) => {
-			let bytes = Base16.decodeUint8Array(data.result);
-			let reader = new PBinaryReader(bytes);
-			let vm = new VMObject();
-			vm.UnserializeData(reader);
-			lastInflationDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
-			//lastInflationDate = Base16.decode(data.result);
-		});
+		console.log('Get Last Inflation Date, Script:', { sb });
+		const result = await api.invokeRawScript('main', script);
+
+		let bytes = Base16.decodeUint8Array(result.result);
+		let reader = new PBinaryReader(bytes);
+		let vm = new VMObject();
+		vm.UnserializeData(reader);
+		lastInflationDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
+		//lastInflationDate = Base16.decode(data.result);
 	}
 
-	function getLastSMDate() {
+	async function getLastSMDate() {
 		let sb = new ScriptBuilder();
 		let script = sb.CallContract('stake', 'GetMasterClaimDate', [1]).EndScript();
-		api.invokeRawScript('main', script).then((data) => {
-			let bytes = Base16.decodeUint8Array(data.result);
-			let reader = new PBinaryReader(bytes);
-			let vm = new VMObject();
-			vm.UnserializeData(reader);
-			lastMasterClaimDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
-		});
+		console.log('Get Master Claim Date, Script:', { sb });
+		const data = await api.invokeRawScript('main', script);
+		let bytes = Base16.decodeUint8Array(data.result);
+		let reader = new PBinaryReader(bytes);
+		let vm = new VMObject();
+		vm.UnserializeData(reader);
+		lastMasterClaimDate = new Date(vm.AsTimestamp().value * 1000).toDateString();
 	}
 
 	function openSendTokensModal() {
@@ -175,7 +175,8 @@
 		}*/
 	}
 
-	getLastInflationDate();
+	//getLastInflationDate();
+	//doNothing();
 </script>
 
 <!-- sidenav  -->

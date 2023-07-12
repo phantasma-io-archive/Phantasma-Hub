@@ -7,10 +7,11 @@
 		MainnetURL,
 		PhantasmaAPIClient,
 		SimnetURL,
-		TestnetURL
+		TestnetURL,
+		DefaultAPIURL
 	} from '$lib/store';
 	import { NotificationSuccess } from '../Notification/NotificationsBuilder';
-	import { PhantasmaAPI } from 'phantasma-ts/core';
+	import { PhantasmaAPI } from 'phantasma-ts';
 
 	let selectedAPI: string = DefaultAPIURL;
 

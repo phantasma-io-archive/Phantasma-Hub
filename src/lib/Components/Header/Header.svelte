@@ -65,10 +65,7 @@
 
 	let _walletStatus: boolean;
 
-	/**
-	 * @type {import("phantasma-ts").PhantasmaLink}
-	 */
-	let Link;
+	let Link : PhantasmaLink;
 
 	LinkWallet.subscribe((value) => {
 		Link = value;

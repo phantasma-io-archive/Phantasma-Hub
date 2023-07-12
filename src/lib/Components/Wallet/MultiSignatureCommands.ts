@@ -12,16 +12,7 @@ import { GasLimit, GasPrice, LinkWallet, PhantasmaAPIClient } from '$lib/store';
 import type { PhantasmaLink } from 'phantasma-ts';
 import {
 	Base16,
-	ConsensusMode,
-	ConsensusPoll,
-	hexStringToUint8Array,
-	PBinaryReader,
-	PollState,
 	Serialization,
-	stringToUint8Array,
-	Timestamp,
-	uint8ArrayToString,
-	VMObject
 } from 'phantasma-ts/core';
 import {
 	NotificationError,
