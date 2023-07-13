@@ -18,14 +18,8 @@
 		DefaultNetwork,
 		DefaultAPIURL
 	} from '$lib/store';
-	import {
-		PhantasmaLink,
-		PhantasmaAPI,
-		ScriptBuilder,
-		PBinaryReader,
-		Base16,
-		VMObject
-	} from 'phantasma-ts';
+	import { PhantasmaLink, PhantasmaAPI } from 'phantasma-ts';
+	import { ScriptBuilder, PBinaryReader, Base16, VMObject } from 'phantasma-ts/src';
 	import { ModalInternalTypes } from '../Modals/ModalInternalTypes';
 	import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
 	import { onMount } from 'svelte';

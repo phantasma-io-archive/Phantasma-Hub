@@ -14,7 +14,7 @@
 		Address,
 		PhantasmaAPI,
 		type Token
-	} from 'phantasma-ts/core';
+	} from 'phantasma-ts/src';
 	import { onMount } from 'svelte';
 	import { NotificationError } from '../Notification/NotificationsBuilder';
 	import { ConnectToMetamask } from '$lib/Commands/EthCommands';

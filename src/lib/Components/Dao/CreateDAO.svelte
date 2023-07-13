@@ -3,7 +3,7 @@
 	import { LinkWallet } from '$lib/store';
 	import moment from 'moment';
 	import type { PhantasmaLink } from 'phantasma-ts';
-	import { Address, Base16, Transaction } from 'phantasma-ts/core';
+	import { Address, Base16, Transaction } from 'phantasma-ts/src';
 	import { createDAO } from '$lib/Components/Wallet/DAOCommands';
 	import { NotificationError, NotificationWarning } from '../Notification/NotificationsBuilder';
 	let org_id;
@@ -40,12 +40,12 @@
 		return true;
 	}
 
-	function IsValidOrganizationName(){
+	function IsValidOrganizationName() {
 		if (!org_name) {
 			return false;
 		}
 
-		if ( isEmpty(org_name) ) {
+		if (isEmpty(org_name)) {
 			return false;
 		}
 
@@ -58,7 +58,7 @@
 
 	function onChangeDAOName(e) {
 		org_name_error = false;
- 		if ( isEmpty(org_name) ) {
+		if (isEmpty(org_name)) {
 			org_name_error = true;
 			return;
 		}
@@ -77,7 +77,6 @@
 
 		createDAO(org_id, org_name, org_script);
 	}
-
 
 	function isEmpty(str: string): boolean {
 		return !str || 0 === str.length;

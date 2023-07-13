@@ -3,9 +3,9 @@
 	import { Buffer } from 'buffer';
 	globalThis.Buffer = Buffer;
 
-	import { ScriptBuilder, Decoder } from 'phantasma-ts/src/core/vm';
-	import { phantasmaJS, PhantasmaLink } from 'phantasma-ts';
-	import { Address } from 'phantasma-ts/src/core';
+	import { ScriptBuilder, Decoder, generateNewWif } from 'phantasma-ts/src';
+	import { PhantasmaLink } from 'phantasma-ts';
+	import { Address } from 'phantasma-ts/src';
 	//global = window;
 	let Link: PhantasmaLink;
 	LinkWallet.subscribe((value) => {
@@ -221,7 +221,7 @@
 	}*/
 
 	function getMyNewWif() {
-		console.log(phantasmaJS.generateNewWif());
+		console.log(generateNewWif());
 	}
 </script>
 

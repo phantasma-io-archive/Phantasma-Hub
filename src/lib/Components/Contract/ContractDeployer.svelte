@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { AllContracts, ConnectedToWallet, ConnectWallet, WalletOpened } from '$lib/store';
-	import { Base16, byteArrayToHex, uint8ArrayToHex } from 'phantasma-ts/core';
+	import { Base16, byteArrayToHex, uint8ArrayToHex } from 'phantasma-ts/src';
 	import Card from '../Card/Card.svelte';
 	import { CreateToken, DeployContract, UpgradeContract } from './ContractCommands';
 	let contractName: string = '';

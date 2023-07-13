@@ -27,7 +27,7 @@
 		type Balance,
 		type Organization,
 		type PhantasmaAPI
-	} from 'phantasma-ts/core';
+	} from 'phantasma-ts/src';
 	import { leaveDAO } from '../Wallet/DAOCommands';
 	import RemoveMemberModal from './RemoveMemberModal.svelte';
 	import AddMemberScriptModal from './AddMemberScriptModal.svelte';

@@ -5,7 +5,7 @@
 	import { initPoll } from '$lib/Components/Wallet/VoteCommands';
 	import { slide } from 'svelte/transition';
 	import PollDetails from './PollDetails.svelte';
-	import { phantasmaJS, PhantasmaLink } from 'phantasma-ts';
+	import { PhantasmaLink } from 'phantasma-ts';
 	import moment from 'moment';
 	import {
 		Address,
@@ -16,7 +16,7 @@
 		PollChoice,
 		Timestamp,
 		type Organization
-	} from 'phantasma-ts/src/core';
+	} from 'phantasma-ts/src';
 	import { DateTimeFormat, LinkWallet, PhantasmaAPIClient } from '$lib/store';
 
 	let connected = false;
@@ -146,10 +146,10 @@
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 					>
 						<option value selected>No poll selected.</option>
-						{#each Object.keys(phantasmaJS.ConsensusMode)
-							.map((key) => phantasmaJS.ConsensusMode[key])
+						{#each Object.keys(ConsensusMode)
+							.map((key) => ConsensusMode[key])
 							.filter((value) => typeof value === 'string') as m}
-							<option value={phantasmaJS.ConsensusMode[m]}>
+							<option value={ConsensusMode[m]}>
 								{m}
 							</option>
 						{/each}

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Card from '$lib/Components/Card/Card.svelte';
 	import { ConsoleOutput, ContractMethod, SelectedContractName } from '$lib/store';
-	import { Base16, type ABIMethod, type ABIParameter } from 'phantasma-ts/core';
+	import { Base16, type ABIMethod, type ABIParameter } from 'phantasma-ts/src';
 	import { InvokeRawScript, SendRawTransaction } from './ContractCommands';
 	import { DecodeInformation, DecodeStruct, FormatData } from '$lib/Commands/Commands';
 	let _contractName: string;
