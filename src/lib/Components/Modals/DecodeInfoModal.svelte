@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ConsoleOutput } from '$lib/store';
-	import { Base16 } from 'phantasma-ts/core';
+	import { Base16 } from 'phantasma-ts/src';
 	import { DecodeInformation, DecodeStruct, FormatData } from '$lib/Commands/Commands';
 	import Modal from './Modal.svelte';
 	import { ModalType } from './ModalType';

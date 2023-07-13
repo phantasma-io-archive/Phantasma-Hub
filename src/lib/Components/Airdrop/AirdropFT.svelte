@@ -14,7 +14,7 @@
 		Address,
 		PhantasmaAPI,
 		type Token
-	} from 'phantasma-ts/core';
+	} from 'phantasma-ts/src';
 	import { onMount } from 'svelte';
 	import { AirdropFT } from './AirdropCommands';
 	import { NotificationError } from '../Notification/NotificationsBuilder';

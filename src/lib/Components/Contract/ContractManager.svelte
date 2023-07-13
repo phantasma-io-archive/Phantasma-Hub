@@ -5,7 +5,7 @@
 		SelectedContractName,
 		PhantasmaAPIClient
 	} from '$lib/store';
-	import type { Balance, Contract, PhantasmaAPI } from 'phantasma-ts/core';
+	import type { Balance, Contract, PhantasmaAPI } from 'phantasma-ts/src';
 	import { onMount } from 'svelte';
 	import Card from '../Card/Card.svelte';
 

@@ -1,7 +1,7 @@
 import { writable, type Writable } from 'svelte/store';
 import { PhantasmaLink } from 'phantasma-ts';
-import { PhantasmaAPI, type Contract } from 'phantasma-ts/src/core';
-import type { ABIMethod } from 'phantasma-ts/core';
+import { PhantasmaAPI, type Contract } from 'phantasma-ts/src';
+import type { ABIMethod } from 'phantasma-ts/src';
 import { ModalInternalTypes } from '$lib/Components/Modals/ModalInternalTypes';
 import { ethers } from 'ethers';
 import moment from 'moment';

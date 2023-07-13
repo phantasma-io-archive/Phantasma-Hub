@@ -10,7 +10,7 @@
 		initPoll
 	} from '$lib/Components/Wallet/VoteCommands';
 	import { LinkWallet, PhantasmaAPIClient } from '$lib/store';
-	import type { ConsensusPoll, Organization, PhantasmaAPI } from 'phantasma-ts/core';
+	import type { ConsensusPoll, Organization, PhantasmaAPI } from 'phantasma-ts/src';
 
 	let api: PhantasmaAPI;
 	PhantasmaAPIClient.subscribe((value) => {

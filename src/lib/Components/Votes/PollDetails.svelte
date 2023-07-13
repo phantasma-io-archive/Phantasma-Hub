@@ -3,7 +3,7 @@
 	import Icon from '@iconify/svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
 	import { singleVote } from '$lib/Components/Wallet/VoteCommands';
-	import { phantasmaJS, PhantasmaLink } from 'phantasma-ts';
+	import { PhantasmaLink } from 'phantasma-ts';
 	import {
 		Base16,
 		ConsensusMode,
@@ -21,7 +21,7 @@
 		VMObject,
 		type ConsensusPoll,
 		type Organization
-	} from 'phantasma-ts/core';
+	} from 'phantasma-ts/src';
 	import moment from 'moment';
 	import bigInt from 'big-integer';
 	import { beforeUpdate, onMount, tick } from 'svelte';

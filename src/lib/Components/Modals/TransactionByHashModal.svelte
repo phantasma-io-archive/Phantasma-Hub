@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PhantasmaAPIClient, ConsoleOutput } from '$lib/store';
-	import type { PhantasmaAPI } from 'phantasma-ts/core';
+	import type { PhantasmaAPI } from 'phantasma-ts/src';
 	import Modal from './Modal.svelte';
 	import { ModalType } from './ModalType';
 	import { createEventDispatcher, onDestroy } from 'svelte';

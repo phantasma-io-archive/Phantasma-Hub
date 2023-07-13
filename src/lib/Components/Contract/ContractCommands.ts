@@ -7,7 +7,7 @@ import {
 	ScriptBuilder,
 	Transaction,
 	VMType
-} from 'phantasma-ts/core';
+} from 'phantasma-ts/src';
 import {
 	FeeAmount,
 	GasLimit,
@@ -20,10 +20,10 @@ import {
 import type { PhantasmaLink } from 'phantasma-ts';
 import {
 	Base16,
-} from 'phantasma-ts/core';
-import { ProofOfWork } from 'phantasma-ts/core/link/phantasmaLink';
+} from 'phantasma-ts/src';
 import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
 import { GetTransactionByHash } from '$lib/Commands/Commands';
+import { ProofOfWork } from 'phantasma-ts/src/core/link/phantasmaLink';
 
 let Link: PhantasmaLink;
 LinkWallet.subscribe((link: any) => {

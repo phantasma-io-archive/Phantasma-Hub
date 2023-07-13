@@ -8,7 +8,7 @@
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
 	import { ConnectWallet } from '$lib/store';
-	import { Address, type Organization } from 'phantasma-ts/core';
+	import { Address, type Organization } from 'phantasma-ts/src';
 	import { addMember } from '../Wallet/DAOCommands';
 	import { NotificationError } from '$lib/Components/Notification/NotificationsBuilder';
 

@@ -16,7 +16,7 @@
 		Address,
 		PhantasmaAPI,
 		type Token
-	} from 'phantasma-ts/core';
+	} from 'phantasma-ts/src';
 	import { InvokeRawScript, SendRawTransaction } from '$lib/Components/Contract/ContractCommands';
 	import { onMount } from 'svelte';
 	import { NotificationError } from '../Notification/NotificationsBuilder';

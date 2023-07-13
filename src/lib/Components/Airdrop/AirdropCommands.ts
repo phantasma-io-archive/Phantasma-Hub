@@ -3,7 +3,8 @@ import {
 	PhantasmaAPI,
 	ScriptBuilder,
 	Token,
-} from 'phantasma-ts/core';
+	Base16,
+} from 'phantasma-ts/src';
 import {
 	AirdropFee,
 	GasLimit,
@@ -14,9 +15,6 @@ import {
 	TipAddress
 } from '$lib/store';
 import type { PhantasmaLink } from 'phantasma-ts';
-import {
-	Base16,
-} from 'phantasma-ts/core';
 import { NotificationError, NotificationSuccess } from '../Notification/NotificationsBuilder';
 
 let Link: PhantasmaLink;

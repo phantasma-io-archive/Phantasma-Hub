@@ -1,4 +1,4 @@
-import { Address, PhantasmaAPI, ScriptBuilder } from 'phantasma-ts/core';
+import { Address, PhantasmaAPI, ScriptBuilder } from 'phantasma-ts/src';
 import {
 	FeeAmount,
 	GasLimit,
@@ -9,7 +9,7 @@ import {
 	TipAddress
 } from '$lib/store';
 import type { PhantasmaLink } from 'phantasma-ts';
-import { Base16, PBinaryReader, VMObject } from 'phantasma-ts/core';
+import { Base16, PBinaryReader, VMObject } from 'phantasma-ts/src';
 import {
 	NotificationError,
 	NotificationSuccess

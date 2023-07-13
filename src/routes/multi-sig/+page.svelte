@@ -10,8 +10,8 @@
 	import Card from '$lib/Components/Card/Card.svelte';
 	import CreateMultiSignature from '$lib/Components/MultiSignature/CreateMultiSignature.svelte';
 	import MultiSignatureView from '$lib/Components/MultiSignature/MultiSignatureView.svelte';
-	import { Base16, VMObject, type PhantasmaAPI } from 'phantasma-ts/core';
-	import { PBinaryReader, Transaction } from 'phantasma-ts/core';
+	import { Base16, VMObject, type PhantasmaAPI } from 'phantasma-ts/src';
+	import { PBinaryReader, Transaction } from 'phantasma-ts/src';
 	import type { PhantasmaLink } from 'phantasma-ts';
 
 	let transactionSelected: boolean = false;

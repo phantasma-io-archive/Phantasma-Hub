@@ -8,7 +8,7 @@
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
 	import { ConnectWallet } from '$lib/store';
-	import type { Organization } from 'phantasma-ts/core';
+	import type { Organization } from 'phantasma-ts/src';
 	import { leaveDAO } from '../Wallet/DAOCommands';
 
 	let _modalType = ModalType.Popup;

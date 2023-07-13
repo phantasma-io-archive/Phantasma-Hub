@@ -4,7 +4,7 @@
 	import { ModalType } from './ModalType';
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	import { BurnTokens, GetTokenDetails, StakeTokens, TransferTokens } from '$lib/Commands/Commands';
-	import { Address, type PhantasmaAPI } from 'phantasma-ts/core';
+	import { Address, type PhantasmaAPI } from 'phantasma-ts/src';
 	const dispatch = createEventDispatcher();
 	const close = () => dispatch('close');
 	let api: PhantasmaAPI;

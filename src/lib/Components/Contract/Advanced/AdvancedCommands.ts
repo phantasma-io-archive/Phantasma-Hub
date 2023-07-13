@@ -7,7 +7,7 @@ import {
 	ScriptBuilder,
 	Transaction,
 	VMType
-} from 'phantasma-ts/core';
+} from 'phantasma-ts/src';
 import {
 	FeeAmount,
 	GasLimit,
@@ -20,7 +20,7 @@ import {
 import type { PhantasmaLink } from 'phantasma-ts';
 import {
 	Base16,
-} from 'phantasma-ts/core';
+} from 'phantasma-ts/src';
 import {
 	NotificationError,
 	NotificationSuccess

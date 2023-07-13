@@ -9,7 +9,7 @@
 		SelectedContractName,
 		AllContracts
 	} from '$lib/store';
-	import type { PhantasmaAPI } from 'phantasma-ts/core';
+	import type { PhantasmaAPI } from 'phantasma-ts/src';
 	import { onMount } from 'svelte';
 	import { PhantasmaLink } from 'phantasma-ts';
 	//import { PhantasmaLink } from 'phantasma-ts/src/core/link/phantasmaLink';

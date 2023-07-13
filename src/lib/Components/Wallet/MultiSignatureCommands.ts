@@ -6,14 +6,12 @@ import {
 	PhantasmaAPI,
 	PollChoice,
 	ScriptBuilder,
-	Transaction
-} from 'phantasma-ts/core';
-import { GasLimit, GasPrice, LinkWallet, PhantasmaAPIClient } from '$lib/store';
-import type { PhantasmaLink } from 'phantasma-ts';
-import {
+	Transaction,
 	Base16,
 	Serialization,
-} from 'phantasma-ts/core';
+} from 'phantasma-ts/src';
+import { GasLimit, GasPrice, LinkWallet, PhantasmaAPIClient } from '$lib/store';
+import type { PhantasmaLink } from 'phantasma-ts';
 import {
 	NotificationError,
 	NotificationSuccess
