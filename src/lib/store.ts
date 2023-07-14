@@ -53,3 +53,8 @@ export const ContractMethod: Writable<ABIMethod | undefined> = writable();
 export const ConsoleOutput = writable('');
 
 export const OpenedModal = writable(ModalInternalTypes.None);
+
+// Votes
+export const IsPollCreated = writable(false);
+export const OrganizationIDVisble= writable("-1");
+export const VotingSubjectVisible= writable("");

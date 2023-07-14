@@ -1,6 +1,6 @@
 {
 	"name": "phantasma-hub",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"private": true,
 	"scripts": {
 		"dev": "npm run version:update && vite dev --cors true",
@@ -48,6 +48,6 @@
 		"iconify": "^1.4.0",
 		"moment": "^2.29.4",
 		"path-browserify": "^1.0.1",
-		"phantasma-ts": "^0.1.59"
+		"phantasma-ts": "^0.1.61"
 	}
 }

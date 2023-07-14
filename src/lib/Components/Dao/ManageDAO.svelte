@@ -28,7 +28,7 @@
 		type Organization,
 		type PhantasmaAPI
 	} from 'phantasma-ts/src';
-	import { leaveDAO } from '../Wallet/DAOCommands';
+	import { leaveDAO, GetMembersCombinedBalances } from '../Wallet/DAOCommands';
 	import RemoveMemberModal from './RemoveMemberModal.svelte';
 	import AddMemberScriptModal from './AddMemberScriptModal.svelte';
 
@@ -96,6 +96,8 @@
 	let showAddMemberModal: boolean = false;
 	let addMemberScript: string;
 	let UserLeaveDAO: boolean = false;
+
+	let UsersCombinedBalances: Balance[] = [];
 
 	let Link: PhantasmaLink;
 	LinkWallet.subscribe((value) => {
@@ -185,6 +187,7 @@
 
 	async function getAccount() {
 		balances = [];
+		UsersCombinedBalances = [];
 		let address = await api.lookUpName(localOrg.id);
 		let account = await api.getAccount(address);
 		account.balances;
@@ -197,6 +200,10 @@
 		};
 
 		balances.unshift(stakedBalance);
+
+		if (isSpecificDAO) {
+			UsersCombinedBalances = await GetMembersCombinedBalances(members as string[]);
+		}
 	}
 
 	function addMember() {
@@ -314,6 +321,49 @@
 						>
 					</div>
 				{/each}
+			</div>
+
+			<hr />
+
+			<h5 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
+				Organization Members Combined Balances
+			</h5>
+
+			<div class="grid md:grid-cols-2 md:gap-6 max-h-50 overflow-y-scroll my-2 pt-2">
+				{#if UsersCombinedBalances.length == 0 && isSpecificDAO}
+					<!-- loading / fetching -->
+					<div id="spinner">
+						<div class="spinner-icon" />
+					</div>
+				{:else if UsersCombinedBalances.length != 0}
+					{#each UsersCombinedBalances as balanceCombined}
+						<div class="relative z-0 w-full mb-6 group">
+							<input
+								type="number"
+								name="id"
+								id="id"
+								class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+								placeholder=" "
+								value={(parseInt(balanceCombined.amount) / 10 ** balanceCombined.decimals).toFixed(
+									2
+								)}
+								required
+								disabled
+							/>
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>{balanceCombined.symbol}</label
+							>
+						</div>
+					{/each}
+				{:else}
+					<div>
+						<p class="text-gray-500 dark:text-gray-400">
+							Can't display the balances for this organization {localOrg.name}.
+						</p>
+					</div>
+				{/if}
 			</div>
 
 			<h5 class="text-lg font-semibold text-gray-700 dark:text-gray-200">
@@ -448,4 +498,32 @@
 
 <style global>
 	@import 'https://cdn.jsdelivr.net/npm/gridjs/dist/theme/mermaid.min.css';
+
+	#spinner {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		z-index: 9999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.spinner-icon {
+		width: 50px;
+		height: 50px;
+		border-radius: 50%;
+		border: 5px solid #fff;
+		border-top-color: #000;
+		animation: spin 1s ease-in-out infinite;
+	}
+
+	@keyframes spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
 </style>

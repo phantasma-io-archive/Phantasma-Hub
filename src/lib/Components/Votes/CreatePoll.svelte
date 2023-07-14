@@ -56,6 +56,8 @@
 			choices,
 			choicesPerUser.toString()
 		);
+
+		isPollCreated = true;
 	}
 
 	function addChoice() {

@@ -20,10 +20,10 @@
 		await getPolls();
 	});
 
-	IsPollCreated.subscribe(async (isPollCreated) => {
+	IsPollCreated.subscribe((isPollCreated) => {
 		if (isPollCreated) {
-			await getOrganizations();
-			await getPolls();
+			getPolls();
+			getOrganizations();
 		}
 	});
 
@@ -61,7 +61,7 @@
 	<h5>Votes</h5>
 
 	<div class="flex flex-wrap -mx-3 justify-center">
-		<Card size="md">
+		<!--<Card size="md">
 			<div class="flex-none w-2/3 max-w-full px-3">
 				<div>
 					<p class="mb-0 font-sans font-semibold leading-normal text-base">Consensus Polls</p>
@@ -90,7 +90,7 @@
 					/>
 				</div>
 			</div>
-		</Card>
+		</Card>-->
 		<Card size="md">
 			<div class="flex-none w-2/3 max-w-full px-3">
 				<div>
@@ -130,13 +130,17 @@
 	</div>
 
 	<div class="flex flex-wrap -mx-3 my-3">
-		{#if pollSelected && !createPoll}
+		<!--{#if pollSelected && !createPoll}
 			<PollDetails bind:poll={pollSelected} bind:id={pollSelected.subject} {organizations} />
-		{/if}
+		{/if}-->
 
 		{#if createPoll}
 			<CreatePoll {organizations} />
 		{/if}
+	</div>
+
+	<div>
+		<PollList bind:polls />
 	</div>
 </div>
 

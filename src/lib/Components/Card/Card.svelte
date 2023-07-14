@@ -7,6 +7,7 @@
 	export let description = 'Description';
 	export let growth = '+55%';
 	export let icon = 'fa-solid:money-bill-wave';
+	export let isVisible = false;
 	export let transitionType = 'null';
 	export let transitionDetails = null;
 </script>
