@@ -14,7 +14,7 @@ import {
 	Timestamp,
 	VMObject
 } from 'phantasma-ts/src';
-import { GasLimit, GasPrice, LinkWallet, PhantasmaAPIClient } from '$lib/store';
+import { GasLimit, GasPrice, IsPollCreated, LinkWallet, PhantasmaAPIClient } from '$lib/store';
 import type { PhantasmaLink } from 'phantasma-ts';
 import {
 	NotificationError,
@@ -75,7 +75,6 @@ export function initPoll(
 
 	const choice1Serialized = Serialization.Serialize(choices);
 	const hex = Base16.encodeUint8Array(choice1Serialized);
-	console.log(hex);
 
 	const sb = new ScriptBuilder();
 	const myScript = sb
@@ -100,6 +99,7 @@ export function initPoll(
 		payload,
 		function (tx) {
 			NotificationSuccess('Transaction sent!', "You've sent a transaction");
+			IsPollCreated.set(true);
 			console.log(tx);
 		},
 		function () {
@@ -249,22 +249,26 @@ export async function getConsensusPoll(subject: string) {
 export async function getConsensusPolls() {
 	const sb = new ScriptBuilder();
 	const myScript = sb.CallContract('consensus', 'GetConsensusPolls', []).EndScript();
-
-	console.log(myScript);
-	// Use the API
 	const chainInput = 'main';
 
 	const polls = await ApiClient.invokeRawScript(chainInput, myScript).then((result) => {
 		const localResults = result.results;
+		const binaryReaderG = new PBinaryReader(Base16.decodeUint8Array(result.result));
+		const vm = new VMObject();
+		vm.UnserializeData(binaryReaderG);
+		let test = vm.ToArray(ConsensusPoll);
+
 		const results: ConsensusPoll[] = [];
-		for (let i = 0; i < localResults.length; i++) {
-			const binaryReader = new PBinaryReader(Base16.decodeUint8Array(localResults[i]));
-			const vm = new VMObject();
-			vm.UnserializeData(binaryReader);
-			results.push(vm.ToStruct<ConsensusPoll>(ConsensusPoll));
+		for (let i = 0; i < test.length; i++) {
+			const binaryReader = new PBinaryReader(Base16.decodeUint8Array(test[i]));
+			//const consensusPoll : ConsensusPoll = vm.ToStruct<ConsensusPoll>(ConsensusPoll);
+			const consensusPoll : ConsensusPoll = ConsensusPoll.Unserialize(binaryReader);
+			results.push(consensusPoll);
 		}
+		
 		return results;
 	});
 
 	return polls;
 }
+
