@@ -1,31 +1,19 @@
 <script lang="ts">
-	import Modal from '$lib/Components/Modals/Modal.svelte';
-	import Icon from '@iconify/svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
 	import { singleVote } from '$lib/Components/Wallet/VoteCommands';
-	import { PhantasmaLink } from 'phantasma-ts';
+	import moment from 'moment';
+	import { beforeUpdate, onMount, tick } from 'svelte';
+	import { DateTimeFormat, LinkWallet } from '$lib/store';
 	import {
-		Base16,
 		ConsensusMode,
-		hexStringToBytes,
-		hexStringToUint8Array,
-		hexToByteArray,
-		PBinaryReader,
+		ConsensusPoll,
+		Organization,
+		PhantasmaLink,
 		PollChoice,
 		PollState,
 		PollValue,
-		Serialization,
-		stringToUint8Array,
-		Timestamp,
-		uint8ArrayToStringDefault,
-		VMObject,
-		type ConsensusPoll,
-		type Organization
-	} from 'phantasma-ts/src';
-	import moment from 'moment';
-	import bigInt from 'big-integer';
-	import { beforeUpdate, onMount, tick } from 'svelte';
-	import { DateTimeFormat, LinkWallet } from '$lib/store';
+		Timestamp
+	} from 'phantasma-ts';
 	//import { e } from 'vitest/dist/index-5aad25c1';
 
 	/**
@@ -66,24 +54,26 @@
 		choices = new Array<PollChoice>();
 		entries = new Array<PollValue>();
 
+		entries = poll.entries;
+
 		for (let i = 0; i < poll.entries.length; i++) {
 			let choice: PollChoice = new PollChoice('');
 			let entry = poll.entries[i] as unknown as string;
-			let bytes = Base16.decodeUint8Array(entry);
-			let reader = new PBinaryReader(bytes);
-			let pollValue = new PollValue();
-			pollValue.UnserializeData(reader);
-			choice.value = pollValue.value; // Base16.decode(uint8ArrayToStringDefault());
+			//let bytes = Base16.decodeUint8Array(entry);
+			//let reader = new PBinaryReader(bytes);
+			//let pollValue = new PollValue();
+			//pollValue.UnserializeData(reader);
+			choice.value = poll.entries[i].value; // Base16.decode(uint8ArrayToStringDefault());
 			choices.push(choice);
 		}
 
 		for (let entry in poll.entries) {
-			let reader: PBinaryReader = new PBinaryReader(
+			/*let reader: PBinaryReader = new PBinaryReader(
 				Base16.decodeUint8Array(poll.entries[entry] as unknown as string)
 			);
 			let pollValue: PollValue = new PollValue();
-			pollValue.UnserializeData(reader);
-			entries.push(pollValue);
+			pollValue.UnserializeData(reader);*/
+			//entries.push(entry);
 		}
 		//VMObject.FromBytes(Base16.decodeUint8Array(poll.entries as unknown as string));
 
@@ -110,6 +100,8 @@
 			);
 			if (poll.startTime.value <= timeNow && poll.endTime.value >= timeNow) {
 				poll.state = PollState.Active;
+			} else if (timeNow >= poll.endTime.value) {
+				poll.state = PollState.Failure;
 			}
 		}
 	}
