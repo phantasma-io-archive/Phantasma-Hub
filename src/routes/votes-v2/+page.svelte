@@ -3,13 +3,8 @@
 	import Icon from '@iconify/svelte';
 	import Card from '$lib/Components/Card/Card.svelte';
 	import CreatePoll from '$lib/Components/Votes/CreatePoll.svelte';
-	import PollDetails from '$lib/Components/Votes/PollDetails.svelte';
-	import {
-		getConsensusPoll,
-		getConsensusPolls,
-		initPoll
-	} from '$lib/Components/Wallet/VoteCommands';
-	import { IsPollCreated, LinkWallet, PhantasmaAPIClient } from '$lib/store';
+	import { getConsensusPoll, getConsensusPolls } from '$lib/Components/Wallet/VoteCommands';
+	import { IsPollCreated, PhantasmaAPIClient } from '$lib/store';
 	import type { type ConsensusPoll, Organization, PhantasmaAPI } from 'phantasma-ts/src';
 	import PollList from '$lib/Components/Votes/PollList.svelte';
 

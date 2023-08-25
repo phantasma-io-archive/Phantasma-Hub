@@ -10,11 +10,9 @@
 		PollState,
 		PollValue,
 		Timestamp,
-		type ConsensusPoll,
-		type Organization
+		type ConsensusPoll
 	} from 'phantasma-ts/src';
 	import moment from 'moment';
-	import bigInt from 'big-integer';
 	import { beforeUpdate } from 'svelte';
 	import { DateTimeFormat, LinkWallet, VotingSubjectVisible } from '$lib/store';
 	//import { e } from 'vitest/dist/index-5aad25c1';
@@ -103,6 +101,8 @@
 			);
 			if (poll.startTime.value <= timeNow && poll.endTime.value >= timeNow) {
 				poll.state = PollState.Active;
+			} else if (timeNow >= poll.endTime.value) {
+				poll.state = PollState.Failure;
 			}
 		}
 	}
