@@ -5,7 +5,7 @@
 	import PollDetails from '$lib/Components/Votes/PollDetails.svelte';
 	import { getConsensusPoll, getConsensusPolls } from '$lib/Components/Wallet/VoteCommands';
 	import { IsPollCreated, PhantasmaAPIClient } from '$lib/store';
-	import type { type ConsensusPoll, Organization, PhantasmaAPI } from 'phantasma-ts/src';
+	import type { ConsensusPoll, Organization, PhantasmaAPI } from 'phantasma-ts/src';
 
 	let api: PhantasmaAPI;
 	PhantasmaAPIClient.subscribe(async (value) => {
