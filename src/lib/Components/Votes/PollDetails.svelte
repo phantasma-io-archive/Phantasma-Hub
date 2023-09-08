@@ -2,7 +2,7 @@
 	import Card from '$lib/Components/Card/Card.svelte';
 	import { singleVote } from '$lib/Components/Wallet/VoteCommands';
 	import moment from 'moment';
-	import { beforeUpdate, onMount, tick } from 'svelte';
+	import { beforeUpdate, afterUpdate, onMount, tick } from 'svelte';
 	import { DateTimeFormat, LinkWallet } from '$lib/store';
 	import {
 		ConsensusMode,
@@ -13,7 +13,7 @@
 		PollState,
 		PollValue,
 		Timestamp
-	} from 'phantasma-ts';
+	} from 'phantasma-ts/src';
 	//import { e } from 'vitest/dist/index-5aad25c1';
 
 	/**
@@ -33,30 +33,30 @@
 
 	let startTime;
 	let endTime;
-	let timeNow: number = Timestamp.now / 1000;
+	let timeNow: number = Date.now() / 1000;
 
 	let choices: PollChoice[] = new Array<PollChoice>();
 	let entries: PollValue[] = new Array<PollValue>();
 	let selected;
 
-	beforeUpdate(async () => {
-		initDates();
-		initChoices();
-		initPollState();
+	afterUpdate(async () => {
+		Init();
 	});
 
 	function initDates() {
+		console.log('Init dates');
 		startTime = moment(poll.startTime.value * 1000).format(DateTimeFormat);
 		endTime = moment(poll.endTime.value * 1000).format(DateTimeFormat);
 	}
 
 	function initChoices() {
+		console.log('Init choices');
 		choices = new Array<PollChoice>();
 		entries = new Array<PollValue>();
 
 		entries = poll.entries;
 
-		for (let i = 0; i < poll.entries.length; i++) {
+		/*for (let i = 0; i < poll.entries.length; i++) {
 			let choice: PollChoice = new PollChoice('');
 			let entry = poll.entries[i] as unknown as string;
 			//let bytes = Base16.decodeUint8Array(entry);
@@ -65,7 +65,7 @@
 			//pollValue.UnserializeData(reader);
 			choice.value = poll.entries[i].value; // Base16.decode(uint8ArrayToStringDefault());
 			choices.push(choice);
-		}
+		}*/
 
 		for (let entry in poll.entries) {
 			/*let reader: PBinaryReader = new PBinaryReader(
@@ -90,6 +90,7 @@
 	}
 
 	function initPollState() {
+		console.log('Init Poll State');
 		if (PollState.Inactive == poll.state) {
 			console.log(
 				poll.startTime.value <= timeNow,
@@ -106,15 +107,19 @@
 		}
 	}
 
-	initDates();
-	initChoices();
-	initPollState();
+	function Init() {
+		initDates();
+		initChoices();
+		initPollState();
+	}
+
+	Init();
 </script>
 
 <Card
 	size="xl"
 	title="Consensus Poll Details"
-	description="Consensus Poll details for {poll.subject}{poll.endTime.value * 1000 >= Timestamp.now
+	description="Consensus Poll details for {poll.subject}{poll.endTime.value * 1000 >= Date.now()
 		? ` (Finish ${moment(poll.endTime.value * 1000).fromNow()})`
 		: ''}."
 >
@@ -206,7 +211,7 @@
 						{#each Object.keys(ConsensusMode)
 							.map((key) => ConsensusMode[key])
 							.filter((value) => typeof value === 'string') as m}
-							{#if poll.mode == ConsensusMode[m]}
+							{#if ConsensusMode[poll.mode] == ConsensusMode[m]}
 								<option value={ConsensusMode[m]} selected>{m}</option>
 							{:else}
 								<option value={ConsensusMode[m]}>{m}</option>

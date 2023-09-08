@@ -3,19 +3,19 @@ import {
 	byteArrayToHex,
 	PBinaryWriter,
 	PhantasmaAPI,
-	PollChoice,
 	ScriptBuilder,
 	Transaction,
 	Base16,
-	ConsensusMode,
-	ConsensusPoll,
-	PBinaryReader,
 	Serialization,
 	Timestamp,
-	VMObject
+	PBinaryReader,
+	VMObject,
+	ConsensusMode, 
+	ConsensusPoll, 
+	PollChoice
 } from 'phantasma-ts/src';
 import { GasLimit, GasPrice, IsPollCreated, LinkWallet, PhantasmaAPIClient } from '$lib/store';
-import type { PhantasmaLink } from 'phantasma-ts';
+import  { PhantasmaLink } from 'phantasma-ts';
 import {
 	NotificationError,
 	NotificationSuccess
@@ -263,6 +263,7 @@ export async function getConsensusPolls() {
 			const binaryReader = new PBinaryReader(Base16.decodeUint8Array(test[i]));
 			//const consensusPoll : ConsensusPoll = vm.ToStruct<ConsensusPoll>(ConsensusPoll);
 			const consensusPoll : ConsensusPoll = ConsensusPoll.Unserialize(binaryReader);
+			console.log(consensusPoll);
 			results.push(consensusPoll);
 		}
 		
