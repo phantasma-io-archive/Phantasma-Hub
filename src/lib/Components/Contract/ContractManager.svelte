@@ -3,16 +3,29 @@
 		AllContracts,
 		ContractDetails,
 		SelectedContractName,
-		PhantasmaAPIClient
+		PhantasmaAPIClient,
+		ExplorerURL,
+		LinkWallet
 	} from '$lib/store';
-	import type { Balance, Contract, PhantasmaAPI } from 'phantasma-ts/src';
+
+	import type { Balance, Contract, PhantasmaAPI, Account, Token } from 'phantasma-ts/src';
 	import { onMount } from 'svelte';
 	import Card from '../Card/Card.svelte';
+	import IncreaseStorageContract from '../Modals/IncreaseStorageContract.svelte';
+	import { PhantasmaLink } from 'phantasma-ts';
 
 	let selectContract;
 	let api: PhantasmaAPI;
 	let contractData: Contract;
 	let contractAddress: string;
+	let contractInformation: Account;
+	let tokenDataInformation: Token;
+	let increaseStorageModal: boolean = false;
+
+	let link: PhantasmaLink;
+	LinkWallet.subscribe((value) => {
+		link = value;
+	});
 
 	let contracts: Array<string> = [];
 	let balances: Array<Balance> = [];
@@ -49,6 +62,8 @@
 	async function fetchContractBalances() {
 		balances = [];
 		let account = await api.getAccount(contractData.address);
+		contractInformation = account;
+		console.log('Info: ', { account });
 		balances = account.balances;
 		let stakedBalance: Balance = {
 			symbol: 'SOUL Staked',
@@ -60,16 +75,29 @@
 		balances.unshift(stakedBalance);
 	}
 
-	async function fetchContract(_contractName) {
+	async function fetchContract(_contractName: string) {
+		let tokenInfo: Token;
+		if (_contractName.toUpperCase() == _contractName) {
+			// It's a token
+			tokenInfo = await api.getToken(_contractName);
+		}
 		let contractInfo = await api.getContract('main', _contractName);
+
 		ContractDetails.set(contractInfo);
 		SelectedContractName.set(_contractName);
+		console.log({ tokenInfo });
 		contractData = contractInfo;
+		tokenDataInformation = tokenInfo;
+		console.log({ contractData });
 		await fetchContractBalances();
 	}
 
 	function fetchContractData() {
 		fetchContract(selectContract);
+	}
+
+	function toggleIncreaseStorage() {
+		increaseStorageModal = !increaseStorageModal;
 	}
 </script>
 
@@ -106,7 +134,7 @@
 				<div class="grid md:grid-cols-2 md:gap-6">
 					<div class="relative z-0 w-full mb-6 group">
 						<a
-							href="https://explorer.phantasma.io/en/contract?id={contractData.name}"
+							href="{$ExplorerURL}/en/contract?id={contractData.name}"
 							target="_blank"
 							rel="noreferrer"
 							id="contractName"
@@ -123,7 +151,7 @@
 					</div>
 					<div class="relative z-0 w-full mb-6 group">
 						<a
-							href="https://explorer.phantasma.io/en/address?id={contractData.address}"
+							href="{$ExplorerURL}/en/address?id={contractData.address}"
 							target="_blank"
 							rel="noreferrer"
 							id="contractAddress"
@@ -137,23 +165,200 @@
 							>Contract Address</label
 						>
 					</div>
+
+					{#if tokenDataInformation}
+						<div class="relative z-0 w-full mb-6 group">
+							<a
+								href="{$ExplorerURL}/en/address?id={tokenDataInformation.owner}"
+								target="_blank"
+								rel="noreferrer"
+								id="contractAddress"
+								class="block py-2.5 px-0 w-full text-sm text-blue-500 hover:text-blue-700 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.owner}
+							</a>
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Contract Owner</label
+							>
+						</div>
+					{/if}
 				</div>
 
+				{#if contractInformation}
+					<h5 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Contract Storage</h5>
+
+					<div class="grid md:grid-cols-2 md:gap-6">
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{#if contractInformation.storage.available < 1024 * 1024}
+									{(contractInformation.storage.available / 1024).toFixed(2)} Kb
+								{:else if contractInformation.storage.available < 1024 * 1024 * 1024}
+									{(contractInformation.storage.available / 1024 / 1024).toFixed(2)} Mb
+								{:else}
+									{(contractInformation.storage.available / 1024 / 1024 / 1024).toFixed(2)} Gb
+								{/if}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Storage Available</label
+							>
+						</div>
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{#if contractInformation.storage.used < 1024 * 1024}
+									{(contractInformation.storage.used / 1024).toFixed(2)} Kb
+								{:else if contractInformation.storage.used < 1024 * 1024 * 1024}
+									{(contractInformation.storage.used / 1024 / 1024).toFixed(2)} Mb
+								{:else}
+									{(contractInformation.storage.used / 1024 / 1024 / 1024).toFixed(2)} Gb
+								{/if}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Storage Used</label
+							>
+						</div>
+					</div>
+
+					{#if tokenDataInformation && link}
+						{#if link.account && link.account.address == tokenDataInformation.owner}
+							<div class="mb-6">
+								<button
+									on:click={toggleIncreaseStorage}
+									class="p-3 bg-cyan-500 hover:bg-cyan-700 rounded-md text-white"
+									>Increase Storage</button
+								>
+							</div>
+						{/if}
+					{/if}
+				{/if}
+
+				{#if tokenDataInformation}
+					<h5 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Token Information</h5>
+					<div class="grid md:grid-cols-2 md:gap-6">
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.symbol}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Token Symbol</label
+							>
+						</div>
+
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.name}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Token Name</label
+							>
+						</div>
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.maxSupply}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Token Max Supply Available</label
+							>
+						</div>
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.currentSupply}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Token Current Supply</label
+							>
+						</div>
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.burnedSupply}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Token Burned Supply</label
+							>
+						</div>
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.decimals}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Token Decimals</label
+							>
+						</div>
+						<div class="relative z-0 w-full mb-2 group">
+							<a
+								id="contractName"
+								class="block py-2.5 px-0 w-full text-sm text-black hover:text-black bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+							>
+								{tokenDataInformation.flags}
+							</a>
+
+							<label
+								for="subject"
+								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+								>Token Flags</label
+							>
+						</div>
+					</div>
+				{/if}
 				<h5 class="text-lg font-semibold text-gray-700 dark:text-gray-200">Contract Balances</h5>
 
 				<div class="grid md:grid-cols-3 md:gap-6 max-h-50 overflow-y-scroll my-2 pt-2">
 					{#each balances as balance}
 						<div class="relative z-0 w-full mb-6 group">
-							<input
-								type="number"
-								name="id"
-								id="id"
+							<span
 								class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-								placeholder=" "
-								value={(parseInt(balance.amount) / 10 ** balance.decimals).toFixed(2)}
-								required
-								disabled
-							/>
+							>
+								{(parseInt(balance.amount) / 10 ** balance.decimals).toFixed(2)}</span
+							>
 							<label
 								for="subject"
 								class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -189,3 +394,10 @@
 		</form>
 	</div>
 </Card>
+
+{#if increaseStorageModal}
+	<IncreaseStorageContract
+		bind:contractAddress={contractData.address}
+		on:close={toggleIncreaseStorage}
+	/>
+{/if}

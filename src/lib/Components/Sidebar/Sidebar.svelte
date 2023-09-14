@@ -16,7 +16,10 @@
 		OpenedModal,
 		SoftwareName,
 		DefaultNetwork,
-		DefaultAPIURL
+		DefaultAPIURL,
+		ExplorerURL,
+		ExplorerURLMainnet,
+		ExplorerURLTestnet
 	} from '$lib/store';
 	import { PhantasmaLink, PhantasmaAPI } from 'phantasma-ts';
 	import { ScriptBuilder, PBinaryReader, Base16, VMObject } from 'phantasma-ts/src';
@@ -99,6 +102,7 @@
 		nexusName = e.target.selectedOptions[0].dataset.net;
 		PhantasmaAPIClient.set(new PhantasmaAPI(selectedAPI, null, nexusName));
 		API_URL.set(selectedAPI);
+		ExplorerURL.set(nexusName == 'mainnet' ? ExplorerURLMainnet : ExplorerURLTestnet);
 		connectToAPI();
 	}
 
