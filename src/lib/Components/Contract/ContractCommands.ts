@@ -287,3 +287,40 @@ export function UpgradeContract(
 		ProofOfWork.Minimal
 	);
 }
+
+export function IncreaseContractStorage(contractName: string, soulToStake: number){
+	if (!Link.account) {
+		NotificationError('Wallet Error!', 'Please connect your wallet first.');
+		return;
+	}
+
+	const from = Address.FromText(String(Link.account.address));
+	const payload = Base16.encode('Tools.IncreaseStorage');
+	const sb = new ScriptBuilder();
+
+	const myScript = sb.AllowGas(from, Address.Null, gasPrice, gasLimit)
+		.CallInterop('Runtime.TransferTokens', [String(from), String(contractName), "SOUL", String(soulToStake)])
+		.CallContract("stake", "Stake", [contractName, String(soulToStake)])
+		.SpendGas(from)
+		.EndScript();
+
+	Link.signTx(
+		myScript,
+		payload,
+		async function (tx) {
+			console.log(tx);
+			NotificationSuccess('Fetching Transaction!', 'Retriving transaction from the blockchain...');
+			await new Promise((f) => setTimeout(f, 5000));
+			GetTransactionByHash(tx.hash).then((result) => {
+				if (result.state.includes('Halt')) {
+					NotificationSuccess('Upgraded Successfully!', 'Contract upgraded successfully.');
+				} else {
+					NotificationError('Upgrade Error', 'Error upgrading contract.');
+				}
+			});
+		},
+		function () {
+			NotificationError('Transaction Error', 'Error upgrading contract.');
+		}
+	);
+}

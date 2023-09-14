@@ -14,6 +14,10 @@ export const SoftwareName = 'Phantasma Hub';
 export const DefaultNetwork = 'testnet';
 export const DefaultAPIURL = TestnetURL;
 
+export const ExplorerURLMainnet = 'https://explorer.phantasma.io';
+export const ExplorerURLTestnet = 'https://test-explorer.phantasma.io';
+export const ExplorerURL = writable(ExplorerURLTestnet);
+
 export const DateTimeFormat = moment.HTML5_FMT.DATETIME_LOCAL;
 
 export const FeeAmount: number = 0.1 * 10 ** 10;
