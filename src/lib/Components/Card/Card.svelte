@@ -15,8 +15,8 @@
 {#if size == 'xs'}
 	<div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 		<div
-			class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
-				''}"
+			class="relative flex flex-col min-w-0 break-words shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
+				'bg-white'}"
 		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-row -mx-3">
@@ -46,8 +46,8 @@
 {#if size == 'xs-c'}
 	<div class="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4">
 		<div
-			class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
-				''}"
+			class="relative flex flex-col min-w-0 break-words shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
+				'bg-white'}"
 		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-row -mx-3">
@@ -61,8 +61,8 @@
 {#if size == 'sm'}
 	<div class="w-full px-3 mb-6 lg:mb-0 lg:w-4/12 lg:flex-none">
 		<div
-			class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
-				''}"
+			class="relative flex flex-col min-w-0 break-words shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
+				'bg-white'}"
 		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap -mx-3">
@@ -95,8 +95,8 @@
 {#if size == 'md'}
 	<div class="w-full px-3 mb-6 lg:mb-0 lg:w-1/2 lg:flex-none">
 		<div
-			class="relative flex flex-col min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
-				''}"
+			class="relative flex flex-col min-w-0 break-words shadow-soft-xl rounded-2xl bg-clip-border {$$restProps.class ||
+				'bg-white'}"
 		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap -mx-3">
@@ -132,8 +132,8 @@
 		class="w-full max-w-full px-3 mt-0 mb-6 md:mb-0 md:w-1/2 md:flex-none lg:w-2/3 lg:flex-none"
 	>
 		<div
-			class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border {$$restProps.class ||
-				''}"
+			class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-clip-border {$$restProps.class ||
+				'bg-white'}"
 		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap mt-0 -mx-3">
@@ -159,8 +159,8 @@
 {#if size == 'xl'}
 	<div class="w-full max-w-full px-3 mt-0 mb-6 md:mb-0 md:w-full md:flex-none lg:flex-none">
 		<div
-			class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-white bg-clip-border {$$restProps.class ||
-				''}"
+			class="border-black/12.5 shadow-soft-xl relative flex min-w-0 flex-col break-words rounded-2xl border-0 border-solid bg-clip-border {$$restProps.class ||
+				'bg-white'}"
 		>
 			<div class="flex-auto p-4">
 				<div class="flex flex-wrap mt-0 -mx-3">

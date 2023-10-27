@@ -7,18 +7,14 @@
 	import {
 		ConsensusMode,
 		ConsensusPoll,
-		Organization,
 		PhantasmaLink,
 		PollChoice,
 		PollState,
 		PollValue,
 		Timestamp
 	} from 'phantasma-ts/src';
-	//import { e } from 'vitest/dist/index-5aad25c1';
+	import { Organization } from 'phantasma-ts';
 
-	/**
-	 * @type {{ text: any; subject: any; description: any; options: any; votes: any; voters: any; status: any; created: any; expires: any; }}
-	 */
 	export let id: string;
 	export let poll: ConsensusPoll;
 	export let organizations: Organization[];
