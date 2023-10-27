@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Card from '$lib/Components/Card/Card.svelte';
-	import {
-		type ConsensusPoll,
-	} from 'phantasma-ts/src';
+	import { type ConsensusPoll } from 'phantasma-ts/src';
 	import PollListItem from './PollListItem.svelte';
 	export let polls: ConsensusPoll[] = [];
 </script>
