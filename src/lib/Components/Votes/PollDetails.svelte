@@ -53,31 +53,8 @@
 		console.log('Init choices');
 		choices = new Array<PollChoice>();
 		entries = new Array<PollValue>();
-
+		choices = poll.entries.map((entry) => new PollChoice(entry.value));
 		entries = poll.entries;
-
-		/*for (let i = 0; i < poll.entries.length; i++) {
-			let choice: PollChoice = new PollChoice('');
-			let entry = poll.entries[i] as unknown as string;
-			//let bytes = Base16.decodeUint8Array(entry);
-			//let reader = new PBinaryReader(bytes);
-			//let pollValue = new PollValue();
-			//pollValue.UnserializeData(reader);
-			choice.value = poll.entries[i].value; // Base16.decode(uint8ArrayToStringDefault());
-			choices.push(choice);
-		}*/
-
-		for (let entry in poll.entries) {
-			/*let reader: PBinaryReader = new PBinaryReader(
-				Base16.decodeUint8Array(poll.entries[entry] as unknown as string)
-			);
-			let pollValue: PollValue = new PollValue();
-			pollValue.UnserializeData(reader);*/
-			//entries.push(entry);
-		}
-		//VMObject.FromBytes(Base16.decodeUint8Array(poll.entries as unknown as string));
-
-		//entries = VMObject.FromBytes(Base16.decodeUint8Array(poll.entries as unknown as string));
 	}
 
 	function vote() {
