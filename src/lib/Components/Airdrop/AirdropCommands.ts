@@ -1,10 +1,4 @@
-import {
-	Address,
-	PhantasmaAPI,
-	ScriptBuilder,
-	Token,
-	Base16,
-} from 'phantasma-ts/src';
+import { Address, PhantasmaAPI, ScriptBuilder, Token, Base16 } from 'phantasma-ts/src';
 import {
 	AirdropFee,
 	GasLimit,
@@ -96,8 +90,8 @@ export function AirdropFT(
 		return;
 	}
 
-	const numberOfDistributions = userList.length / 100;
-	let comulativeFee = (userList.length / 100) * AirdropFee;
+	const numberOfDistributions = userList.length / 50;
+	let comulativeFee = (userList.length / 50) * AirdropFee;
 	if (numberOfDistributions < 1) comulativeFee = AirdropFee;
 	const from = Address.FromText(String(Link.account.address));
 	const payload = Base16.encode('Tools.AirdropFT');
@@ -105,14 +99,18 @@ export function AirdropFT(
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 
 	if (tipActive) {
-		sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', String(comulativeFee)]);
-		//sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
+		sb.CallInterop('Runtime.TransferTokens', [
+			from.Text,
+			TipAddress,
+			'KCAL',
+			String(comulativeFee)
+		]);
 	}
 
 	for (const user of userList) {
 		const toAddress = Address.FromText(user.user);
 		const amount = String(user.amount);
-		sb.CallInterop('Runtime.TransferTokens', [from, toAddress, symbol, amount]);
+		sb.CallInterop('Runtime.TransferTokens', [from.Text, toAddress.Text, symbol, String(amount)]);
 	}
 	const myScript = sb.SpendGas(from).EndScript();
 
@@ -130,7 +128,7 @@ export function AirdropFT(
 			);
 		},
 		function () {
-			NotificationError('Airdrop Error!', 'Error doing the Airdrop!');
+			NotificationError('Airdrop Error!', 'User canceled the Airdrop!');
 		}
 	);
 }
@@ -156,19 +154,24 @@ export function AirdropNFT(symbol: string, userList: Array<{ user; id }>, totalA
 	const from = Address.FromText(String(Link.account.address));
 	const payload = Base16.encode('Tools.AirdropNFT');
 
-	const numberOfDistributions = userList.length / 100;
-	let comulativeFee = (userList.length / 100) * AirdropFee;
+	const numberOfDistributions = userList.length / 50;
+	let comulativeFee = (userList.length / 50) * AirdropFee;
 	if (numberOfDistributions < 1) comulativeFee = AirdropFee;
 	const sb = new ScriptBuilder();
 	sb.AllowGas(from, Address.Null, gasPrice, gasLimit);
 	if (tipActive) {
-		//sb.CallInterop('Runtime.TransferTokens', [from, TipAddress, 'KCAL', comulativeFee]);
+		sb.CallInterop('Runtime.TransferTokens', [
+			from.Text,
+			TipAddress,
+			'KCAL',
+			String(comulativeFee)
+		]);
 	}
 
 	for (const user of userList) {
 		const toAddress = Address.FromText(user.user);
 		const id = String(user.id);
-		sb.CallInterop('Runtime.TransferToken', [from, toAddress, symbol, id]);
+		sb.CallInterop('Runtime.TransferToken', [from.Text, toAddress.Text, symbol, String(id)]);
 	}
 
 	const myScript = sb.SpendGas(from).EndScript();
@@ -183,7 +186,7 @@ export function AirdropNFT(symbol: string, userList: Array<{ user; id }>, totalA
 			);
 		},
 		function () {
-			NotificationError('Airdrop Error!', 'Error doing the Airdrop!');
+			NotificationError('Airdrop Error!', 'User canceled the Airdrop!');
 		}
 	);
 }

@@ -40,7 +40,6 @@ export const LinkDapp = writable('');
 export const ActivePage = writable('');
 export const APIStatus = writable(false);
 
-
 export const GasPrice = writable(1000000);
 export const GasLimit = writable(21000);
 
@@ -60,5 +59,5 @@ export const OpenedModal = writable(ModalInternalTypes.None);
 
 // Votes
 export const IsPollCreated = writable(false);
-export const OrganizationIDVisble= writable("-1");
-export const VotingSubjectVisible= writable("");
+export const OrganizationIDVisble = writable('-1');
+export const VotingSubjectVisible = writable('');

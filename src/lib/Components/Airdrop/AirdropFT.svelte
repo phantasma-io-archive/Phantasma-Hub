@@ -164,6 +164,17 @@
 				continue;
 			}
 
+			if (userDistribution == 0) {
+				if (userAddressess.length >= numberOfUsers) {
+					numberOfInvalidAddresses++;
+					userAddressessRAWEdited = userAddressessRAWEdited.replace(
+						addr,
+						`<span class="error" style="color:red !important">${addr}</span>`
+					);
+					continue;
+				}
+			}
+
 			if (userAddressess.includes(addrTrimmed)) {
 				numberOfRepeatedAddresses++;
 				userAddressessRAWEdited = userAddressessRAWEdited.replaceAll(
@@ -196,7 +207,43 @@
 	}
 
 	function onChangeNumberOfUsers() {
-		console.log(numberOfUsers);
+		let listBefore;
+		listBefore = userAddressessRAW.split(/[\n ,]+/);
+		userAddressessRAW = listBefore.join('\n');
+		userAddressessRAWEdited = listBefore.join('<br>');
+
+		numberOfInvalidAddresses = 0;
+		numberOfRepeatedAddresses = 0;
+		userAddressess = [];
+		for (let addr of listBefore) {
+			let addrTrimmed = addr.trim();
+			if (!Address.IsValidAddress(addrTrimmed)) {
+				numberOfInvalidAddresses++;
+				//userAddressessRAW = userAddressessRAW.replace(addr, `<span class="error">${addr}</span>`);
+				continue;
+			}
+
+			if (userDistribution == 0) {
+				if (userAddressess.length >= numberOfUsers) {
+					numberOfInvalidAddresses++;
+					userAddressessRAWEdited = userAddressessRAWEdited.replace(
+						addr,
+						`<span class="error" style="color:red !important">${addr}</span>`
+					);
+					continue;
+				}
+			}
+
+			if (userAddressess.includes(addrTrimmed)) {
+				numberOfRepeatedAddresses++;
+				userAddressessRAWEdited = userAddressessRAWEdited.replaceAll(
+					addr,
+					`<span class="error" style="color:red !important">${addr}</span>`
+				);
+			}
+
+			userAddressess.push(addr);
+		}
 	}
 </script>
 
@@ -330,6 +377,9 @@
 							id="numberOfUsers"
 							bind:value={numberOfUsers}
 							on:change={onChangeNumberOfUsers}
+							on:keypress={onChangeNumberOfUsers}
+							on:keydown={onChangeNumberOfUsers}
+							on:keyup={onChangeNumberOfUsers}
 							class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 							placeholder=" "
 							required

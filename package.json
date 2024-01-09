@@ -1,6 +1,6 @@
 {
 	"name": "phantasma-hub",
-	"version": "1.0.7",
+	"version": "1.0.8",
 	"private": true,
 	"scripts": {
 		"dev": "npm run version:update && vite dev --cors true",

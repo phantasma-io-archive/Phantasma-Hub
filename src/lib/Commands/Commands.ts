@@ -12,7 +12,8 @@ import type { PhantasmaLink } from 'phantasma-ts';
 import { Base16, PBinaryReader, VMObject } from 'phantasma-ts/src';
 import {
 	NotificationError,
-	NotificationSuccess
+	NotificationSuccess,
+	NotificationWarning
 } from '$lib/Components/Notification/NotificationsBuilder';
 import { ethers } from 'ethers';
 
@@ -342,4 +343,60 @@ export async function CheckURLStatus(url: string): Promise<boolean> {
 	} catch (error) {
 		return false;
 	}
+}
+
+/**
+ * Get the Wallet Nexus
+ */
+export async function GetWalletNexus(connectedNexus: string) {
+	await Link.getNexus(
+		(result) => {
+			console.log({ result });
+			if (result.nexus != connectedNexus) {
+				NotificationWarning(
+					`Wallet connected to ${result.nexus}!`,
+					`Wallet is connected to <b>${result.nexus}</b> and the Phantasma Hub is using the <b>${connectedNexus} API</b>.`,
+					6000
+				);
+			} else {
+				NotificationSuccess(
+					`Wallet connected to ${result.nexus}!`,
+					`Phantasma Hub and the wallet are using the <b>${result.nexus} API</b>.`
+				);
+			}
+		},
+		(error) => {
+			console.log(error);
+		}
+	);
+}
+
+export async function GetWalletPeer(connectedPeer: string) {
+	await Link.getPeer(
+		(result) => {
+			console.log('peer:', { result });
+			if (result.peer != connectedPeer) {
+				NotificationWarning(
+					`Wallet connected to ${result.peer}!`,
+					`Wallet is connected to Peer <b>${result.peer}</b> and the Phantasma Hub is using the <b>${connectedPeer} API</b>.`,
+					6000
+				);
+			} else {
+				NotificationSuccess(
+					`Wallet connected to ${result.peer}!`,
+					`Phantasma Hub and the wallet are using the <b>${result.peer} API</b>.`
+				);
+			}
+		},
+		(error) => {
+			NotificationError('Wallet Error!', 'Please connect your wallet first.');
+			console.log(error);
+		}
+	);
+}
+
+export function GetNexusPhantasmaLink(connectedNexus: string) {
+	let sb = new ScriptBuilder();
+	//sb.CallRPC('interop', 'GetNexusName', []);
+	return sb;
 }
