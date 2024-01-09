@@ -42,11 +42,12 @@
 	let endTime: Date = new Date(Date.now());
 	let endTimeStr: string = '';
 	let choicesPerUser: BigInt = BigInt(1);
+	let isPollCreated = false;
 
 	export let organizations: Organization[] = [];
 
 	function createPoll() {
-		console.log(choices);
+		validateSubject();
 		initPoll(
 			subject,
 			organization.name,
@@ -62,13 +63,23 @@
 
 	function addChoice() {
 		numberOfChoices++;
+		validateSubject();
+	}
+
+	function validateSubject() {
+		subject = subject.replace(/[^a-zA-Z0-9 _?!.,]/g, '');
+		subject = subject.trimStart();
+		subject = subject.trimEnd();
 	}
 
 	function handleStartTimeChange() {
 		let startDate = new Date(startTimeStr);
-		let formattedDate = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(DateTimeFormat);
+		let formattedDate = moment(startDate.getTime() + 1000 * 60 * 60 * 24 * 7).format(
+			DateTimeFormat
+		);
 
 		endTimeStr = formattedDate;
+		validateSubject();
 	}
 
 	function initDates() {
@@ -77,7 +88,13 @@
 		startTimeStr = moment(startTime.getTime()).format(DateTimeFormat);
 		let startDate = new Date(startTimeStr);
 		//endTime = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format('yyyy-MM-DDThh:mm');
-		endTimeStr = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(DateTimeFormat);
+		endTimeStr = moment(startDate.getTime() + 1000 * 60 * 60 * 24 * 7).format(DateTimeFormat);
+	}
+
+	function onSubjectChange() {
+		// On don't remove _, ? and ! from the subject and allow upper and lower case letters and numbers and . and ,
+		subject = subject.replace(/[^a-zA-Z0-9 _?!.,]/g, '');
+		subject = subject.trimStart();
 	}
 
 	initDates();
@@ -98,6 +115,9 @@
 						name="subject"
 						id="subject"
 						bind:value={subject}
+						on:change={onSubjectChange}
+						on:keydown={onSubjectChange}
+						on:keypress={onSubjectChange}
 						class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-solid border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
 						placeholder=" "
 						required

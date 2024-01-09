@@ -38,14 +38,34 @@ export function NotificationError(title: string, message: string) {
 	});
 }
 
-export function NotificationWarning(title: string = "Warning!", message: string) {
+export function NotificationWarning(
+	title: string = 'Warning!',
+	message: string,
+	duration: number = 3000
+) {
 	const finalMessage = `<h5 class="text-orange-800">${title}</h5>${message}`;
 	toast.push(finalMessage, {
-		duration: 3000,
+		duration: duration,
 		theme: {
 			'--toastColor': 'mintcream',
 			'--toastBackground': 'rgb(251 146 60)',
 			'--toastBarBackground': 'rgb(234 88 12)'
+		}
+	});
+}
+
+export function NotificationInformation(
+	title: string = 'Information!',
+	message: string,
+	duration: number = 3000
+) {
+	const finalMessage = `<h5 class="text-blue-800 text-xl font-medium">${title}</h5>${message}`;
+	toast.push(finalMessage, {
+		duration: duration,
+		theme: {
+			'--toastColor': 'mintcream',
+			'--toastBackground': '#4299e1',
+			'--toastBarBackground': '#2a4365'
 		}
 	});
 }

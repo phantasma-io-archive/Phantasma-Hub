@@ -10,12 +10,12 @@ import {
 	Timestamp,
 	PBinaryReader,
 	VMObject,
-	ConsensusMode, 
-	ConsensusPoll, 
+	ConsensusMode,
+	ConsensusPoll,
 	PollChoice
 } from 'phantasma-ts/src';
 import { GasLimit, GasPrice, IsPollCreated, LinkWallet, PhantasmaAPIClient } from '$lib/store';
-import  { PhantasmaLink } from 'phantasma-ts';
+import { PhantasmaLink } from 'phantasma-ts';
 import {
 	NotificationError,
 	NotificationSuccess
@@ -262,14 +262,13 @@ export async function getConsensusPolls() {
 		for (let i = 0; i < test.length; i++) {
 			const binaryReader = new PBinaryReader(Base16.decodeUint8Array(test[i]));
 			//const consensusPoll : ConsensusPoll = vm.ToStruct<ConsensusPoll>(ConsensusPoll);
-			const consensusPoll : ConsensusPoll = ConsensusPoll.Unserialize(binaryReader);
-			console.log(consensusPoll);
+			const consensusPoll: ConsensusPoll = ConsensusPoll.Unserialize(binaryReader);
+			//console.log(consensusPoll);
 			results.push(consensusPoll);
 		}
-		
+
 		return results;
 	});
 
 	return polls;
 }
-

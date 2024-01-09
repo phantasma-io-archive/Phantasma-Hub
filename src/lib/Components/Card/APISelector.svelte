@@ -11,7 +11,8 @@
 		DefaultAPIURL,
 		ExplorerURL,
 		ExplorerURLMainnet,
-		ExplorerURLTestnet
+		ExplorerURLTestnet,
+		SelectedNexus
 	} from '$lib/store';
 	import { NotificationSuccess } from '../Notification/NotificationsBuilder';
 	import { PhantasmaAPI } from 'phantasma-ts';
@@ -33,6 +34,7 @@
 		let nexusName = e.target.selectedOptions[0].dataset.net;
 		PhantasmaAPIClient.set(new PhantasmaAPI(selectedAPI, null, nexusName));
 		API_URL.set(selectedAPI);
+		SelectedNexus.set(nexusName);
 		ExplorerURL.set(nexusName == 'mainnet' ? ExplorerURLMainnet : ExplorerURLTestnet);
 		connectToAPI();
 		NotificationSuccess('API Changed', `API has been changed to <b>${nexusName}</b> network.`);

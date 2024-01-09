@@ -28,6 +28,7 @@
 				rel="noreferrer">Phantasma Contributors</a
 			>. All Rights Reserved.
 		</span>
+
 		<div class="relative text-[12px] text-gray-500 sm:text-center dark:text-gray-400">
 			<span class="">
 				Developed with <Icon icon="ant-design:heart-filled" /> by

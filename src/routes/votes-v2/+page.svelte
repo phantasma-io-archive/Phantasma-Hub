@@ -5,8 +5,14 @@
 	import CreatePoll from '$lib/Components/Votes/CreatePoll.svelte';
 	import { getConsensusPoll, getConsensusPolls } from '$lib/Components/Wallet/VoteCommands';
 	import { IsPollCreated, PhantasmaAPIClient } from '$lib/store';
-	import type { type ConsensusPoll, Organization, PhantasmaAPI } from 'phantasma-ts/src';
+	import {
+		type ConsensusPoll,
+		type Organization,
+		type PhantasmaAPI,
+		PollState
+	} from 'phantasma-ts/src';
 	import PollList from '$lib/Components/Votes/PollList.svelte';
+	import { Timestamp } from 'phantasma-ts';
 
 	let api: PhantasmaAPI;
 	PhantasmaAPIClient.subscribe(async (value) => {
@@ -29,8 +35,86 @@
 
 	let pollSelected: ConsensusPoll | null;
 
+	function fixPollsData() {
+		const timeNow = Timestamp.now;
+
+		for (let i = 0; i < polls.length; i++) {
+			if (polls[i].state == PollState.Consensus || polls[i].state == PollState.Failure) {
+				continue;
+			}
+
+			if (polls[i].startTime.value <= timeNow && polls[i].endTime.value >= timeNow) {
+				polls[i].state = PollState.Active;
+			} else if (timeNow >= polls[i].endTime.value) {
+				if (polls[i].state == PollState.Consensus) {
+					polls[i].state = PollState.Consensus;
+				} else {
+					polls[i].state = PollState.Failure;
+				}
+			}
+		}
+	}
+
 	async function getPolls() {
 		polls = await getConsensusPolls();
+
+		// Fix polls
+		if (polls.length > 0) fixPollsData();
+
+		const timeNow = Timestamp.now;
+
+		// sort polls
+		polls = polls.sort((a, b) => {
+			// Rule 1: Active polls should be at the top
+			if (a.state === PollState.Active && b.state !== PollState.Active) {
+				return -1;
+			}
+			if (b.state === PollState.Active && a.state !== PollState.Active) {
+				return 1;
+			}
+
+			// Rule 5: Inactive polls within startTime and endTime should be above Consensus but below Active
+			const now = new Date();
+			const aInactiveValid =
+				a.state === PollState.Inactive &&
+				timeNow >= a.startTime.value &&
+				timeNow <= a.endTime.value;
+			const bInactiveValid =
+				b.state === PollState.Inactive &&
+				timeNow >= b.startTime.value &&
+				timeNow <= b.endTime.value;
+
+			if (aInactiveValid && !bInactiveValid) {
+				return -1;
+			}
+			if (bInactiveValid && !aInactiveValid) {
+				return 1;
+			}
+
+			// Rule 2: Consensus polls should be below Active but above others
+			if (a.state === PollState.Consensus && b.state !== PollState.Consensus) {
+				return -1;
+			}
+			if (b.state === PollState.Consensus && a.state !== PollState.Consensus) {
+				return 1;
+			}
+
+			// Rule 3 and 4: Failure polls and inactive polls with a past endTime should go down
+			if (
+				a.state === PollState.Failure ||
+				(a.state === PollState.Inactive && timeNow > a.endTime.value)
+			) {
+				return 1;
+			}
+			if (
+				b.state === PollState.Failure ||
+				(b.state === PollState.Inactive && timeNow > b.endTime.value)
+			) {
+				return -1;
+			}
+
+			return 0; // No change for equal states or other conditions
+		});
 	}
 
 	async function getPoll(subject: string) {
@@ -134,7 +218,7 @@
 		{/if}
 	</div>
 
-	<div>
+	<div class=" pb-28">
 		<PollList bind:polls />
 	</div>
 </div>

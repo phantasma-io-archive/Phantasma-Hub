@@ -3,7 +3,14 @@
 	import { ModalType } from '$lib/Components//Modals/ModalType';
 	import Icon from '@iconify/svelte';
 
-	import { LinkWallet, LinkDapp, SoftwareName } from '$lib/store';
+	import {
+		LinkWallet,
+		LinkDapp,
+		SoftwareName,
+		SelectedNexus,
+		DefaultNetwork,
+		DefaultAPIURL
+	} from '$lib/store';
 	import { PhantasmaLink } from 'phantasma-ts';
 	import { createEventDispatcher, onDestroy } from 'svelte';
 
@@ -12,6 +19,7 @@
 		NotificationError,
 		NotificationSuccess
 	} from '$lib/Components/Notification/NotificationsBuilder';
+	import { GetWalletNexus, GetWalletPeer } from '$lib/Commands/Commands';
 
 	let _modalType = ModalType.Wallet;
 
@@ -31,7 +39,9 @@
 				NotificationSuccess('Wallet connected!', "You're now connected to your wallet.");
 				LinkWallet.set(Link);
 				ConnectWallet.set(false);
-				// @ts-ignore
+				GetWalletNexus($SelectedNexus);
+				//GetWalletPeer(DefaultAPIURL);
+				console.log({ Link });
 			},
 			function (error) {
 				NotificationError('Wallet connect Error!', "We couldn't connect to your wallet.");
