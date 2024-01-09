@@ -92,13 +92,13 @@
 	}
 
 	function initPollState() {
-		console.log(
+		/*console.log(
 			poll.startTime.value <= timeNow,
 			poll.endTime.value >= timeNow,
 			poll.startTime.value,
 			poll.endTime.value,
 			timeNow
-		);
+		);*/
 
 		if (timeNow >= poll.startTime.value && poll.endTime.value >= timeNow) {
 			poll.state = PollState.Active;

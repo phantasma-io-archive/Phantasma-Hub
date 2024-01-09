@@ -5,7 +5,7 @@
 	import PollDetails from '$lib/Components/Votes/PollDetails.svelte';
 	import { getConsensusPoll, getConsensusPolls } from '$lib/Components/Wallet/VoteCommands';
 	import { IsPollCreated, PhantasmaAPIClient } from '$lib/store';
-	import type { ConsensusPoll, Organization, PhantasmaAPI } from 'phantasma-ts/src';
+	import { type ConsensusPoll, type Organization, PhantasmaAPI } from 'phantasma-ts/src';
 
 	let api: PhantasmaAPI;
 	PhantasmaAPIClient.subscribe(async (value) => {
@@ -26,7 +26,8 @@
 
 	let createPoll = false;
 
-	let pollSelected: ConsensusPoll | null;
+	let pollSelected: ConsensusPoll | null = null;
+	//let nullPoll: ConsensusPoll | null | undefined = null;
 
 	async function getPolls() {
 		polls = await getConsensusPolls();
@@ -44,7 +45,15 @@
 		});
 	}
 
-	function onPollChange(e) {}
+	function onPollChange(e) {
+		console.log('poll change', e.target.value);
+		createPoll = false;
+	}
+
+	function onCreatePollBtn() {
+		createPoll = !createPoll;
+		pollSelected = null;
+	}
 
 	//getPoll('system.nexus.protocol.version');
 	getOrganizations();
@@ -63,7 +72,7 @@
 				</div>
 				<div>
 					<select name="consensusPoll" bind:value={pollSelected} on:change={onPollChange}>
-						<option value>No poll selected.</option>
+						<option value={null}>No poll selected.</option>
 						{#each polls as poll}
 							<option value={poll}>
 								{poll.subject}
@@ -85,6 +94,7 @@
 				</div>
 			</div>
 		</Card>
+
 		<Card size="md">
 			<div class="flex-none w-2/3 max-w-full px-3">
 				<div>
@@ -98,7 +108,7 @@
 						class:create-poll={!createPoll}
 						class:close-poll={createPoll}
 						class="rounded-md text-white p-2"
-						on:click={() => (createPoll = !createPoll)}
+						on:click={onCreatePollBtn}
 					>
 						{#if !createPoll}
 							Create a new Poll
@@ -123,12 +133,12 @@
 		</Card>
 	</div>
 
-	<div class="flex flex-wrap -mx-3 my-3">
+	<div class="flex flex-wrap -mx-3 my-3 pb-24">
 		{#if pollSelected && !createPoll}
 			<PollDetails bind:poll={pollSelected} bind:id={pollSelected.subject} {organizations} />
 		{/if}
 
-		{#if createPoll}
+		{#if createPoll && !pollSelected}
 			<CreatePoll {organizations} />
 		{/if}
 	</div>
