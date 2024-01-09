@@ -74,7 +74,9 @@
 
 	function handleStartTimeChange() {
 		let startDate = new Date(startTimeStr);
-		let formattedDate = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(DateTimeFormat);
+		let formattedDate = moment(startDate.getTime() + 1000 * 60 * 60 * 24 * 7).format(
+			DateTimeFormat
+		);
 
 		endTimeStr = formattedDate;
 		validateSubject();
@@ -86,7 +88,7 @@
 		startTimeStr = moment(startTime.getTime()).format(DateTimeFormat);
 		let startDate = new Date(startTimeStr);
 		//endTime = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format('yyyy-MM-DDThh:mm');
-		endTimeStr = moment(startDate.getTime() + 1000 * 60 * 60 * 24).format(DateTimeFormat);
+		endTimeStr = moment(startDate.getTime() + 1000 * 60 * 60 * 24 * 7).format(DateTimeFormat);
 	}
 
 	function onSubjectChange() {

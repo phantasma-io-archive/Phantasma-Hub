@@ -34,6 +34,7 @@
 	let choices: PollChoice[] = new Array<PollChoice>();
 	let entries: PollValue[] = new Array<PollValue>();
 	let selected;
+	let pollStateColor: string;
 
 	afterUpdate(async () => {
 		Init();
@@ -64,19 +65,21 @@
 
 	function initPollState() {
 		console.log('Init Poll State');
-		if (PollState.Inactive == poll.state) {
-			console.log(
-				poll.startTime.value <= timeNow,
-				poll.endTime.value >= timeNow,
-				poll.startTime.value,
-				poll.endTime.value,
-				timeNow
-			);
-			if (poll.startTime.value <= timeNow && poll.endTime.value >= timeNow) {
-				poll.state = PollState.Active;
-			} else if (timeNow >= poll.endTime.value) {
-				poll.state = PollState.Failure;
+		if (timeNow >= poll.startTime.value && poll.endTime.value >= timeNow) {
+			poll.state = PollState.Active;
+			pollStateColor = 'bg-blue-300';
+			if (poll.endTime.value - timeNow <= 60 * 12) {
+				pollStateColor = 'bg-yellow-300';
 			}
+		} else if (timeNow >= poll.endTime.value) {
+			if (poll.state == PollState.Consensus) {
+				pollStateColor = 'bg-green-300';
+			} else {
+				poll.state = PollState.Failure;
+				pollStateColor = 'bg-red-300';
+			}
+		} else {
+			pollStateColor = 'bg-blue-300';
 		}
 	}
 
@@ -95,6 +98,7 @@
 	description="Consensus Poll details for {poll.subject}{poll.endTime.value * 1000 >= Date.now()
 		? ` (Finish ${moment(poll.endTime.value * 1000).fromNow()})`
 		: ''}."
+	class={pollStateColor}
 >
 	<div class="my-1">
 		<form on:submit|preventDefault={() => null}>
