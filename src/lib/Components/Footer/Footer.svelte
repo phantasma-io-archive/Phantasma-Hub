@@ -22,7 +22,7 @@
 			{new Date().getFullYear() + ','}
 			made with <Icon icon="ant-design:heart-filled" /> by
 			<a
-				href="https://phantasma.io/"
+				href="https://phantasma.info/"
 				class="font-semibold text-slate-700 hover:underline"
 				target="_blank"
 				rel="noreferrer">Phantasma Contributors</a

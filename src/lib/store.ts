@@ -7,15 +7,15 @@ import { ethers } from 'ethers';
 import moment from 'moment';
 
 export const SimnetURL = 'http://127.0.0.1:7077/rpc';
-export const TestnetURL = 'https://testnet.phantasma.io/rpc';
-export const MainnetURL = 'https://bp1.phantasma.io/rpc';
+export const TestnetURL = 'https://testnet.phantasma.info/rpc';
+export const MainnetURL = 'https://pharpc1.phantasma.info/rpc';
 
 export const SoftwareName = 'Phantasma Hub';
 export const DefaultNetwork = 'testnet';
 export const DefaultAPIURL = TestnetURL;
 
-export const ExplorerURLMainnet = 'https://explorer.phantasma.io';
-export const ExplorerURLTestnet = 'https://test-explorer.phantasma.io';
+export const ExplorerURLMainnet = 'https://explorer.phantasma.info';
+export const ExplorerURLTestnet = 'https://test-explorer.phantasma.info';
 export const ExplorerURL = writable(ExplorerURLTestnet);
 
 export const DateTimeFormat = moment.HTML5_FMT.DATETIME_LOCAL;

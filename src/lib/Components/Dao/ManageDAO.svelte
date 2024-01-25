@@ -35,7 +35,7 @@
 	export let organization_id: string;
 
 	export let organization: Organization | null;
-	let explorer_url = 'https://explorer.phantasma.io/address/';
+	let explorer_url = 'https://explorer.phantasma.info/address/';
 	const columnsDefault = [
 		{
 			name: 'ID',
@@ -145,9 +145,9 @@
 
 	function SetExplorerURL() {
 		if (_apiLink == TestnetURL) {
-			explorer_url = 'https://test-explorer.phantasma.io/address/';
+			explorer_url = 'https://test-explorer.phantasma.info/address/';
 		} else {
-			explorer_url = 'https://explorer.phantasma.io/address/';
+			explorer_url = 'https://explorer.phantasma.info/address/';
 		}
 	}
 
