@@ -335,7 +335,7 @@ export function FormatData(vm: VMObject): any {
 
 export async function CheckURLStatus(url: string): Promise<boolean> {
 	try {
-		const response = await fetch(url.replace('rpc', 'api/v1/health'));
+		const response = await fetch(url.replace('/rpc', '/api/v1/health'));
 		if (response.status == 200 || response.status == 405) {
 			return true;
 		}
