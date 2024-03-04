@@ -232,8 +232,8 @@
 						</div>
 					</div>
 
-					{#if tokenDataInformation && link}
-						{#if link.account && link.account.address == tokenDataInformation.owner}
+					{#if link}
+						{#if link.account}
 							<div class="mb-6">
 								<button
 									on:click={toggleIncreaseStorage}

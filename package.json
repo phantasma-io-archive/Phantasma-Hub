@@ -1,6 +1,6 @@
 {
 	"name": "phantasma-hub",
-	"version": "1.0.12",
+	"version": "1.0.13",
 	"private": true,
 	"scripts": {
 		"dev": "npm run version:update && vite dev --cors true",
@@ -11,7 +11,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"format": "prettier --plugin-search-dir . --write .",
-		"prod": "npm run version:update && vite dev --host --port 4000",
+		"prod": "bun run version:update && vite dev --host --port 4000",
 		"bun": "bun build"
 	},
 	"devDependencies": {
